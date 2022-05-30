@@ -11,8 +11,9 @@ const ChangePassword = () => useSelector((state: RootStateOrAny) => state.AuthRe
 const Messages = () => useSelector((state: RootStateOrAny) => state.AuthReducer.message);
 
 const DataManyUser = () => useSelector((state: RootStateOrAny) => state.AuthReducer.arrayUser);
+const DataManyRole = () => useSelector((state: RootStateOrAny) => state.AuthReducer.arrayRole);
 
 export default {
   Loign, Register, ForgotPassword, ChangePassword,
-  Messages, DataManyUser
+  Messages, DataManyUser, DataManyRole
 }

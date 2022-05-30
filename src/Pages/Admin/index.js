@@ -9,7 +9,7 @@ import Breadcrumbs from '../../Components/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
 // import Customization from '../Customization';
-import navigation from './Drawer';
+import navigation from './MenuList';
 // import { OnOffDrawerSelector } from '../../Shop/Selector/app';
 
 // ==============================|| MAIN LAYOUT ||============================== //

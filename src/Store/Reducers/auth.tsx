@@ -6,7 +6,9 @@ const stateDefault = {
   register: {},
   forgot: {},
   change: {},
-  arrayUser: []
+  arrayRole: [],
+  arrayUser: [],
+
 }
 
 
@@ -23,10 +25,14 @@ export const AuthReducer = (state = stateDefault, action:any) => {
     }      
     case actionTypes.changePassSuccess: {
       return {...state, change: action.payload }
-    }         
+    }    
+    case actionTypes.findRoleSuccess: {
+      return {...state, arrayRole: [...action.payload] }
+    }        
     case actionTypes.findUserSuccess: {
       return {...state, arrayUser: [...action.payload] }
-    }     
+    }    
+
     default: return {...state} 
   }
 }

@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react';
-import { store, persistor } from './Shop'
+import { store, persistor } from './Store/store'
 
 ReactDOM.render(
   <React.StrictMode>

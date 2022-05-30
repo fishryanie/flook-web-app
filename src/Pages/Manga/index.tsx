@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useForm, Controller } from "react-hook-form";
 //Store
-import Action from '../../Shop/Action'
-import Selector from '../../Shop/Selector'
+import Action from '../../Store/Actions'
+import Selector from '../../Store/Selector'
 //Mui
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -77,13 +77,13 @@ const MangaPage: React.FC = () => {
   const [ page, setPage ] = useState(1)
   const [ data, setData ] = useState({
     page: page,
-    allowedAge: [],
-    chapters: [],
-    search: [],
-    status: [],
-    author: [],
-    genre: [],
-    sort: ''
+    allowedAge: ['All'],
+    chapters: ['All'],
+    search: ['All'],
+    status: ['All'],
+    author: ['All'],
+    genre: ['All'],
+    sort: 0
   })
 
   const { control, register, setValue, reset, handleSubmit } = useForm({defaultValues: data})
@@ -92,8 +92,6 @@ const MangaPage: React.FC = () => {
   const handleClickMenu = () => setOpenMenu(!openMenu) 
 
   const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => { setView(nextView) };
- 
-  
   
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value) 

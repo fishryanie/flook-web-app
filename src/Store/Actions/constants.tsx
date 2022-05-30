@@ -5,7 +5,7 @@ const actionTypes = {
   onOffCart: "ON_OFF_CART",
   onOffSearch: "ON_OFF_MODEL",
   onOffDrawer: "ON_OFF_DRAWER",
-  onOffNotification: "ON_OFF_NOTIFICATION",
+  onOffNotify: "ON_OFF_NOTIFY",
   openLoading: "OPEN_LOADING",
   closeLoading: "CLOSE_LOADING",
   submitSearch: "SUBMIT_SEARCH",
@@ -45,16 +45,13 @@ const actionTypes = {
 
 
 
-
-
-
-
-
-
-
   putLikeMovie: "PUT_LIKE_MOVIE",
   putLikeMovieFail: "PUT_LIKE_MOVIE_FAIL",
   putLikeMovieSuccess: "PUT_LIKE_MOVIE_SUCCESS",
+
+  findRole: 'FIND_ROLE',
+  findRoleFailure: 'FIND_ROLE_FAILURE',
+  findRoleSuccess: 'FIND_ROLE_SUCCESS',
 
   findUser: "FIND_USER",
   findUserFailure: "FIND_USER_FAILURE",

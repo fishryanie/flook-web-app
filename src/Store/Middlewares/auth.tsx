@@ -100,6 +100,21 @@ function* FindUser(action: any){
   }
 }
 
+function* FindManyRole(action: any){
+  try {
+    const response: responseGenerator = yield Services.auth.FindManyRole(action.payload)
+    if (response.statusCode === 200) {
+      yield put(Action.auth.FindManyRoleSuccess(response.data))
+    }else{
+      yield put(Action.auth.FindManyRoleFailure(response))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('ChangePass')
+  }
+}
+
 
 
 export default function* authSaga() {
@@ -110,6 +125,8 @@ export default function* authSaga() {
     takeLatest(actionTypes.changePass, ChangePass),
     
     takeLatest(actionTypes.findUser, FindUser),
+    takeLatest(actionTypes.findRole, FindManyRole),
+
   ])
 
 }

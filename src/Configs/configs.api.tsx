@@ -1,5 +1,6 @@
 export const BASE_API:string = "http://localhost:8000";
 
+export const API_ROLE:string = `${BASE_API}/api/role-management`;
 export const API_AUTH:string = `${BASE_API}/api/user-management`;
 export const API_CART:string = `${BASE_API}/api/cart-management`;
 export const API_CAST:string = `${BASE_API}/api/cast-management`;

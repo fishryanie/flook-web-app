@@ -1,8 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
-import { LoginSchema } from '../../../Functions/Validator';
-import { columnsUsers } from '../../../Components/TypeColums';
+import { LoginSchema } from '../../../../Functions/Validator';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
 import Box from '@mui/material/Box';
@@ -27,13 +26,17 @@ import DialogActions from '@mui/material/DialogActions';
 import LinearProgress from '@mui/material/LinearProgress';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/material/CircularProgress';
-
-import TextFieldSearch from '../../../Components/TextFieldSearch';
-import WrapperDiaLog from '../../../Components/WrapperDiaLog';
-import InputCustom from '../../../Components/TextFieldCustom';
-import TableCustom from '../../../Components/TableCustom';
-import Selector from '../../../Store/Selector';
-import Action from '../../../Store/Actions';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import TextFieldSearch from '../../../../Components/TextFieldSearch';
+import WrapperDiaLog from '../../../../Components/WrapperDiaLog';
+import InputCustom from '../../../../Components/TextFieldCustom';
+import TableCustom from '../../../../Components/TableCustom';
+import Selector from '../../../../Store/Selector';
+import Action from '../../../../Store/Actions';
+import { GridActionsCellItem, GridRowParams } from '@mui/x-data-grid';
+import actionTypes from '../../../../Store/Actions/constants';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -329,24 +332,55 @@ const DialogUser: React.FC = () => {
 };
 
 
-const UserData: React.FC = () => {
-  const arrayUser = Selector.auth.DataManyUser();
+
+
+function RoleData(){
+  const arrayRole = Selector.auth.DataManyRole();
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
+    dispatch(Action.auth.FindManyRole(''));
   }, []);
+
+  const columnRole: any = [
+    { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
+    { width: 120, editable: true, field: "name", headerName: "Name" },
+    { width: 400, editable: false, field: "description", headerName: "Description" },
+    { width: 120,
+      headerName: '##',
+      field: 'actions',
+      type: 'actions',
+      getActions: (params: GridRowParams) => [
+        <GridActionsCellItem 
+          label="isActive"
+          sx={{m:0,p:0}} 
+          icon={<VisibilityIcon/>}
+          onClick={() => dispatch({type: actionTypes.openDialog})}
+        />,
+        <GridActionsCellItem 
+          label="Edit" 
+          sx={{m:0,p:0}} 
+          icon={<SettingsOutlinedIcon sx={{m:0,p:0}}/>}
+        />,    
+        <GridActionsCellItem 
+          label="Delete" 
+          sx={{m:0,p:0}} 
+          icon={<DeleteOutlineOutlinedIcon sx={{m:0,p:0}}/>}  
+          // onClick={deleteUser(params.row._id)}
+        />,
+      ],}
+  ]
   return (
-    <section className="userTable">
+    <Box sx={{width: '100%', height: '100%'}}>
       <WrapperDiaLog Component={DialogUser}/>
       <TableCustom 
         title="User Data" 
-        array={arrayUser} 
-        columns={columnsUsers} 
+        array={arrayRole} 
+        columns={columnRole} 
       />
    
-    </section>
+    </Box>
   );
 };
 
-export default UserData;
+export default RoleData;

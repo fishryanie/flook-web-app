@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import Action from '../../Shop/Action';
-import Selector from '../../Shop/Selector';
+import Action from '../../Store/Actions';
+import Selector from '../../Store/Selector';
 
 const ChapterPage: React.FC = () => {
 

@@ -1,6 +1,6 @@
 import { combineReducers } from "redux"
 import { BookReducer } from "./book"
-import { AppReducer } from "./app.reducer"
+import { AppReducer } from "./app"
 import { AuthReducer } from "./auth"
 import { customizationReducer } from "./customizationReducer"
 

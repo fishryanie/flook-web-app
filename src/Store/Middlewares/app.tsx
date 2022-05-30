@@ -11,7 +11,7 @@ function* FindGenre(){
     if(response.statusCode === 200){
       yield put(Action.app.findGenreSuccess(response.data))
     }else {
-      yield put(Action.app.findGenreFailure(response.data))
+      yield put(Action.app.findGenreFailure(response.message))
     }
   } catch (error) {
     console.log(error)
@@ -27,7 +27,7 @@ function* FindAuthor(){
     if(response.statusCode === 200){
       yield put(Action.app.findAuthorSuccess(response.data))
     }else {
-      yield put(Action.app.findAuthorFailure(response.data))
+      yield put(Action.app.findAuthorFailure(response.message))
     }
   } catch (error) {
     console.log(error)
@@ -39,8 +39,9 @@ function* FindAuthor(){
 function* FindManga(action: any){
   try {
     const data = action.payload
-    const response: responseGenerator = yield Services.app.findManga(data);
-    console.log('response', response)
+    console.log(data)
+    const response: responseGenerator = yield Services.app.findManga(action.payload);
+    console.log('response comic', response)
     if(response.statusCode === 200){
       yield put(Action.app.findMangaSuccess(response))
     }else {

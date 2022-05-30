@@ -34,7 +34,7 @@ const users = [
     id: 'id-role',
     title: 'Roles',
     // caption: 'Vai trò',
-    url: '/table/books/default',
+    url: '/table/role',
     type: types.item, icon: IconUserSearch, breadcrumbs: false,
   },
   {

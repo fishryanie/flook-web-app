@@ -1,5 +1,5 @@
-import { requestAPI } from "../Utils/GlobalFunc";
-import { API_AUTH } from "../Configs/configs.api";
+import { requestAPI } from "../Functions/GlobalFunc";
+import { API_AUTH, API_ROLE } from "../Configs/configs.api";
 
 
 interface login {
@@ -62,7 +62,17 @@ const ChangePass = async (data: any, token: string) => {
 const FindUser = async (data: any) => {
   const request = {
     method: 'GET',
-    api: API_AUTH + '/getAllListUser',
+    api: API_AUTH + '/findMany',
+    body: data
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
+const FindManyRole = async (data: any) => {
+  const request = {
+    method: 'GET',
+    api: API_ROLE + '/findMany',
     body: data
   };
   const response = await requestAPI(request);
@@ -75,5 +85,5 @@ const FindUser = async (data: any) => {
 
 export default {
   Login, Register, ForgotPass, ChangePass, 
-  FindUser
+  FindUser, FindManyRole
 }

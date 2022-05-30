@@ -4,8 +4,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
-import Action from '../../Shop/Action';
-import Selector from '../../Shop/Selector';
+import Action from '../../Store/Actions';
+import Selector from '../../Store/Selector';
 import namePage from '../../Constants/NamePage';
 
 

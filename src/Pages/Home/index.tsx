@@ -1,8 +1,8 @@
 import Subscribe from './Components/Subscribe'
-import SliderItem from '../../Components/SliderItem'
-import { dataCarouselDemo } from '../../Utils/settingsSlider'
-import Selector from '../../Shop/Selector'
-import Action from '../../Shop/Action'
+import SliderItem from '../../Components/SliderCustom'
+import { dataCarouselDemo } from '../../Functions/settingsSlider'
+import Selector from '../../Store/Selector'
+import Action from '../../Store/Actions'
 import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 

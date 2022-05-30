@@ -20,6 +20,10 @@ const FindUser = (token:string) => ({type: actionTypes.findUser, payload: token}
 const FindUserFailure = (data: any) => ({type: actionTypes.findUserFailure, payload: data})
 const FindUserSuccess = (data: any) => ({type: actionTypes.findUserSuccess, payload: data})
 
+const FindManyRole = (token:string) => ({type: actionTypes.findRole, payload: token})
+const FindManyRoleFailure = (data: any) => ({type: actionTypes.findRoleFailure, payload: data})
+const FindManyRoleSuccess = (data: any) => ({type: actionTypes.findRoleSuccess, payload: data})
+
 
 
 export default {
@@ -29,4 +33,5 @@ export default {
   ChangePass, ChangePassSuccess, ChangePassFailure,
 
   FindUser, FindUserFailure, FindUserSuccess,
+  FindManyRole, FindManyRoleFailure, FindManyRoleSuccess,
 }

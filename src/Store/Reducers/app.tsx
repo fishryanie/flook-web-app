@@ -1,4 +1,4 @@
-import actionTypes from "../Action/constants";
+import actionTypes from "../Actions/constants";
 
 const initialState = {
   authDiaLog: false,
@@ -9,7 +9,7 @@ const initialState = {
   isSubmitting: false,
 };
 
-export const AppReducer = (state = initialState, action) => {
+export const AppReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case actionTypes.openDialog:{
       return {...state, authDiaLog: true }
@@ -17,16 +17,16 @@ export const AppReducer = (state = initialState, action) => {
     case actionTypes.closeDialog:{
       return {...state, authDiaLog: false }
     }
-    case actionTypes.onOffDrawerConstant: { 
+    case actionTypes.onOffDrawer: { 
       return {...state, openDrawer: action.openDrawer }
     }
-    case actionTypes.onOffSearchConstant: {
+    case actionTypes.onOffSearch: {
       return {...state, openSearch: !state.openSearch }
     }
-    case actionTypes.onOffCartConstant: {
+    case actionTypes.onOffCart: {
       return {...state, openCart: !state.openCart }
     }
-    case actionTypes.onOffNotificationConstant: {
+    case actionTypes.onOffNotify: {
       return {...state, openNotify: !state.openNotify }
     }
     case actionTypes.submitSearch: {

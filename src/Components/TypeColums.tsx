@@ -4,9 +4,11 @@ import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import { GridActionsCellItem, GridRowId, GridRowParams, GridColumns } from '@mui/x-data-grid-pro';
 import { AntSwitch } from '../Assets/Theme/AppStyle';
 import { IconPhoto } from '@tabler/icons';
+import { useDispatch } from 'react-redux';
 
 const deleteUser = (id: GridRowId) => () => {
   setTimeout(() => {
@@ -43,6 +45,10 @@ export const columAction = {
     />,
   ],
 }
+
+
+
+
 // 
 // ========================== Info table ====================================>>>
 export const columnsUsers: any = [
@@ -57,6 +63,7 @@ export const columnsUsers: any = [
   {...columAction}
 ]
 
+ 
 
 // ========================== Info model ====================================>>>
 

@@ -2,7 +2,7 @@ import { useSelector, RootStateOrAny } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
-import NavigationScroll from './Pages/Admin/NavigationScroll'
+import NavigationScroll from './Components/NavigationScroll'
 import Theme from './Assets/Theme'
 import Routers from './Routers'
 

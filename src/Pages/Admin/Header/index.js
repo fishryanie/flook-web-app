@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import LogoSection from './LogoSection';
 import SearchSection from './SearchSection';
-import ProfileSection from '../../../Layout/Header/ProfileSection';
-import NotificationSection from '../../../Layout/Header/NotificationSection';
+import ProfileSection from '../../../Layouts/Header/ProfileSection';
+import NotificationSection from '../../../Layouts/Header/NotificationSection';
 import { IconMenu2 } from '@tabler/icons';
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, ButtonBase } from '@mui/material';

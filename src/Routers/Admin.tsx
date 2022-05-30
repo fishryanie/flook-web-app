@@ -4,7 +4,8 @@ import AdminPage from '../Pages/Admin';
 import Loadable from '../Components/Loadable'
 
 const Dashboard = Loadable(lazy(() => import('../Pages/Admin/Views/Dashboard')));
-const TableAuth = Loadable(lazy(() => import('../Pages/Admin/Views/User/index')))
+const UserData = Loadable(lazy(() => import('../Pages/Admin/Views/Auth/UserData')))
+const RoleData = Loadable(lazy(() => import('../Pages/Admin/Views/Auth/RoleData')))
 
 interface AdminRouter {
   path: string;
@@ -21,7 +22,8 @@ const AdminRouter: AdminRouter = {
   children: [
     { path: namePage.admin, element: <Dashboard /> },
     { path: namePage.dashboard, element: <Dashboard /> },
-    { path: namePage.tableAuth, element: <TableAuth /> }
+    { path: '/admin/table/role', element: <RoleData /> },
+    { path: namePage.tableAuth, element: <UserData /> },
   ]
 }
 

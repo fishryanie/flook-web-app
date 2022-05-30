@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, useMediaQuery } from '@mui/material';
 import PropTypes from 'prop-types';
 import namePage from '../../../../../Constants/NamePage';
-import actionTypes from '../../../../../Shop/Action/constants';
+import actionTypes from '../../../../../Store/Actions/constants';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux'
 import Dialog, { DialogProps } from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
-import actionTypes from '../Shop/Action/constants';
+import actionTypes from '../Store/Actions/constants';
 
 interface WrapperDiaLogProps {
   Component: any;
