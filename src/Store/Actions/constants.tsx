@@ -57,6 +57,15 @@ const actionTypes = {
   findUserFailure: "FIND_USER_FAILURE",
   findUserSuccess: "FIND_USER_SUCCESS",
 
+  findFeature: "FIND_FEATURE",
+  findFeatureFailure: "FIND_FEATURE_FAILURE",
+  findFeatureSuccess: "FIND_FEATURE_SUCCESS",
+
+  findFeatureGroup: "FIND_FEATURE_GROUP",
+  findFeatureGroupFailure: "FIND_FEATURE_GROUP_FAILURE",
+  findFeatureGroupSuccess: "FIND_FEATURE_GROUP_SUCCESS",
+
+
   // MOVIE
   getListMovie: "GET_LIST_MOVIE_",
   getListMovieFail: "GET_LIST_MOVIE_FAIL",

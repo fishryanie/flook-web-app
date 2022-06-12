@@ -91,7 +91,7 @@ function* FindUser(action: any){
     if (response.statusCode === 200) {
       yield put(Action.auth.FindUserSuccess(response.data))
     }else{
-      yield put(Action.auth.FindUserFailure(response))
+      yield put(Action.auth.FindUserFailure(response.message))
     }
   } catch (error) {
     console.log('Error', error)
@@ -106,7 +106,37 @@ function* FindManyRole(action: any){
     if (response.statusCode === 200) {
       yield put(Action.auth.FindManyRoleSuccess(response.data))
     }else{
-      yield put(Action.auth.FindManyRoleFailure(response))
+      yield put(Action.auth.FindManyRoleFailure(response.message))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('ChangePass')
+  }
+}
+
+function* FindManyFeature(action: any){
+  try {
+    const response: responseGenerator = yield Services.auth.FindManyFeature(action.payload)
+    if (response.statusCode === 200) {
+      yield put(Action.auth.FindManyFeatureSuccess(response.data))
+    }else{
+      yield put(Action.auth.FindManyFeatureFailure(response.message))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('ChangePass')
+  }
+}
+
+function* FindManyFeatureGroup(action: any){
+  try {
+    const response: responseGenerator = yield Services.auth.FindManyFeatureGroup(action.payload)
+    if (response.statusCode === 200) {
+      yield put(Action.auth.FindManyFeatureGroupSuccess(response.data))
+    }else{
+      yield put(Action.auth.FindManyFeatureGroupFailure(response.message))
     }
   } catch (error) {
     console.log('Error', error)
@@ -116,17 +146,16 @@ function* FindManyRole(action: any){
 }
 
 
-
 export default function* authSaga() {
   yield all([
     takeLatest(actionTypes.login, Login),
     takeLatest(actionTypes.register, Register),
     takeLatest(actionTypes.forgotPass, ForgotPass),
     takeLatest(actionTypes.changePass, ChangePass),
-    
     takeLatest(actionTypes.findUser, FindUser),
     takeLatest(actionTypes.findRole, FindManyRole),
+    takeLatest(actionTypes.findFeature, FindManyFeature),
+    takeLatest(actionTypes.findFeatureGroup, FindManyFeatureGroup),
 
   ])
-
 }

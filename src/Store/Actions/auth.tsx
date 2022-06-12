@@ -24,6 +24,13 @@ const FindManyRole = (token:string) => ({type: actionTypes.findRole, payload: to
 const FindManyRoleFailure = (data: any) => ({type: actionTypes.findRoleFailure, payload: data})
 const FindManyRoleSuccess = (data: any) => ({type: actionTypes.findRoleSuccess, payload: data})
 
+const FindManyFeature = (token:string) => ({type: actionTypes.findFeature, payload: token})
+const FindManyFeatureFailure = (data: any) => ({type: actionTypes.findFeatureFailure, payload: data})
+const FindManyFeatureSuccess = (data: any) => ({type: actionTypes.findFeatureSuccess, payload: data})
+
+const FindManyFeatureGroup = (token: string) => ({type: actionTypes.findFeatureGroup, payload: token})
+const FindManyFeatureGroupFailure = (data: any) => ({type: actionTypes.findFeatureGroupFailure, payload: data})
+const FindManyFeatureGroupSuccess = (data: any) => ({type: actionTypes.findFeatureGroupSuccess, payload: data})
 
 
 export default {
@@ -34,4 +41,7 @@ export default {
 
   FindUser, FindUserFailure, FindUserSuccess,
   FindManyRole, FindManyRoleFailure, FindManyRoleSuccess,
+
+  FindManyFeature, FindManyFeatureFailure, FindManyFeatureSuccess,
+  FindManyFeatureGroup, FindManyFeatureGroupFailure, FindManyFeatureGroupSuccess,
 }

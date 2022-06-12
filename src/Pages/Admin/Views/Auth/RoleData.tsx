@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
 import { LoginSchema } from '../../../../Functions/Validator';
 import { styled } from '@mui/material/styles';
@@ -35,8 +35,23 @@ import InputCustom from '../../../../Components/TextFieldCustom';
 import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
-import { GridActionsCellItem, GridRowParams } from '@mui/x-data-grid';
+import { GridActionsCellItem, GridRowId, GridRowParams } from '@mui/x-data-grid';
 import actionTypes from '../../../../Store/Actions/constants';
+import ListSubheader from '@mui/material/ListSubheader';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import SendIcon from '@mui/icons-material/Send';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import StarBorder from '@mui/icons-material/StarBorder';
+import Divider from '@mui/material/Divider';
+import Switch from '@mui/material/Switch';
+import Checkbox from '../../../../Components/Checkbox';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -83,8 +98,6 @@ const selectRoles = [
   { id: 7, name: 'app admin' },
   { id: 8, name: 'service admin' },
 ];
-
-
 
 function BpRadio(props: RadioProps) {
   return (
@@ -302,7 +315,82 @@ const InportFile: React.FC = () => {
   );
 };
 
-const DialogUser: React.FC = () => {
+const ListFeatures: React.FC = () => {
+  const [open, setOpen] = useState();
+  const [checked, setChecked] = useState(['wifi']);
+  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
+  const arrayFeature = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayFeature)
+  const arrayFeatureGroup = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayFeatureGroups)
+  
+  console.log('arrayFeatureGroup', arrayFeatureGroup)
+
+  const handleClick = (index: any) => () => {
+    setOpen(open === index ? null : index)
+  };
+
+  const handleToggle = (value: string) => () => {
+    
+    const currentIndex = checked.indexOf(value);
+    const newChecked = [...checked];
+
+    if (currentIndex === -1) {
+      newChecked.push(value);
+    } else {
+      newChecked.splice(currentIndex, 1);
+    }
+
+    setChecked(newChecked);
+  };
+
+  return (
+    <List sx={{ width: '100%', bgcolor: 'background.paper' }}
+      component="nav"
+      aria-labelledby="nested-list-subheader"
+      subheader={
+        <ListSubheader component="h1" id="nested-list-subheader">
+          {infoRowTable?.name}
+        </ListSubheader>
+      }
+    >
+      {arrayFeatureGroup?.map((featureGroup: any, index: number) => (
+        <Fragment>
+          <Divider />
+          <ListItemButton onClick={handleClick(index)}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary={featureGroup.featureGroupName} />
+            {open === index ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={open === index ? true : false} timeout="auto" unmountOnExit>
+            {featureGroup.features?.map((feature: any, index: number) => (
+              <List component="div" disablePadding key={index}>
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ListItemIcon>
+                    <StarBorder />
+                  </ListItemIcon>
+                  <ListItemText primary={feature.featureName} />
+                  <Switch
+                    edge="end"
+                    // onChange={handleToggle('bluetooth')}
+                    // checked={checked.indexOf('bluetooth') !== -1}
+                    inputProps={{
+                      'aria-labelledby': 'switch-list-label-bluetooth',
+                    }}
+                  />
+                </ListItemButton>
+              </List>
+            ))}
+            
+           
+          </Collapse>
+        </Fragment>
+      ))}
+    </List>
+  );
+};
+
+const DialogRole: React.FC = () => {
   const [tab, setTap] = useState<string>('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTap(newValue);
@@ -313,14 +401,12 @@ const DialogUser: React.FC = () => {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Manual Input" value="1" />
-
-            <Tab label="Import file" value="2" sx={{ border: 'none' }} />
-
+            <Tab label="Import file" value="2" />
             <Tab label="Insert document" value="3" />
           </TabList>
         </Box>
         <TabPanel value="1" sx={{ p: 0 }}>
-          <RenderForm />
+          <ListFeatures />
         </TabPanel>
         <TabPanel value="2" sx={{ p: 0 }}>
           <InportFile />
@@ -331,56 +417,48 @@ const DialogUser: React.FC = () => {
   );
 };
 
-
-
-
-function RoleData(){
+function RoleData() {
   const arrayRole = Selector.auth.DataManyRole();
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(Action.auth.FindManyRole(''));
+    dispatch(Action.auth.FindManyFeature(''))
+    dispatch(Action.auth.FindManyFeatureGroup(''))
   }, []);
 
+  const showInfoRow = (row: GridRowParams) => () => {
+    dispatch({type: 'infoRowTable', payload: row})
+    dispatch({type: actionTypes.openDialog})
+  };
+
   const columnRole: any = [
-    { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
-    { width: 120, editable: true, field: "name", headerName: "Name" },
-    { width: 400, editable: false, field: "description", headerName: "Description" },
+    { width: 100, editable: true, hide: true, field: 'id', headerName: 'Stt' },
+    { width: 120, editable: true, field: 'name', headerName: 'Name' },
+    { width: 400, editable: false, field: 'description', headerName: 'Description' },
     { width: 120,
       headerName: '##',
       field: 'actions',
       type: 'actions',
       getActions: (params: GridRowParams) => [
-        <GridActionsCellItem 
-          label="isActive"
-          sx={{m:0,p:0}} 
-          icon={<VisibilityIcon/>}
-          onClick={() => dispatch({type: actionTypes.openDialog})}
-        />,
-        <GridActionsCellItem 
-          label="Edit" 
-          sx={{m:0,p:0}} 
-          icon={<SettingsOutlinedIcon sx={{m:0,p:0}}/>}
-        />,    
-        <GridActionsCellItem 
-          label="Delete" 
-          sx={{m:0,p:0}} 
-          icon={<DeleteOutlineOutlinedIcon sx={{m:0,p:0}}/>}  
+        <GridActionsCellItem label="isActive" sx={{ m: 0, p: 0 }} icon={<VisibilityIcon />} onClick={showInfoRow(params.row)}/>,
+        <GridActionsCellItem label="Edit" sx={{ m: 0, p: 0 }} icon={<SettingsOutlinedIcon sx={{ m: 0, p: 0 }} />} />,
+        <GridActionsCellItem
+          label="Delete"
+          sx={{ m: 0, p: 0 }}
+          icon={<DeleteOutlineOutlinedIcon sx={{ m: 0, p: 0 }} />}
           // onClick={deleteUser(params.row._id)}
         />,
-      ],}
-  ]
+      ],
+    },
+  ];
+
   return (
-    <Box sx={{width: '100%', height: '100%'}}>
-      <WrapperDiaLog Component={DialogUser}/>
-      <TableCustom 
-        title="User Data" 
-        array={arrayRole} 
-        columns={columnRole} 
-      />
-   
+    <Box sx={{ width: '100%', height: '100%' }}>
+      <WrapperDiaLog Component={DialogRole} />
+      <TableCustom title="User Data" array={arrayRole} columns={columnRole} />
     </Box>
   );
-};
+}
 
 export default RoleData;

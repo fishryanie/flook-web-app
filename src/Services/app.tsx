@@ -1,5 +1,7 @@
-import { API_MANGA, API_AUTHOR, API_GENRE, API_CHAPTER} from '../Configs/configs.api'
+import { API_MANGA, API_AUTHOR, API_GENRE, API_CHAPTER} from '../Configs/api'
 import { requestAPI } from '../Functions/GlobalFunc';
+import zaloConfig from '../Configs/zalo'
+import HmacSHA256 from 'crypto-js'
 
 //===================================|| Genre ||===============================//
 
@@ -119,6 +121,17 @@ const findChapterByMangaId = async (data: any) => {
   const response = await requestAPI(request)
   return response
 }
+
+
+const findAllBank = () => {
+  const reqtime = Date.now();
+  const params = {
+    appid: zaloConfig.appid,
+    reqtime: reqtime, // miliseconds
+    mac: CryptoJS.HmacSHA256(zaloConfig.appid + "|" + reqtime, zaloConfig.key1).toString() // appid|reqtime
+  };
+}
+
 
 
 export default {

@@ -7,6 +7,7 @@ const initialState = {
   openNotify: false,
   openCart: false,
   isSubmitting: false,
+  infoRowTable: {}
 };
 
 export const AppReducer = (state = initialState, action: any) => {
@@ -31,6 +32,10 @@ export const AppReducer = (state = initialState, action: any) => {
     }
     case actionTypes.submitSearch: {
       return {...state, isSubmitting: action.payload}
+    }
+    case 'infoRowTable': {
+      console.log('infoRowTable reducer', action.payload);
+      return {...state, infoRowTable: action.payload}
     }
     default: return {...state}
   }

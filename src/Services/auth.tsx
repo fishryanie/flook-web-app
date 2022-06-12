@@ -1,5 +1,5 @@
 import { requestAPI } from "../Functions/GlobalFunc";
-import { API_AUTH, API_ROLE } from "../Configs/configs.api";
+import { API_AUTH, API_ROLE, API_FEATURE, API_FEATURE_GROUP } from "../Configs/api";
 
 
 interface login {
@@ -79,11 +79,31 @@ const FindManyRole = async (data: any) => {
   return response;
 }
 
+const FindManyFeature = async (data: any) => {
+  const request = {
+    method: 'GET',
+    api: API_FEATURE + '/findMany',
+    body: data
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
+const FindManyFeatureGroup = async (data: any) => {
+  const request = {
+    method: 'GET',
+    api: API_FEATURE_GROUP + '/findMany',
+    body: data
+  };
+  const response = await requestAPI(request);
+  return response;
+}
 
 
 
 
 export default {
   Login, Register, ForgotPass, ChangePass, 
-  FindUser, FindManyRole
+  FindUser, FindManyRole,
+  FindManyFeature, FindManyFeatureGroup
 }

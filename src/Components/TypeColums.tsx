@@ -12,7 +12,6 @@ import { useDispatch } from 'react-redux';
 
 const deleteUser = (id: GridRowId) => () => {
   setTimeout(() => {
-    
     alert(JSON.stringify(id))
   });
 };
