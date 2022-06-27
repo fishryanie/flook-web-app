@@ -59,7 +59,7 @@ const DetailPage: React.FC = () => {
               <div className="widget-sidebar">
                 <div className="poster-manga">
                   <a href="" className="poster">
-                    <img src={dataOneManga?.manga?.image?.background?.url} alt="photo" />
+                    <img src={dataOneManga?.manga?.images?.background?.url} alt="photo" />
                     <div className="icon_img_poster">
                       <i className="bx bx-play" />
                     </div>
@@ -69,13 +69,13 @@ const DetailPage: React.FC = () => {
                   <ul>
                     <li>
                       <p>
-                        Name : <span> {dataOneManga?.manga?.title} </span>
+                        Tên : <span> {dataOneManga?.manga?.title} </span>
                       </p>
                     </li>
                     <li>
                       <p>
-                        Author :
-                        {dataOneManga?.manga?.author?.map((item: any, index: number) => {
+                        Tác Giả :
+                        {dataOneManga?.manga?.authorsId?.map((item: any, index: number) => {
                           return (
                             <span key={index}> {item.name}, </span>
                           )
@@ -84,7 +84,23 @@ const DetailPage: React.FC = () => {
                     </li>
                     <li>
                       <p>
-                        Allowed-Age : <span> {dataOneManga?.manga?.allowebAge} </span>
+                        Phân Loại : 
+                        <span> {dataOneManga?.manga?.categorysId?.name} </span>
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        Thể Loại :
+                        {dataOneManga?.manga?.genresId?.map((item: any, index: number) => {
+                          return (
+                            <span key={index}> {item.name}, </span>
+                          )
+                        })}
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                        Allowed-Age : <span> {dataOneManga?.manga?.allowedAge} </span>
                       </p>
                     </li>
                     <li>
@@ -162,7 +178,13 @@ const DetailPage: React.FC = () => {
                 <header className="header__detail__content">
                   <h1>{dataOneManga?.manga?.title}</h1>
                   <p>
-                    Manga Status <span>: {dataOneManga?.manga?.status} </span>
+                    Manga Status <span>: 
+                      {dataOneManga?.manga?.statusId?.map((item: any, index: number) => {
+                        return (
+                          <span key={index}> {item.name}, </span>
+                        )
+                      })} 
+                      </span>
                   </p>
                   <div className="rating__star">
                     <i className="icon_rating__star active fa-solid fa-star" />

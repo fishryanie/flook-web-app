@@ -121,29 +121,35 @@ const RenderForm: React.FC = () => {
   const handleReset = () => setActiveStep(0);
 
   const onSubmit = (data: any) => {
+    // dispatch(Action.app.addManga(data));
     console.log('values', data);
   };
+
+  const arrayAuthor = Selector.app.DataAllAuthor();
+  const arrayGenre = Selector.app.DataAllGenre();
+  const arrayCategory = Selector.app.DataAllCategory();
+  const arrayStatus = Selector.app.DataAllStatus();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(Action.app.findAuthor());
+    dispatch(Action.app.findGenre());
+    dispatch(Action.app.findCategories());
+    dispatch(Action.app.findStatus());
+  }, []);
+
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stepper activeStep={activeStep} orientation="vertical">
         <Step>
-          <StepLabel>Info user</StepLabel>
+          <StepLabel>Info Ebook</StepLabel>
           <StepContent>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.displayName} field="displayName" label="DisplayName" />
+                <InputCustom control={control} errors={errors.title} field="title" label="Tên" />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.phoneNumber} field="phoneNumber" label="phoneNumber" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.userName} field="userName" label="UserName" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.email} field="email" label="Email" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.password} field="password" label="Password" />
+                <InputCustom control={control} errors={errors.description} field="description" label="Giới Thiệu" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -168,30 +174,18 @@ const RenderForm: React.FC = () => {
               <Grid item xs={12} sm={12}>
                 <FormControl>
                   <FormLabel id="demo-customized-radios">Vip</FormLabel>
-                  <RadioGroup row defaultValue="default" aria-labelledby="demo-customized-radios" name="customized-radios">
-                    <FormControlLabel value="default" control={<BpRadio />} label="No vip" />
-                    <FormControlLabel value="vip1" control={<BpRadio />} label="Vip 1" />
-                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 2" />
-                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 3" />
+                  <RadioGroup row defaultValue="false" aria-labelledby="demo-customized-radios" name="customized-radios">
+                    <FormControlLabel value="false" control={<BpRadio />} label="No vip" />
+                    <FormControlLabel value="true" control={<BpRadio />} label="Vip" />
                   </RadioGroup>
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={12}>
                 <FormControl>
-                  <FormLabel id="demo-customized-radios">Gender</FormLabel>
-                  <RadioGroup row defaultValue="female" aria-labelledby="demo-customized-radios" name="customized-radios" sx={{ display: 'flex' }}>
-                    <FormControlLabel value="female" control={<BpRadio />} label="Female" />
-                    <FormControlLabel value="male" control={<BpRadio />} label="Male" />
-                    <FormControlLabel value="other" control={<BpRadio />} label="Other" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">IsActive</FormLabel>
-                  <RadioGroup row defaultValue="true" aria-labelledby="demo-customized-radios" name="customized-radios">
-                    <FormControlLabel value="true" control={<BpRadio />} label="Active" />
-                    <FormControlLabel value="false" control={<BpRadio />} label="No active" />
+                  <FormLabel id="demo-customized-radios">Deleted</FormLabel>
+                  <RadioGroup row defaultValue="false" aria-labelledby="demo-customized-radios" name="customized-radios" sx={{ display: 'flex' }}>
+                    <FormControlLabel value="false" control={<BpRadio />} label="False" />
+                    <FormControlLabel value="true" control={<BpRadio />} label="True" />
                   </RadioGroup>
                 </FormControl>
               </Grid>
@@ -215,10 +209,16 @@ const RenderForm: React.FC = () => {
           <StepContent>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="roles" label="roles" placeholder="Search" />
+                <TextFieldSearch register={register} setValue={setValue} options={arrayCategory} field="categorysId" label="categories" placeholder="Phân Loại" />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="roles" label="status" placeholder="Status" />
+                <TextFieldSearch register={register} setValue={setValue} options={arrayAuthor} field="authorsId" label="authors" placeholder="Tác Giả" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextFieldSearch register={register} setValue={setValue} options={arrayGenre} field="genresId" label="genres" placeholder="Thể Loại" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextFieldSearch register={register} setValue={setValue} options={arrayStatus} field="statusId" label="status" placeholder="Trạng Thái" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -239,6 +239,9 @@ const RenderForm: React.FC = () => {
           <StepLabel>Choose Picture</StepLabel>
           <StepContent></StepContent>
         </Step>
+        <Button disabled={activeStep === 0} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
+          Submit
+        </Button>
       </Stepper>
     </form>
   );
@@ -330,19 +333,19 @@ const DialogEbook: React.FC = () => {
 
 
 const EbookData: React.FC = () => {
-  const arrayUser = Selector.auth.DataManyUser();
+  const arrayEbook = Selector.app.DataAllManga();
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
+    dispatch(Action.app.findManyManga(''));
   }, []);
-  console.log('arrayUser', arrayUser)
+  console.log('arrayUser', arrayEbook)
   return (
     <Box sx={{width: '100%', height: '100%'}}>
       <WrapperDiaLog Component={DialogEbook}/>
       <TableCustom 
         title="User Data" 
-        array={arrayUser} 
+        array={arrayEbook} 
         columns={columnsEbooks} 
       />
    

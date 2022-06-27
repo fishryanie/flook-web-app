@@ -239,6 +239,9 @@ const RenderForm: React.FC = () => {
           <StepLabel>Choose Picture</StepLabel>
           <StepContent></StepContent>
         </Step>
+        <Button disabled={activeStep === 0} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
+          Submit
+        </Button>
       </Stepper>
     </form>
   );

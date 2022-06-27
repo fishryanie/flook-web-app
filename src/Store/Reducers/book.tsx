@@ -4,7 +4,11 @@ interface initialState{
   listGenre: Array<string>;
   listAuthor: Array<string>;
   listBook: Array<string>;
+  listAllBook: Array<string>;
   listChapter: Array<string>;
+  listCategory: Array<string>;
+  listStatus: Array<string>;
+  addManga: object;
   oneManga: object;
   oneChapter: object;
   countBook: number;
@@ -12,9 +16,13 @@ interface initialState{
 }
 const initialState: initialState = {
   listBook: [],
+  listAllBook: [],
   listGenre: [],
   listAuthor: [],
+  listCategory: [],
+  listStatus: [],
   listChapter: [],
+  addManga: {},
   oneManga: {},
   oneChapter: {},
   countBook: 0,
@@ -30,14 +38,26 @@ export const BookReducer = (state = initialState, action: any) => {
         listBook: [...action.payload.data], 
       }
     }
+    case actionTypes.addMangaSuccess: {
+      return {...state, addManga: action.payload}
+    }
     case actionTypes.findMangaByIdSuccess: {
       return {...state, oneManga: action.payload}
+    }
+    case actionTypes.findManyMangaSuccess: {
+      return {...state, listAllBook: [...action.payload.data],}
     }
     case actionTypes.findGenreSuccess:{
       return {...state, listGenre: [...action.payload]}
     }
     case actionTypes.findAuthorSuccess: {
       return {...state, listAuthor: [...action.payload]}
+    }
+    case actionTypes.findCategoriesSuccess:{
+      return {...state, listCategory: [...action.payload]}
+    }
+    case actionTypes.findStatusSuccess: {
+      return {...state, listStatus: [...action.payload]}
     }
     case actionTypes.findChapterByMangaIdSuccess: {
       return {

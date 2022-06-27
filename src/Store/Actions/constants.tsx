@@ -105,6 +105,25 @@ const actionTypes = {
   findMangaByIdFailure: "FIND_MANGA_BY_ID_FAILURE",
   findMangaByIdSuccess: "FIND_MANGA_BY_ID_SUCCESS",
 
+  findManyManga: 'FIND_MANY_MANGA',
+  findManyMangaFailure: 'FIND_MANY_MANGA_FAILURE',
+  findManyMangaSuccess: 'FIND_MANY_MANGA_SUCCESS',
+
+  addManga: 'ADD_MANGA',
+  addMangaFailure: 'ADD_MANGA_FAILURE',
+  addMangaSuccess: 'ADD_MANGA_SUCCESS',
+
+
+  // CATEGORIES
+  findCategories: 'FIND_CATEGORIES',
+  findCategoriesFailure: 'FIND_CATEGORIES_FAILURE',
+  findCategoriesSuccess: 'FIND_CATEGORIES_SUCCESS',
+
+  // STATUS
+  findStatus: 'FIND_STATUS',
+  findStatusFailure: 'FIND_STATUS_FAILURE',
+  findStatusSuccess: 'FIND_STATUS_SUCCESS',
+
 
 
   // AUTHOR

@@ -36,6 +36,53 @@ function* FindAuthor(){
   }
 }
 
+function* FindCategories(){
+  try {
+    const response: responseGenerator = yield Services.app.findCategories();
+    console.log('response', response)
+    if(response.statusCode === 200){
+      yield put(Action.app.findCategoriesSuccess(response.data))
+    }else {
+      yield put(Action.app.findCategoriesFailure(response.message))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
+  }
+}
+
+function* FindStatus(){
+  try {
+    const response: responseGenerator = yield Services.app.findStatus();
+    console.log('response', response)
+    if(response.statusCode === 200){
+      yield put(Action.app.findStatusSuccess(response.data))
+    }else {
+      yield put(Action.app.findStatusFailure(response.message))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
+  }
+}
+
+function* AddManga(action: any) {
+  try {
+    const response: responseGenerator = yield Services.app.createBook(action.payload)
+    if (response.statusCode === 200) {
+      yield put(Action.app.addMangaSuccess(response))
+    } else {
+      yield put(Action.app.addMangaFailure(response))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('AddManga')
+  }
+}
+
 function* FindManga(action: any){
   try {
     const data = action.payload
@@ -68,6 +115,24 @@ function* FindMangaById(action: any){
     console.log('Error DetailSagas', error)
   } finally {
     console.log('DetailSagas')
+  }
+}
+
+function* FindManyManga(action: any){
+  try {
+    // const data = action.payload
+    // console.log(data)
+    const response: responseGenerator = yield Services.app.findManyManga(action.payload);
+    console.log('response comic', response)
+    if(response.statusCode === 200){
+      yield put(Action.app.findManyMangaSuccess(response))
+    }else {
+      yield put(Action.app.findManyMangaFailure(response))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
   }
 }
 
@@ -107,11 +172,16 @@ function* FindChapterById(action: any){
 
 export default function* appSaga() {
   yield all([
+    takeLatest(actionTypes.addManga, AddManga),
     takeLatest(actionTypes.findManga, FindManga),
     takeLatest(actionTypes.findMangaById, FindMangaById),
+    takeLatest(actionTypes.findManyManga, FindManyManga),
     
     takeLatest(actionTypes.findGenre, FindGenre),
     takeLatest(actionTypes.findAuthor, FindAuthor),
+
+    takeLatest(actionTypes.findCategories, FindCategories),
+    takeLatest(actionTypes.findStatus, FindStatus),
 
     takeLatest(actionTypes.findChapterByMangaId, FindChapterByMangaId),
     takeLatest(actionTypes.findChapterById, FindChapterById),

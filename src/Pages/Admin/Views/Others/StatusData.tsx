@@ -330,19 +330,18 @@ const DialogStatus: React.FC = () => {
 
 
 const StatusData: React.FC = () => {
-  const arrayUser = Selector.auth.DataManyUser();
+  const arrayStatus = Selector.app.DataAllStatus();
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
+    dispatch(Action.app.findStatus());
   }, []);
-  console.log('arrayUser', arrayUser)
   return (
     <Box sx={{width: '100%', height: '100%'}}>
       <WrapperDiaLog Component={DialogStatus}/>
       <TableCustom 
         title="User Data" 
-        array={arrayUser} 
+        array={arrayStatus} 
         columns={columnsStatus} 
       />
    

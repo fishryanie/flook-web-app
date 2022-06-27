@@ -330,19 +330,19 @@ const DialogChapter: React.FC = () => {
 
 
 const ChapterData: React.FC = () => {
-  const arrayUser = Selector.auth.DataManyUser();
+  const arrayChapter = Selector.app.DataManyChapter();
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(Action.auth.FindUser(''));
   }, []);
-  console.log('arrayUser', arrayUser)
+  console.log('arrayUser', arrayChapter)
   return (
     <Box sx={{width: '100%', height: '100%'}}>
       <WrapperDiaLog Component={DialogChapter}/>
       <TableCustom 
         title="User Data" 
-        array={arrayUser} 
+        array={arrayChapter} 
         columns={columnsChapters} 
       />
    

@@ -1,4 +1,4 @@
-import { API_MANGA, API_AUTHOR, API_GENRE, API_CHAPTER} from '../Configs/api'
+import { API_MANGA, API_AUTHOR, API_GENRE, API_CHAPTER, API_CATEGORY, API_STATUS} from '../Configs/api'
 import { requestAPI } from '../Functions/GlobalFunc';
 import zaloConfig from '../Configs/zalo'
 import HmacSHA256 from 'crypto-js'
@@ -82,9 +82,25 @@ export const findMangaById = async (id: string)  => {
   return response
 }
 
+export const findManyManga = async (data: any)  => {
+  const request = {
+    method: 'GET',
+    api: `${API_MANGA}/getManga?deleted=all`,
+    body: data
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
 
 const createBook = async (data: any) => {
-
+  const request = {
+    method: 'POST',
+    api: `${API_MANGA}/addManga`,
+    body: data
+  }
+  const response = await requestAPI(request)
+  return response
 }
 
 const updateBook = async (data: any) => {
@@ -132,11 +148,30 @@ const findAllBank = () => {
   };
 }
 
+//==================================|| Categories ||===============================//
+export const findCategories = async ()  => {
+  const request = {
+    method: 'GET',
+    api: `${API_CATEGORY}/findCategories`,
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
+//==================================|| Status ||===============================//
+export const findStatus = async ()  => {
+  const request = {
+    method: 'GET',
+    api: `${API_STATUS}/findStatus`,
+  }
+  const response = await requestAPI(request)
+  return response
+}
 
 
 export default {
-  findManga, findMangaById, createBook, updateBook, removeBook, deleteBook, 
+  findManga, findMangaById, findManyManga,createBook, updateBook, removeBook, deleteBook, 
   findGenre, createGenre, updateGenre, removeGenre, deleteGenre,
   findAuthor, createAuthor, updateAuthor, removeAuthor, deleteAuthor,
-  findChapterById, findChapterByMangaId
+  findChapterById, findChapterByMangaId, findCategories, findStatus,
 }

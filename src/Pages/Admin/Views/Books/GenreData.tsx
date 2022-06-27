@@ -153,6 +153,9 @@ const RenderForm: React.FC = () => {
           <StepLabel>Choose Picture</StepLabel>
           <StepContent></StepContent>
         </Step>
+        <Button disabled={activeStep === 0} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
+          Submit
+        </Button>
       </Stepper>
     </form>
   );
@@ -244,19 +247,19 @@ const DialogGenre: React.FC = () => {
 
 
 const GenreData: React.FC = () => {
-  const arrayUser = Selector.auth.DataManyUser();
+  const arrayGenre = Selector.app.DataAllGenre();
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
+    dispatch(Action.app.findGenre());
   }, []);
-  console.log('arrayUser', arrayUser)
+  console.log('arrayUser', arrayGenre)
   return (
     <Box sx={{width: '100%', height: '100%'}}>
       <WrapperDiaLog Component={DialogGenre}/>
       <TableCustom 
         title="User Data" 
-        array={arrayUser} 
+        array={arrayGenre} 
         columns={columnsGenres} 
       />
    

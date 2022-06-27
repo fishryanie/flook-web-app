@@ -11,4 +11,6 @@ export const API_AUTHOR:string = `${BASE_API}/api/author-management`;
 export const API_CHAPTER:string = `${BASE_API}/api/chapter-management`;
 export const API_FEATURE:string = `${BASE_API}/api/feature-management`;
 export const API_FEATURE_GROUP:string = `${BASE_API}/api/featureGroup-management`;
+export const API_CATEGORY:string = `${BASE_API}/api/categories-management`;
+export const API_STATUS:string = `${BASE_API}/api/status-management`;
 

@@ -22,6 +22,14 @@ const findMangaById = (id:any) => ({type: actionTypes.findMangaById, payload: id
 const findMangaByIdFailure = (data:any) => ({type: actionTypes.findMangaByIdFailure, payload: data});
 const findMangaByIdSuccess = (data:any) => ({type: actionTypes.findMangaByIdSuccess, payload: data});
 
+const findManyManga = (data:any) => ({type: actionTypes.findManyManga, payload: data})
+const findManyMangaFailure = (data:any) => ({type: actionTypes.findManyMangaFailure, payload: data});
+const findManyMangaSuccess = (data:any) => ({type: actionTypes.findManyMangaSuccess, payload: data});
+
+const addManga = (data:any) => ({type: actionTypes.addManga, payload: data});
+const addMangaSuccess = (data: any) => ({type: actionTypes.addMangaSuccess, payload: data})
+const addMangaFailure = (data: any) => ({type: actionTypes.addMangaFailure, payload: data})
+
 
 
 //===================================|| Chapter ||================================//
@@ -33,7 +41,15 @@ const findChapterByMangaId = (data:any) => ({type: actionTypes.findChapterByMang
 const findChapterByMangaIdFailure = (data:any) => ({type: actionTypes.findChapterByMangaIdFailure, payload: data})
 const findChapterByMangaIdSuccess = (data:any) => ({type: actionTypes.findChapterByMangaIdSuccess, payload: data})
 
+//===================================|| Categories ||================================//
+const findCategories = () => ({type: actionTypes.findCategories})
+const findCategoriesFailure = (data:any) => ({type: actionTypes.findCategoriesFailure, payload: data});
+const findCategoriesSuccess = (data:any) => ({type: actionTypes.findCategoriesSuccess, payload: data})
 
+//===================================|| Status ||================================//
+const findStatus = () => ({type: actionTypes.findStatus})
+const findStatusFailure = (data:any) => ({type: actionTypes.findStatusFailure, payload: data});
+const findStatusSuccess = (data:any) => ({type: actionTypes.findStatusSuccess, payload: data})
 
 
 export default {
@@ -41,6 +57,11 @@ export default {
   findAuthor, findAuthorFailure, findAuthorSuccess,
   findManga, findMangaFailure, findMangaSuccess,
   findMangaById, findMangaByIdFailure, findMangaByIdSuccess,
+  findManyManga, findManyMangaFailure, findManyMangaSuccess,
   findChapterById, findChapterByIdFailure, findChapterByIdSuccess,
   findChapterByMangaId, findChapterByMangaIdFailure, findChapterByMangaIdSuccess,
+  findCategories, findCategoriesFailure, findCategoriesSuccess,
+  findStatus, findStatusFailure, findStatusSuccess,
+
+  addManga, addMangaSuccess, addMangaFailure,
 }

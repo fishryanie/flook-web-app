@@ -330,19 +330,18 @@ const DialogCategories: React.FC = () => {
 
 
 const CategoriesData: React.FC = () => {
-  const arrayUser = Selector.auth.DataManyUser();
+  const arrayCategory = Selector.app.DataAllCategory();
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
+    dispatch(Action.app.findCategories());
   }, []);
-  console.log('arrayUser', arrayUser)
   return (
     <Box sx={{width: '100%', height: '100%'}}>
       <WrapperDiaLog Component={DialogCategories}/>
       <TableCustom 
         title="User Data" 
-        array={arrayUser} 
+        array={arrayCategory} 
         columns={columnsCategories} 
       />
    
