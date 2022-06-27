@@ -5,9 +5,10 @@ import namePage from '../Constants/NamePage'
 import CardImage from './CardImage';
 
 
-type SlideProps = {title: string, data: any}
+// type SlideProps = {title: string, data: any}
 
-const SliderItem: React.FC<SlideProps> = props => {
+// const SliderItem: React.FC<SlideProps> = props => {
+  const SliderItem = (props) => {
   const { title, data } = props
   const settings = settingsSlider('row-slider-item', 4, 2000)
   return (
@@ -18,7 +19,7 @@ const SliderItem: React.FC<SlideProps> = props => {
           <Link className='slider-seemore' to={namePage?.manga}>See more</Link>
         </div>
         <Slider {...settings}>
-          {data?.map((item: any, index: number) => <CardImage index={index} item={item}/>)}
+          {data?.map((item, index) => <CardImage index={index} item={item}/>)}
         </Slider>
       </div>
     </section>

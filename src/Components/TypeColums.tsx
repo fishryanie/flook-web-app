@@ -62,6 +62,60 @@ export const columnsUsers: any = [
   {...columAction}
 ]
 
+export const columnsEbooks: any = [
+  { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
+  { width: 120, editable: true, field: "images", headerName: "Background", renderCell: (params: any) => params.row.images.background === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images manga'/>},
+  { width: 200, editable: false, field: "title", headerName: "Title" },
+  { width: 170, editable: true, field: "authorsId", headerName: "Tác giả", renderCell: (params: any) => params.row.authorsId?.map((item: any) =>  item.name).join(", ")},
+  { width: 170, editable: false, field: "genresId", headerName: "Thể loại", renderCell: (params: any) => params.row.genresId?.map((item: any) =>  item.name).join(", ")},
+  { width: 150, editable: false, field: "statusId", headerName: "Trạng thái", renderCell: (params: any) => params.row.statusId?.map((item: any) =>  item.name).join(", ")},
+  { width: 150, editable: false, hide: true, field: "deleted", headerName: "Trạng thái xóa" },
+  { width: 170, editable: false, field: "description", headerName: "Giới thiệu" },
+  { width: 170, editable: false, field: "numChaptes", headerName: "Số chapter" },
+  { width: 170, editable: false, field: "view", headerName: "Lượt đọc" },
+  {...columAction}
+]
+
+export const columnsGenres: any = [
+  { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
+  { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
+  { width: 200, editable: false, field: "name", headerName: "Tên loại" },
+  {...columAction}
+]
+
+export const columnsAuthors: any = [
+  { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
+  { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
+  { width: 200, editable: false, field: "name", headerName: "Tên" },
+  {...columAction}
+]
+
+export const columnsChapters: any = [
+  { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
+  // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
+  { width: 200, editable: false, field: "name", headerName: "Tên" },
+  { width: 170, editable: true, field: "bookId", headerName: "Truyện", renderCell: (params: any) => params.row.ebooks?.map((item: any) =>  item.name).join(", ")},
+  { width: 170, editable: false, field: "numViews", headerName: "Lượt đọc" },
+  { width: 150, editable: false, field: "status", headerName: "Trạng thái", renderCell: (params: any) => params.row.status?.map((item: any) =>  item.name).join(", ")},
+  { width: 150, editable: false, field: "numLikes", headerName: "Lượt thích", renderCell: (params: any) => params.row.users?.map((item: any) =>  item.name).join(", ")},
+
+  {...columAction}
+]
+
+// ========================== Info other ====================================>>>
+export const columnsCategories: any = [
+  { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
+  // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
+  { width: 200, editable: false, field: "name", headerName: "Tên" },
+  {...columAction}
+]
+
+export const columnsStatus: any = [
+  { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
+  // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
+  { width: 200, editable: false, field: "name", headerName: "Tên" },
+  {...columAction}
+]
  
 
 // ========================== Info model ====================================>>>

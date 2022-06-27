@@ -8,7 +8,7 @@ const Carousel = () => {
       <Slider {...settingsSlider}>
         {dataCarouselDemo.map((item, index) => (
         <div className='image' key={index}>
-          <img src={item.image.bookCover.url} width='100%' height='100%' alt="" />
+          <img src={item?.images?.background?.url} width='100%' height='100%' alt="" />
         </div> ))}
       </Slider>
     </section>

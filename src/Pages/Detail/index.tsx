@@ -59,7 +59,7 @@ const DetailPage: React.FC = () => {
               <div className="widget-sidebar">
                 <div className="poster-manga">
                   <a href="" className="poster">
-                    <img src={dataOneManga?.manga?.image?.bookCover?.url} alt="photo" />
+                    <img src={dataOneManga?.manga?.image?.background?.url} alt="photo" />
                     <div className="icon_img_poster">
                       <i className="bx bx-play" />
                     </div>

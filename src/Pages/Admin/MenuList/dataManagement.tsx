@@ -1,10 +1,10 @@
 import namePage from '../../../Constants/NamePage';
-import { 
-  IconDatabase, 
-  IconUserCircle, 
-  IconNotebook, 
-  IconBook, 
-  IconFileInfo, 
+import {
+  IconDatabase,
+  IconUserCircle,
+  IconNotebook,
+  IconBook,
+  IconFileInfo,
   IconLicense,
   IconBell,
   IconUserSearch,
@@ -44,7 +44,7 @@ const users = [
     url: '/table/books/default',
     type: types.item, icon: IconBell, breadcrumbs: false,
   },
- 
+
 ]
 
 const books = [
@@ -52,7 +52,7 @@ const books = [
     id: 'id-books-default',
     title: 'Ebooks',
     type: types.item,
-    url: '/table/books/default',
+    url: '/table/books/ebooks',
     icon: IconBook, breadcrumbs: false,
   },
   {
@@ -66,14 +66,14 @@ const books = [
     id: 'id-books-genres',
     title: 'Genres',
     type: types.item,
-    url: namePage.chapters, icon: IconList, breadcrumbs: false,
+    url: '/table/books/genres', icon: IconList, breadcrumbs: false,
   },
   {
     id: 'id-books-chapter',
     title: 'Chapters',
     type: types.item,
-    url: namePage.chapters, icon: IconBoxMultiple, breadcrumbs: false,
-  },  
+    url: '/table/books/chapters', icon: IconBoxMultiple, breadcrumbs: false,
+  },
 ]
 
 const others = [
@@ -81,33 +81,33 @@ const others = [
     id: 'id-other-categories',
     title: 'Categories',
     type: types.item,
-    url: namePage.chapters, icon: IconLayout, breadcrumbs: false,
+    url: '/table/others/categories', icon: IconLayout, breadcrumbs: false,
   },
   {
     id: 'id-other-status',
     title: 'Status',
     type: types.item,
-    url: namePage.chapters, icon: IconHierarchy, breadcrumbs: false,
+    url: '/table/others/status', icon: IconHierarchy, breadcrumbs: false,
   },
   {
     id: 'id-other-shopitem',
     title: 'Shop Item',
     type: types.item,
-    url: namePage.chapters, icon: IconBuildingStore, breadcrumbs: false,
+    url: namePage.error, icon: IconBuildingStore, breadcrumbs: false,
   },
   {
     id: 'id-other-forums',
     title: 'Forums',
     type: types.item,
-    url: namePage.chapters, icon: IconBrandAirtable, breadcrumbs: false,
+    url: namePage.error, icon: IconBrandAirtable, breadcrumbs: false,
   },
   {
     id: 'id-other-topic',
     title: 'Topic',
     type: types.item,
-    url: namePage.chapters, icon: IconPresentation, breadcrumbs: false,
+    url: namePage.error, icon: IconPresentation, breadcrumbs: false,
   },
-  
+
 ]
 
 const colections = [

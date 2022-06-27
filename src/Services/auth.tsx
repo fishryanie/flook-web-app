@@ -62,7 +62,7 @@ const ChangePass = async (data: any, token: string) => {
 const FindUser = async (data: any) => {
   const request = {
     method: 'GET',
-    api: API_AUTH + '/findMany',
+    api: API_AUTH + '/findManyUser',
     body: data
   };
   const response = await requestAPI(request);

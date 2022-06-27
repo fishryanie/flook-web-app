@@ -10,7 +10,10 @@ interface namePage {
   admin: string;
   dashboard: string;
   tableAuth: string;
-  chapters: string;
+  tableAuthor: string;
+  tableGenre: string;
+  tableEbook: string;
+  tableChapter: string;
   manga: string;
   movie: string;
   error: string;
@@ -34,7 +37,10 @@ const namePage: namePage = {
 
   dashboard: '/admin/dashboard',
   tableAuth: '/admin/table/auth',
-  chapters: '/table/books/chapters',
+  tableChapter: '/admin/table/books/chapters',
+  tableAuthor: '/admin/table/books/authors',
+  tableGenre: '/admin/table/books/genres',
+  tableEbook: '/admin/table/books/ebooks',
   
   
 }

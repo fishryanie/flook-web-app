@@ -37,7 +37,7 @@ const findAuthor = async () => {
   console.log('sevice')
   const request = {
     method: 'GET',
-    api: API_AUTHOR + '/getAuthor',
+    api: API_AUTHOR + '/findMany',
   };
   const response = await requestAPI(request);
   return response;
