@@ -1,38 +1,33 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import { 
   DataGrid,
   GridColumns,
-  GridRowModel,
-  GridRowsProp,
   GridToolbarExport,
   GridToolbarContainer,
   GridToolbarFilterButton,
   GridToolbarColumnsButton,
-  GridToolbarDensitySelector,
-  gridPageCountSelector,
-  gridPageSelector,
-  useGridApiContext,
-  useGridSelector 
-  
+  GridToolbarDensitySelector,  
 } from '@mui/x-data-grid';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
-import Pagination from '@mui/material/Pagination';
-import ButtonBase from '@mui/material/ButtonBase';
-import Typography from "@mui/material/Typography";
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
+import AddIcon from '@mui/icons-material/Add';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import MoreVertSharpIcon from '@mui/icons-material/MoreVertSharp';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { StyledGridOverlay } from '../Assets/Theme/AppStyle';
 import actionTypes from '../Store/Actions/constants'
-import Snackbar from '@mui/material/Snackbar';
-import Alert, { AlertProps } from '@mui/material/Alert';
+
+
 interface TableProps {
-  title: string
-  array: GridRowsProp;
+  title: string;
+  array: any;
   columns: GridColumns;
 }
 
@@ -44,9 +39,6 @@ const TableCustom: React.FC<TableProps> = props => {
 
   array?.forEach((item: any, i:number) => (item.id = i + 1));
 
-
-
-
   return (
     <Box sx={stylesTable}>
       <DataGrid
@@ -54,72 +46,128 @@ const TableCustom: React.FC<TableProps> = props => {
         columns={columns}
         checkboxSelection
         style={{borderRadius:'10px'}}
-        components={{ Toolbar, Footer, NoRowsOverlay }}
-        componentsProps={{ footer: {selectionRow}}}
+        components={{ Toolbar, NoRowsOverlay }}
+        componentsProps={{ toolbar: {selectionRow, title} }}
         experimentalFeatures={{ newEditingApi: true }}
-        onSelectionModelChange={(ids) => setSelectionModel([].filter((row: {id: string}) => new Set(ids).has(row.id)))}
+        onSelectionModelChange={(ids) => setSelectionModel(array.filter((row: {id: any}) => new Set(ids).has(row.id)))}
       />
-
     </Box>
   );
 };
 
 
-
-const Toolbar: React.FC = () => {
-  const theme = useTheme();
-  return (
-    <GridToolbarContainer>
-      <GridToolbarColumnsButton sx={{mr:2, color: theme.palette.secondary.dark}}/>
-      <GridToolbarFilterButton sx={{mr:2, color: theme.palette.secondary.dark}}/>
-      <GridToolbarDensitySelector sx={{mr:2, color: theme.palette.secondary.dark}}/>
-      <GridToolbarExport sx={{mr:2, color: theme.palette.secondary.dark}}/>
-    </GridToolbarContainer>
-  );
+type toolbarProps = {
+  selectionRow: any, title: string
 }
 
-const Footer: React.FC = () => {
+const Toolbar: React.FC<toolbarProps> = (props) => {
+  const { selectionRow, title } = props
   const theme = useTheme();
-  const apiRef = useGridApiContext();
-  const page = useGridSelector(apiRef, gridPageSelector);
-  const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
   const dispatch = useDispatch()
-  const openDialog = () => {
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const handleDialog = () => {
     dispatch({type: actionTypes.openDialog})
   }
+  const handleDeleteMany = () => {
+    let description='', listDelete: Array<{_id: string}> = []
+    selectionRow.forEach((row: any) => {
+      listDelete.push(row._id)
+      description += row.name + ', '
+    })
+    selectionRow.length > 0 && dispatch({type: actionTypes.openAccetp, payload: {
+      title: 'Just Checking...',
+      content:' Are you sure delete ' + title,
+      description: description
+    }})
+    title === 'role data' && dispatch({type: 'DELETE_DELETE_MANY_ROLE', payload: listDelete})
+    title === 'user data' && dispatch({type: 'DELETE_DELETE_MANY_USER', payload: listDelete})
+
+  }
   return (
-    <Grid container sx={{borderTop: '1px solid rgba(224, 224, 224, 1)' }}>
-      <Grid item xs={12} sm={6} sx={{alignSelf: 'center'}}>
-        <ButtonBase  onClick={openDialog} sx={{
-          borderRadius: '16px', 
-          padding: '10px',
-          margin: '10px',
-          color: theme.palette.secondary.dark,
-          cursor: 'pointer',
-          background: theme.palette.secondary.light,
-          transition: 'all .2s ease-in-out',
-            '&[aria-controls="menu-list-grow"],&:hover': {
-              background: theme.palette.secondary.dark,
-              color: theme.palette.secondary.light,
+    <GridToolbarContainer sx={{display: 'flex', justifyContent: 'space-between'}}>
+      <Box sx={{m: 1}}>
+        <GridToolbarColumnsButton sx={{mr:2, color: theme.palette.secondary.dark}}/>
+        <GridToolbarFilterButton sx={{mr:2, color: theme.palette.secondary.dark}}/>
+        <GridToolbarDensitySelector sx={{mr:2, color: theme.palette.secondary.dark}}/>
+        <GridToolbarExport sx={{mr:2, color: theme.palette.secondary.dark}}/>
+      </Box>
+      <Box sx={{m:1, display:'flex', alignSelf: 'center', justifyContent: 'flex-end'}}>
+        <Tooltip title="Table settings">
+          <IconButton onClick={handleClick}
+            size="small"
+            sx={{ ml: 2 }}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <MoreVertSharpIcon/>
+          </IconButton>
+        </Tooltip>
+        <Menu
+        anchorEl={anchorEl}
+        id="account-menu"
+        open={open}
+        onClose={handleClose}
+        onClick={handleClose}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
             },
-         
-        }}>
-        <AddCircleOutlineOutlinedIcon sx={{mr:1}} fontSize='small'/>
-        <Typography>Create User</Typography>
-      </ButtonBase>
-        
-        
-        {/* <CustomButton title='Delete Many' openNote={openNote} handleTooltipOpen={handleTooltipOpen} handleTooltipClose={handleTooltipClose} Component={<DeleteOutlineOutlinedIcon sx={{mr:1}} fontSize='small'/>}/> */}
-      </Grid>
-      <Grid item xs={12} sm={6} sx={{display:'flex', alignSelf: 'center', justifyContent: 'flex-end'}}>
-        <Pagination
-          color="primary"
-          count={pageCount}
-          page={page + 1}
-          onChange={(event, value) => apiRef.current.setPage(value - 1)}
-        />
-      </Grid>
-    </Grid>
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem onClick={handleDialog}>
+          <ListItemIcon>
+            <AddIcon fontSize="small" />
+          </ListItemIcon>
+          Add {title}
+        </MenuItem>
+        <MenuItem onClick={handleDeleteMany}>
+          <ListItemIcon>
+            <DeleteOutlineIcon fontSize="small" />
+          </ListItemIcon>
+          Delete many
+        </MenuItem>
+        <MenuItem>
+          <ListItemIcon>
+            <MoreHorizIcon fontSize="small"/>
+          </ListItemIcon>
+          More
+        </MenuItem>
+      </Menu>
+      </Box>
+    </GridToolbarContainer>
   );
 }
 

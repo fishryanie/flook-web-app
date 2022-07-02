@@ -35,7 +35,6 @@ import InputCustom from '../../../../Components/TextFieldCustom';
 import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
-import { GridActionsCellItem, GridRowId, GridRowParams } from '@mui/x-data-grid';
 import actionTypes from '../../../../Store/Actions/constants';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
@@ -52,6 +51,7 @@ import StarBorder from '@mui/icons-material/StarBorder';
 import Divider from '@mui/material/Divider';
 import Switch from '@mui/material/Switch';
 import Checkbox from '../../../../Components/Checkbox';
+import { columnRole } from '../../../../Components/TypeColums';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -317,30 +317,23 @@ const InportFile: React.FC = () => {
 
 const ListFeatures: React.FC = () => {
   const [open, setOpen] = useState();
-  const [checked, setChecked] = useState(['wifi']);
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
   const arrayFeature = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayFeature)
   const arrayFeatureGroup = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayFeatureGroups)
   
-  console.log('arrayFeatureGroup', arrayFeatureGroup)
-
+  const dispatch = useDispatch()
   const handleClick = (index: any) => () => {
     setOpen(open === index ? null : index)
   };
 
-  const handleToggle = (value: string) => () => {
-    
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
+  const handleToggle = (featureName: string) => () => {
+    dispatch({type: actionTypes.openAccetp, payload: {
+      title: 'Just Checking...',
+      content: `Grant ${featureName} rights to ${infoRowTable?.name}`,
+      description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
+      handleYes: () => dispatch({type: 'EDIT_FEATURE'})
+    }})
+  }
 
   return (
     <List sx={{ width: '100%', bgcolor: 'background.paper' }}
@@ -359,11 +352,12 @@ const ListFeatures: React.FC = () => {
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <ListItemText primary={featureGroup.featureGroupName} />
+            <ListItemText primary={featureGroup.name} />
             {open === index ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={open === index ? true : false} timeout="auto" unmountOnExit>
-            {featureGroup.features?.map((feature: any, index: number) => (
+            {featureGroup.features?.map((feature: any, index: number) => {
+              return (
               <List component="div" disablePadding key={index}>
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
@@ -372,17 +366,15 @@ const ListFeatures: React.FC = () => {
                   <ListItemText primary={feature.featureName} />
                   <Switch
                     edge="end"
-                    // onChange={handleToggle('bluetooth')}
-                    // checked={checked.indexOf('bluetooth') !== -1}
+                    onChange={handleToggle(feature.featureName)}
+                    defaultChecked={feature.roles.includes(infoRowTable._id) ? true : false}
                     inputProps={{
                       'aria-labelledby': 'switch-list-label-bluetooth',
                     }}
                   />
                 </ListItemButton>
               </List>
-            ))}
-            
-           
+            )})}   
           </Collapse>
         </Fragment>
       ))}
@@ -427,36 +419,10 @@ function RoleData() {
     dispatch(Action.auth.FindManyFeatureGroup(''))
   }, []);
 
-  const showInfoRow = (row: GridRowParams) => () => {
-    dispatch({type: 'infoRowTable', payload: row})
-    dispatch({type: actionTypes.openDialog})
-  };
-
-  const columnRole: any = [
-    { width: 100, editable: true, hide: true, field: 'id', headerName: 'Stt' },
-    { width: 120, editable: true, field: 'name', headerName: 'Name' },
-    { width: 400, editable: false, field: 'description', headerName: 'Description' },
-    { width: 120,
-      headerName: '##',
-      field: 'actions',
-      type: 'actions',
-      getActions: (params: GridRowParams) => [
-        <GridActionsCellItem label="isActive" sx={{ m: 0, p: 0 }} icon={<VisibilityIcon />} onClick={showInfoRow(params.row)}/>,
-        <GridActionsCellItem label="Edit" sx={{ m: 0, p: 0 }} icon={<SettingsOutlinedIcon sx={{ m: 0, p: 0 }} />} />,
-        <GridActionsCellItem
-          label="Delete"
-          sx={{ m: 0, p: 0 }}
-          icon={<DeleteOutlineOutlinedIcon sx={{ m: 0, p: 0 }} />}
-          // onClick={deleteUser(params.row._id)}
-        />,
-      ],
-    },
-  ];
-
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       <WrapperDiaLog Component={DialogRole} />
-      <TableCustom title="User Data" array={arrayRole} columns={columnRole} />
+      <TableCustom title="role data" array={arrayRole} columns={columnRole} />
     </Box>
   );
 }

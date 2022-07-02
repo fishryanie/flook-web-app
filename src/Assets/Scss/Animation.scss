@@ -329,3 +329,39 @@
     opacity: 0;
   }
 }
+
+@-webkit-keyframes swing {
+  10% {
+    transform: rotateX(25deg);
+  }
+  50% {
+    transform: rotateX(-15deg);
+  }
+  75% {
+    transform: rotateX(5deg);
+  }
+  90% {
+    transform: rotateX(-2.5deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+@keyframes swing {
+  10% {
+    transform: rotateX(25deg);
+  }
+  50% {
+    transform: rotateX(-15deg);
+  }
+  75% {
+    transform: rotateX(5deg);
+  }
+  90% {
+    transform: rotateX(-2.5deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}

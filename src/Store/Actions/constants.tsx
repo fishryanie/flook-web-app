@@ -8,6 +8,8 @@ const actionTypes = {
   onOffNotify: "ON_OFF_NOTIFY",
   openLoading: "OPEN_LOADING",
   closeLoading: "CLOSE_LOADING",
+  openAccetp: "OPEN_ACCETP",
+  closeAccetp: "CLOSE_ACCETP",
   submitSearch: "SUBMIT_SEARCH",
 
   SET_MENU: '@customization/SET_MENU',
