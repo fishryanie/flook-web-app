@@ -10,6 +10,7 @@ import Header from './Header';
 import Sidebar from './Sidebar';
 // import Customization from '../Customization';
 import navigation from './MenuList';
+import Accept from '../../Components/Accept';
 // import { OnOffDrawerSelector } from '../../Shop/Selector/app';
 
 // ==============================|| MAIN LAYOUT ||============================== //

@@ -35,7 +35,6 @@ import InputCustom from '../../../../Components/TextFieldCustom';
 import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
-import { GridActionsCellItem, GridRowId, GridRowParams } from '@mui/x-data-grid';
 import actionTypes from '../../../../Store/Actions/constants';
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
@@ -52,6 +51,7 @@ import StarBorder from '@mui/icons-material/StarBorder';
 import Divider from '@mui/material/Divider';
 import Switch from '@mui/material/Switch';
 import Checkbox from '../../../../Components/Checkbox';
+import { columnRole } from '../../../../Components/TypeColums';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -143,11 +143,23 @@ const RenderForm: React.FC = () => {
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stepper activeStep={activeStep} orientation="vertical">
         <Step>
-          <StepLabel>Info Role</StepLabel>
+          <StepLabel>Info user</StepLabel>
           <StepContent>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.name} field="name" label="Name" />
+                <InputCustom control={control} errors={errors.displayName} field="displayName" label="DisplayName" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <InputCustom control={control} errors={errors.phoneNumber} field="phoneNumber" label="phoneNumber" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <InputCustom control={control} errors={errors.userName} field="userName" label="UserName" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <InputCustom control={control} errors={errors.email} field="email" label="Email" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <InputCustom control={control} errors={errors.password} field="password" label="Password" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -171,12 +183,58 @@ const RenderForm: React.FC = () => {
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
                 <FormControl>
-                  <FormLabel id="demo-customized-radios">Deleted</FormLabel>
-                  <RadioGroup row defaultValue="false" aria-labelledby="demo-customized-radios" name="customized-radios">
-                    <FormControlLabel value="false" control={<BpRadio />} label="No deleted" />
-                    <FormControlLabel value="true" control={<BpRadio />} label="Deleted" />
+                  <FormLabel id="demo-customized-radios">Vip</FormLabel>
+                  <RadioGroup row defaultValue="default" aria-labelledby="demo-customized-radios" name="customized-radios">
+                    <FormControlLabel value="default" control={<BpRadio />} label="No vip" />
+                    <FormControlLabel value="vip1" control={<BpRadio />} label="Vip 1" />
+                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 2" />
+                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 3" />
                   </RadioGroup>
                 </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <FormControl>
+                  <FormLabel id="demo-customized-radios">Gender</FormLabel>
+                  <RadioGroup row defaultValue="female" aria-labelledby="demo-customized-radios" name="customized-radios" sx={{ display: 'flex' }}>
+                    <FormControlLabel value="female" control={<BpRadio />} label="Female" />
+                    <FormControlLabel value="male" control={<BpRadio />} label="Male" />
+                    <FormControlLabel value="other" control={<BpRadio />} label="Other" />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <FormControl>
+                  <FormLabel id="demo-customized-radios">IsActive</FormLabel>
+                  <RadioGroup row defaultValue="true" aria-labelledby="demo-customized-radios" name="customized-radios">
+                    <FormControlLabel value="true" control={<BpRadio />} label="Active" />
+                    <FormControlLabel value="false" control={<BpRadio />} label="No active" />
+                  </RadioGroup>
+                </FormControl>
+              </Grid>
+              <Grid className="box-button-form" item xs={12} sm={12}>
+                <button className="handle-next-button" type="submit" onClick={handleNext}>
+                  <span className="handle-next-button__title">Continue</span>
+                  <span className="handle-next-button__icon">
+                    <i className="bx bx-check-double"></i>
+                  </span>
+                </button>
+                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
+                  Back
+                </Button>
+              </Grid>
+            </Grid>
+          </StepContent>
+        </Step>
+
+        <Step>
+          <StepLabel>Choose role</StepLabel>
+          <StepContent>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12}>
+                <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="roles" label="roles" placeholder="Search" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="roles" label="status" placeholder="Status" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -197,9 +255,6 @@ const RenderForm: React.FC = () => {
           <StepLabel>Choose Picture</StepLabel>
           <StepContent></StepContent>
         </Step>
-        <Button disabled={activeStep === 0} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
-          Submit
-        </Button>
       </Stepper>
     </form>
   );
@@ -262,30 +317,23 @@ const InportFile: React.FC = () => {
 
 const ListFeatures: React.FC = () => {
   const [open, setOpen] = useState();
-  const [checked, setChecked] = useState(['wifi']);
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
   const arrayFeature = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayFeature)
   const arrayFeatureGroup = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayFeatureGroups)
   
-  console.log('arrayFeatureGroup', arrayFeatureGroup)
-
+  const dispatch = useDispatch()
   const handleClick = (index: any) => () => {
     setOpen(open === index ? null : index)
   };
 
-  const handleToggle = (value: string) => () => {
-    
-    const currentIndex = checked.indexOf(value);
-    const newChecked = [...checked];
-
-    if (currentIndex === -1) {
-      newChecked.push(value);
-    } else {
-      newChecked.splice(currentIndex, 1);
-    }
-
-    setChecked(newChecked);
-  };
+  const handleToggle = (featureName: string) => () => {
+    dispatch({type: actionTypes.openAccetp, payload: {
+      title: 'Just Checking...',
+      content: `Grant ${featureName} rights to ${infoRowTable?.name}`,
+      description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
+      handleYes: () => dispatch({type: 'EDIT_FEATURE'})
+    }})
+  }
 
   return (
     <List sx={{ width: '100%', bgcolor: 'background.paper' }}
@@ -304,11 +352,12 @@ const ListFeatures: React.FC = () => {
             <ListItemIcon>
               <InboxIcon />
             </ListItemIcon>
-            <ListItemText primary={featureGroup.featureGroupName} />
+            <ListItemText primary={featureGroup.name} />
             {open === index ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={open === index ? true : false} timeout="auto" unmountOnExit>
-            {featureGroup.features?.map((feature: any, index: number) => (
+            {featureGroup.features?.map((feature: any, index: number) => {
+              return (
               <List component="div" disablePadding key={index}>
                 <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
@@ -317,17 +366,15 @@ const ListFeatures: React.FC = () => {
                   <ListItemText primary={feature.featureName} />
                   <Switch
                     edge="end"
-                    // onChange={handleToggle('bluetooth')}
-                    // checked={checked.indexOf('bluetooth') !== -1}
+                    onChange={handleToggle(feature.featureName)}
+                    defaultChecked={feature.roles.includes(infoRowTable._id) ? true : false}
                     inputProps={{
                       'aria-labelledby': 'switch-list-label-bluetooth',
                     }}
                   />
                 </ListItemButton>
               </List>
-            ))}
-            
-           
+            )})}   
           </Collapse>
         </Fragment>
       ))}
@@ -351,7 +398,7 @@ const DialogRole: React.FC = () => {
           </TabList>
         </Box>
         <TabPanel value="1" sx={{ p: 0 }}>
-          <RenderForm />
+          <ListFeatures />
         </TabPanel>
         <TabPanel value="2" sx={{ p: 0 }}>
           <InportFile />
@@ -372,36 +419,10 @@ function RoleData() {
     dispatch(Action.auth.FindManyFeatureGroup(''))
   }, []);
 
-  const showInfoRow = (row: GridRowParams) => () => {
-    dispatch({type: 'infoRowTable', payload: row})
-    dispatch({type: actionTypes.openDialog})
-  };
-
-  const columnRole: any = [
-    { width: 100, editable: true, hide: true, field: 'id', headerName: 'Stt' },
-    { width: 120, editable: true, field: 'name', headerName: 'Name' },
-    { width: 400, editable: false, field: 'description', headerName: 'Description' },
-    { width: 120,
-      headerName: '##',
-      field: 'actions',
-      type: 'actions',
-      getActions: (params: GridRowParams) => [
-        <GridActionsCellItem label="isActive" sx={{ m: 0, p: 0 }} icon={<VisibilityIcon />} onClick={showInfoRow(params.row)}/>,
-        <GridActionsCellItem label="Edit" sx={{ m: 0, p: 0 }} icon={<SettingsOutlinedIcon sx={{ m: 0, p: 0 }} />} />,
-        <GridActionsCellItem
-          label="Delete"
-          sx={{ m: 0, p: 0 }}
-          icon={<DeleteOutlineOutlinedIcon sx={{ m: 0, p: 0 }} />}
-          // onClick={deleteUser(params.row._id)}
-        />,
-      ],
-    },
-  ];
-
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       <WrapperDiaLog Component={DialogRole} />
-      <TableCustom title="User Data" array={arrayRole} columns={columnRole} />
+      <TableCustom title="Role Data" array={arrayRole} columns={columnRole} />
     </Box>
   );
 }

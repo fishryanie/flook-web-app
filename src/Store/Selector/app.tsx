@@ -4,11 +4,14 @@ const DataAllAuthor = () => useSelector((state: RootStateOrAny) => state.BookRed
 const DataAllGenre = () => useSelector((state: RootStateOrAny) => state.BookReducer.listGenre);
 const DataAllCategory = () => useSelector((state: RootStateOrAny) => state.BookReducer.listCategory);
 const DataAllStatus = () => useSelector((state: RootStateOrAny) => state.BookReducer.listStatus);
+const DataAllReview = () => useSelector((state: RootStateOrAny) => state.BookReducer.listReview);
+const DataAllComment = () => useSelector((state: RootStateOrAny) => state.BookReducer.listComment);
 const DataAllManga = () => useSelector((state: RootStateOrAny) => state.BookReducer.listAllBook);
 
 const DataManyManga = () => useSelector((state: RootStateOrAny) => state.BookReducer.listBook);
 const DataOneManga = () => useSelector((state: RootStateOrAny) => state.BookReducer.oneManga);
 
+const DataAllChapter = () => useSelector((state: RootStateOrAny) => state.BookReducer.listAllChapter);
 const DataManyChapter = () => useSelector((state: RootStateOrAny) => state.BookReducer.listChapter);
 const DataOneChapter = () => useSelector((state: RootStateOrAny) => state.BookReducer.oneChapter);
 
@@ -19,8 +22,8 @@ const AddManga = () => useSelector((state: RootStateOrAny) => state.BookReducer.
 
 export default {
   DataAllAuthor, DataAllGenre, DataAllManga, DataAllCategory, DataAllStatus,
-  DataManyManga, DataOneManga,
-  DataManyChapter, DataOneChapter,
+  DataManyManga, DataOneManga, DataAllReview, DataAllComment,
+  DataAllChapter, DataManyChapter, DataOneChapter,
   QuantityManga, QuantityChapter,
 
   AddManga,

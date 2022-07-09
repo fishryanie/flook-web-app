@@ -8,6 +8,8 @@ const actionTypes = {
   onOffNotify: "ON_OFF_NOTIFY",
   openLoading: "OPEN_LOADING",
   closeLoading: "CLOSE_LOADING",
+  openAccetp: "OPEN_ACCETP",
+  closeAccetp: "CLOSE_ACCETP",
   submitSearch: "SUBMIT_SEARCH",
 
   SET_MENU: '@customization/SET_MENU',
@@ -65,6 +67,30 @@ const actionTypes = {
   findFeatureGroupFailure: "FIND_FEATURE_GROUP_FAILURE",
   findFeatureGroupSuccess: "FIND_FEATURE_GROUP_SUCCESS",
 
+  deletedRole: 'DELETED_ROLE',
+  deletedRoleFailure: 'DELETED_ROLE_FAILURE',
+  deletedRoleSuccess: 'DELETED_ROLE_SUCCESS',
+
+  deleteRole: 'DELETE_ROLE',
+  deleteRoleFailure: 'DELETE_ROLE_FAILURE',
+  deleteRoleSuccess: 'DELETE_ROLE_SUCCESS',
+
+  deleteUser: 'DELETE_USER',
+  deleteUserFailure: 'DELETE_USER_FAILURE',
+  deleteUserSuccess: 'DELETE_USER_SUCCESS',
+
+  deletedUser: 'DELETED_USER',
+  deletedUserFailure: 'DELETED_USER_FAILURE',
+  deletedUserSuccess: 'DELETED_USER_SUCCESS',
+
+  deletedManyRole: 'DELETED_MANY_ROLE',
+  deletedManyRoleFailure: 'DELETED_MANY_ROLE_FAILURE',
+  deletedManyRoleSuccess: 'DELETED_MANY_ROLE_SUCCESS',
+
+  deletedManyUser: 'DELETED_MANY_USER',
+  deletedManyUserFailure: 'DELETED_MANY_USER_FAILURE',
+  deletedManyUserSuccess: 'DELETED_MANY_USER_SUCCESS',
+
 
   // MOVIE
   getListMovie: "GET_LIST_MOVIE_",
@@ -113,6 +139,18 @@ const actionTypes = {
   addMangaFailure: 'ADD_MANGA_FAILURE',
   addMangaSuccess: 'ADD_MANGA_SUCCESS',
 
+  deleteManga: 'DELETE_MANGA',
+  deleteMangaFailure: 'DELETE_MANGA_FAILURE',
+  deleteMangaSuccess: 'DELETE_MANGA_SUCCESS',
+
+  deletedManga: 'DELETED_MANGA',
+  deletedMangaFailure: 'DELETED_MANGA_FAILURE',
+  deletedMangaSuccess: 'DELETED_MANGA_SUCCESS',
+
+  deletedManyManga: 'DELETED_MANY_MANGA',
+  deletedManyMangaFailure: 'DELETED_MANY_MANGA_FAILURE',
+  deletedManyMangaSuccess: 'DELETED_MANY_MANGA_SUCCESS',
+
 
   // CATEGORIES
   findCategories: 'FIND_CATEGORIES',
@@ -135,8 +173,36 @@ const actionTypes = {
   findGenreFailure: 'FIND_GENRE_FAILURE',
   findGenreSuccess: 'FIND_GENRE_SUCCESS',
 
+  deleteAuthor: 'DELETE_AUTHOR',
+  deleteAuthorFailure: 'DELETE_AUTHOR_FAILURE',
+  deleteAuthorSuccess: 'DELETE_AUTHOR_SUCCESS',
+
+  deletedAuthor: 'DELETED_AUTHOR',
+  deletedAuthorFailure: 'DELETED_AUTHOR_FAILURE',
+  deletedAuthorSuccess: 'DELETED_AUTHOR_SUCCESS',
+
+  deletedManyAuthor: 'DELETED_MANY_AUTHOR',
+  deletedManyAuthorFailure: 'DELETED_MANY_AUTHOR_FAILURE',
+  deletedManyAuthorSuccess: 'DELETED_MANY_AUTHOR_SUCCESS',
+
+  deleteGenre: 'DELETE_GENRE',
+  deleteGenreFailure: 'DELETE_GENRE_FAILURE',
+  deleteGenreSuccess: 'DELETE_GENRE_SUCCESS',
+
+  deletedGenre: 'DELETED_GENRE',
+  deletedGenreFailure: 'DELETED_GENRE_FAILURE',
+  deletedGenreSuccess: 'DELETED_GENRE_SUCCESS',
+
+  deletedManyGenre: 'DELETED_MANY_GENRE',
+  deletedManyGenreFailure: 'DELETED_MANY_GENRE_FAILURE',
+  deletedManyGenreSuccess: 'DELETED_MANY_GENRE_SUCCESS',
+
 
   // CHAPTERS
+  findChapter: "GET_CHAPTER",
+  findChapterFailure: "GET_CHAPTER_FAILURE",
+  findChapterSuccess: "GET_CHAPTER_SUCCESS",
+
   findChapterByMangaId: "FIND_CHAPTERS_BY_MANGA_ID",
   findChapterByMangaIdFailure: "FIND_CHAPTER_BY_MANGA_ID_FAILURE",
   findChapterByMangaIdSuccess: "FIND_CHAPTER_BY_MANGA_ID_SUCCESS",
@@ -145,9 +211,44 @@ const actionTypes = {
   findChapterByIdFailure: "FIND_CHAPTER_BY_ID_FAILURE",
   findChapterByIdSuccess: "FIND_CHAPTER_BY_ID_SUCCESS",
 
+  deleteChapter: 'DELETE_CHAPTER',
+  deleteChapterFailure: 'DELETE_CHAPTER_FAILURE',
+  deleteChapterSuccess: 'DELETE_CHAPTER_SUCCESS',
 
+  deletedChapter: 'DELETED_CHAPTER',
+  deletedChapterFailure: 'DELETED_CHAPTER_FAILURE',
+  deletedChapterSuccess: 'DELETED_CHAPTER_SUCCESS',
+
+  deletedManyChapter: 'DELETED_MANY_CHAPTER',
+  deletedManyChapterFailure: 'DELETED_MANY_CHAPTER_FAILURE',
+  deletedManyChapterSuccess: 'DELETED_MANY_CHAPTER_SUCCESS',
+
+  // REVIEW
+  findReview: 'FIND_REVIEW',
+  findReviewFailure: 'FIND_REVIEW_FAILURE',
+  findReviewSuccess: 'FIND_REVIEW_SUCCESS',
+
+  deletedReview: 'DELETED_REVIEW',
+  deletedReviewFailure: 'DELETED_REVIEW_FAILURE',
+  deletedReviewSuccess: 'DELETED_REVIEW_SUCCESS',
+
+  deletedManyReview: 'DELETED_MANY_REVIEW',
+  deletedManyReviewFailure: 'DELETED_MANY_REVIEW_FAILURE',
+  deletedManyReviewSuccess: 'DELETED_MANY_REVIEW_SUCCESS',
 
   // COMMENT
+  findComment: 'FIND_COMMENT',
+  findCommentFailure: 'FIND_COMMENT_FAILURE',
+  findCommentSuccess: 'FIND_COMMENT_SUCCESS',
+
+  deletedComment: 'DELETED_COMMENT',
+  deletedCommentFailure: 'DELETED_COMMENT_FAILURE',
+  deletedCommentSuccess: 'DELETED_COMMENT_SUCCESS',
+
+  deletedManyComment: 'DELETED_MANY_COMMENT',
+  deletedManyCommentFailure: 'DELETED_MANY_COMMENT_FAILURE',
+  deletedManyCommentSuccess: 'DELETED_MANY_COMMENT_SUCCESS',
+
   getAllCommentFail: "GET_ALL_COMMENT_FAIL",
   getAllCommentSuccess: "GET_ALL_COMMENT_SUCCESS",
   addCommentFail: "ADD_COMMENT_FAIL",

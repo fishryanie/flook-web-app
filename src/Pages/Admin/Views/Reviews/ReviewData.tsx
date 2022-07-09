@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
 import { LoginSchema } from '../../../../Functions/Validator';
-import { columnsGenres } from '../../../../Components/TypeColums';
+import { columnsReviews } from '../../../../Components/TypeColums';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
 import Box from '@mui/material/Box';
@@ -35,6 +35,7 @@ import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
+import UpLoadImage from '../../../../Components/UpLoadImage';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -121,23 +122,24 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const dispatch = useDispatch();
+  const dataUser = Selector.auth.DataManyUser();
+  const arrayUser = dataUser?.map((item: any) => item?.userName)
 
   const [open, setOpen] = useState();
-  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
-  const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
-
   const handleClick = (index: any) => () => {
     setOpen(open === index ? null : index)
   };
+
+  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
+  const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
 
   const handleToggle = (name: string) => () => {
     dispatch({
       type: actionTypes.openAccetp, payload: {
         title: 'Just Checking...',
-        content: `Grant ${name} rights to ${infoRowTable?.name}`,
-        description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
-        handleYes: () => dispatch({ type: 'EDIT_GENRE' })
+        content: `Grant ${name} rights to ${infoRowTable?.title}`,
+        description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
+        handleYes: () => dispatch({ type: 'EDIT_EBOOK' })
       }
     })
   }
@@ -146,24 +148,31 @@ const RenderForm: React.FC = () => {
 
   useEffect(() => {
     if (typeDialog !== 'FORM_CREATE') {
-      setValue('images', infoRowTable?.images?.url)
-      setValue('name', infoRowTable?.name)
+      // setValue('images', infoRowTable?.images?.url)
+      setValue('content', infoRowTable?.content)
+      // setValue('license', infoRowTable?.license?.userName)
       // setValue('title', infoRowTable?.title)
     }
+  }, []);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(Action.auth.FindUser(''));
   }, []);
 
   const onSubmit = (data: any) => {
     console.log('values', data);
   };
+
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stepper activeStep={activeStep} orientation="vertical">
             <Step>
-              <StepLabel>Info Genre</StepLabel>
+              <StepLabel>Info Review</StepLabel>
               <StepContent>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12}>
-                    <InputCustom control={control} errors={errors.name} field="name" label="Tên loại" />
+                    <InputCustom control={control} errors={errors.content} field="content" label="Nội dung" />
                   </Grid>
                   <Grid className="box-button-form" item xs={12} sm={12}>
                     <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -182,10 +191,35 @@ const RenderForm: React.FC = () => {
             </Step>
 
             <Step>
+              <StepLabel>Choose role</StepLabel>
+              <StepContent>
+                <Grid container spacing={1}>
+                  <Grid item xs={12} sm={12}>
+                    <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="users" label="users" placeholder="Người dùng" />
+                  </Grid>
+                  <Grid item xs={12} sm={12}>
+                    <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="ebooks" label="ebooks" placeholder="Truyện" />
+                  </Grid>
+                  <Grid className="box-button-form" item xs={12} sm={12}>
+                    <button className="handle-next-button" type="submit" onClick={handleNext}>
+                      <span className="handle-next-button__title">Continue</span>
+                      <span className="handle-next-button__icon">
+                        <i className="bx bx-check-double"></i>
+                      </span>
+                    </button>
+                    <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
+                      Back
+                    </Button>
+                  </Grid>
+                </Grid>
+              </StepContent>
+            </Step>
+
+            <Step>
               <StepLabel>Choose Picture</StepLabel>
               <StepContent></StepContent>
             </Step>
-            {activeStep === 2 &&
+            {activeStep === 3 &&
               <Paper square elevation={0} sx={{ p: 3 }}>
                 <Typography>All steps completed - you&apos;re finished</Typography>
                 <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
@@ -253,7 +287,7 @@ const InportFile: React.FC = () => {
   );
 };
 
-const DialogGenre: React.FC = () => {
+const DialogReview: React.FC = () => {
   const [tab, setTap] = useState<string>('1');
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTap(newValue);
@@ -283,25 +317,25 @@ const DialogGenre: React.FC = () => {
 };
 
 
-const GenreData: React.FC = () => {
-  const arrayGenre = Selector.app.DataAllGenre();
+const ReviewData: React.FC = () => {
+  const arrayReview = Selector.app.DataAllReview();
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.app.findGenre());
+    dispatch(Action.app.findReview());
   }, []);
-  console.log('arrayUser', arrayGenre)
+  console.log('arrayReview', arrayReview)
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
-      <WrapperDiaLog Component={DialogGenre} />
+      <WrapperDiaLog Component={DialogReview} />
       <TableCustom
-        title="Genre Data"
-        array={arrayGenre}
-        columns={columnsGenres}
+        title="Review Data"
+        array={arrayReview}
+        columns={columnsReviews}
       />
 
     </Box>
   );
 };
 
-export default GenreData;
+export default ReviewData;

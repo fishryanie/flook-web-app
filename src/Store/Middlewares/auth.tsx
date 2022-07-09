@@ -100,6 +100,48 @@ function* FindUser(action: any){
   }
 }
 
+function* DeletedUser(action: any){
+  try {
+    // const data = action.payload
+    // console.log(data)
+    const response: responseGenerator = yield Services.auth.deletedUser(action.payload);
+    console.log('response', response)
+    if(response.statusCode === 200){
+      yield notify(response.message)
+      yield put(Action.auth.DeletedUserSuccess(response))
+      yield put(Action.auth.FindUser(''))
+    }else {
+      yield notify(response.message)
+      yield put(Action.auth.DeletedUserFailure(response))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
+  }
+}
+
+function* DeletedManyUser(action: any){
+  try {
+    const data = action.payload
+    console.log(data)
+    const response: responseGenerator = yield Services.auth.deletedManyUser(action.payload);
+    console.log('response comic', response)
+    if(response.statusCode === 200){
+      yield notify(response.message)
+      yield put(Action.auth.DeletedManyUserSuccess(response))
+      yield put(Action.auth.FindUser(''))
+    }else {
+      yield notify(response.message)
+      yield put(Action.auth.DeletedManyUserFailure(response))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
+  }
+}
+
 function* FindManyRole(action: any){
   try {
     const response: responseGenerator = yield Services.auth.FindManyRole(action.payload)
@@ -112,6 +154,48 @@ function* FindManyRole(action: any){
     console.log('Error', error)
   } finally {
     console.log('ChangePass')
+  }
+}
+
+function* DeletedRole(action: any){
+  try {
+    // const data = action.payload
+    // console.log(data)
+    const response: responseGenerator = yield Services.auth.deletedRole(action.payload);
+    console.log('response', response)
+    if(response.statusCode === 200){
+      yield notify(response.message)
+      yield put(Action.auth.DeletedRoleSuccess(response))
+      yield put(Action.auth.FindManyRole(''))
+    }else {
+      yield notify(response.message)
+      yield put(Action.auth.DeletedRoleFailure(response))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
+  }
+}
+
+function* DeletedManyRole(action: any){
+  try {
+    const data = action.payload
+    console.log(data)
+    const response: responseGenerator = yield Services.auth.deletedManyRole(action.payload);
+    console.log('response comic', response)
+    if(response.statusCode === 200){
+      yield notify(response.message)
+      yield put(Action.auth.DeletedManyRoleSuccess(response))
+      yield put(Action.auth.FindManyRole(''))
+    }else {
+      yield notify(response.message)
+      yield put(Action.auth.DeletedManyRoleFailure(response))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
   }
 }
 
@@ -152,8 +236,15 @@ export default function* authSaga() {
     takeLatest(actionTypes.register, Register),
     takeLatest(actionTypes.forgotPass, ForgotPass),
     takeLatest(actionTypes.changePass, ChangePass),
+
     takeLatest(actionTypes.findUser, FindUser),
+    takeLatest(actionTypes.deletedUser, DeletedUser),
+    takeLatest(actionTypes.deletedManyUser, DeletedManyUser),
+
     takeLatest(actionTypes.findRole, FindManyRole),
+    takeLatest(actionTypes.deletedRole, DeletedRole),
+    takeLatest(actionTypes.deletedManyRole, DeletedManyRole),
+
     takeLatest(actionTypes.findFeature, FindManyFeature),
     takeLatest(actionTypes.findFeatureGroup, FindManyFeatureGroup),
 

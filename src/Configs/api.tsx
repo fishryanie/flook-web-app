@@ -5,12 +5,13 @@ export const API_CART:string = `${BASE_API}/api/cart-management`;
 export const API_CAST:string = `${BASE_API}/api/cast-management`;
 export const API_MOVIE:string = `${BASE_API}/api/movie-management`;
 export const API_COMMENT:string = `${BASE_API}/api/comment-management`;
-export const API_MANGA:string = `${BASE_API}/api/manga-management`;
+export const API_REVIEW:string = `${BASE_API}/api/review-management`;
+export const API_EBOOK:string = `${BASE_API}/api/ebooks-management`;
 export const API_GENRE:string = `${BASE_API}/api/genre-management`;
 export const API_AUTHOR:string = `${BASE_API}/api/author-management`;
 export const API_CHAPTER:string = `${BASE_API}/api/chapter-management`;
 export const API_FEATURE:string = `${BASE_API}/api/feature-management`;
 export const API_FEATURE_GROUP:string = `${BASE_API}/api/featureGroup-management`;
-export const API_CATEGORY:string = `${BASE_API}/api/categories-management`;
+export const API_CATEGORY:string = `${BASE_API}/api/categorise-management`;
 export const API_STATUS:string = `${BASE_API}/api/status-management`;
 

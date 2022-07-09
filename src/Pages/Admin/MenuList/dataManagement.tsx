@@ -12,7 +12,7 @@ import {
   IconList,
   IconBoxMultiple,
   IconFolders,
-  IconLayout, IconBuildingStore, IconPresentation, IconHierarchy, IconBrandAirtable
+  IconLayout, IconBuildingStore, IconPresentation, IconHierarchy, IconBrandAirtable, IconMessages, IconMessage2, IconNotes
 } from '@tabler/icons';
 
 
@@ -49,7 +49,7 @@ const users = [
 
 const books = [
   {
-    id: 'id-books-default',
+    id: 'id-books-ebook',
     title: 'Ebooks',
     type: types.item,
     url: '/table/books/ebooks',
@@ -73,6 +73,23 @@ const books = [
     title: 'Chapters',
     type: types.item,
     url: '/table/books/chapters', icon: IconBoxMultiple, breadcrumbs: false,
+  },
+]
+
+const reviews = [
+  {
+    id: 'id-reviews-review',
+    title: 'Review',
+    type: types.item,
+    url: '/table/reviews/review',
+    icon: IconNotes, breadcrumbs: false,
+  },
+  {
+    id: 'id-reviews-comment',
+    title: 'Comment',
+    type: types.item,
+    url: '/table/reviews/comment',
+    icon: IconMessage2, breadcrumbs: false,
   },
 ]
 
@@ -129,6 +146,13 @@ const colections = [
         url: '/colections/books',
         type: types.collapse, icon: IconNotebook, breadcrumbs: false,
         children: [...books]
+      },
+      {
+        id: 'id-colections-reviews',
+        title: 'Reviews',
+        url: '/colections/reviews',
+        type: types.collapse, icon: IconMessages, breadcrumbs: false,
+        children: [...reviews]
       },
       {
         id: 'id-colections-others',

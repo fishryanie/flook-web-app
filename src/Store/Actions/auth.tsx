@@ -32,6 +32,30 @@ const FindManyFeatureGroup = (token: string) => ({type: actionTypes.findFeatureG
 const FindManyFeatureGroupFailure = (data: any) => ({type: actionTypes.findFeatureGroupFailure, payload: data})
 const FindManyFeatureGroupSuccess = (data: any) => ({type: actionTypes.findFeatureGroupSuccess, payload: data})
 
+const DeleteRole = (id: any) => ({type: actionTypes.deleteRole, payload: id})
+const DeleteRoleFailure = (data: any) => ({type: actionTypes.deleteRoleFailure, payload: data})
+const DeleteRoleSuccess = (data: any) => ({type: actionTypes.deleteRoleSuccess, payload: data})
+
+const DeletedRole = (id: any) => ({type: actionTypes.deletedRole, payload: id})
+const DeletedRoleFailure = (data: any) => ({type: actionTypes.deletedRoleFailure, payload: data})
+const DeletedRoleSuccess = (data: any) => ({type: actionTypes.deletedRoleSuccess, payload: data})
+
+const DeletedManyRole = (data:any) => ({type: actionTypes.deletedManyRole, payload: data})
+const DeletedManyRoleFailure = (data:any) => ({type: actionTypes.deletedManyRoleFailure, payload: data});
+const DeletedManyRoleSuccess = (data:any) => ({type: actionTypes.deletedManyRoleSuccess, payload: data});
+
+const DeleteUser = (id: any) => ({type: actionTypes.deleteUser, payload: id})
+const DeleteUserFailure = (data: any) => ({type: actionTypes.deleteUserFailure, payload: data})
+const DeleteUserSuccess = (data: any) => ({type: actionTypes.deleteUserSuccess, payload: data})
+
+const DeletedUser = (id: any) => ({type: actionTypes.deletedUser, payload: id})
+const DeletedUserFailure = (data: any) => ({type: actionTypes.deletedUserFailure, payload: data})
+const DeletedUserSuccess = (data: any) => ({type: actionTypes.deletedUserSuccess, payload: data})
+
+const DeletedManyUser = (data:any) => ({type: actionTypes.deletedManyUser, payload: data})
+const DeletedManyUserFailure = (data:any) => ({type: actionTypes.deletedManyUserFailure, payload: data});
+const DeletedManyUserSuccess = (data:any) => ({type: actionTypes.deletedManyUserSuccess, payload: data});
+
 
 export default {
   Login, LoginSuccess, LoginFailure, 
@@ -44,4 +68,12 @@ export default {
 
   FindManyFeature, FindManyFeatureFailure, FindManyFeatureSuccess,
   FindManyFeatureGroup, FindManyFeatureGroupFailure, FindManyFeatureGroupSuccess,
+
+  DeleteRole, DeleteRoleFailure, DeleteRoleSuccess,
+  DeletedRole, DeletedRoleFailure, DeletedRoleSuccess,
+  DeletedManyRole, DeletedManyRoleFailure, DeletedManyRoleSuccess,
+
+  DeleteUser, DeleteUserFailure, DeleteUserSuccess,
+  DeletedUser, DeletedUserFailure, DeletedUserSuccess,
+  DeletedManyUser, DeletedManyUserFailure, DeletedManyUserSuccess,
 }

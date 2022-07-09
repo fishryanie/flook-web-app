@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
 import { LoginSchema } from '../../../../Functions/Validator';
 import { columnsEbooks } from '../../../../Components/TypeColums';
@@ -34,6 +34,7 @@ import InputCustom from '../../../../Components/TextFieldCustom';
 import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
+import actionTypes from '../../../../Store/Actions/constants';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -120,22 +121,57 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const onSubmit = (data: any) => {
-    // dispatch(Action.app.addManga(data));
-    console.log('values', data);
-  };
-
   const arrayAuthor = Selector.app.DataAllAuthor();
   const arrayGenre = Selector.app.DataAllGenre();
-  const arrayCategory = Selector.app.DataAllCategory();
-  const arrayStatus = Selector.app.DataAllStatus();
+  // const arrayCategory = Selector.app.DataAllCategory();
+  // const arrayStatus = Selector.app.DataAllStatus();
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(Action.app.findAuthor());
     dispatch(Action.app.findGenre());
-    dispatch(Action.app.findCategories());
-    dispatch(Action.app.findStatus());
+    // dispatch(Action.app.findCategories());
+    // dispatch(Action.app.findStatus());
+  }, []);
+
+  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
+  const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
+
+  const handleToggle = (name: string) => () => {
+    dispatch({
+      type: actionTypes.openAccetp, payload: {
+        title: 'Just Checking...',
+        content: `Grant ${name} rights to ${infoRowTable?.title}`,
+        description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
+        handleYes: () => dispatch({ type: 'EDIT_EBOOK' })
+      }
+    })
+  }
+
+  const onSubmit = (data: any) => {
+    // dispatch(Action.app.addManga(data));
+    console.log('values', data);
+  };
+
+  console.log('inforowtable', infoRowTable);
+
+  // image
+  const [img, setImg] = useState();
+
+  const onImageChange = (e: any, setImg: any) => {
+    const [file] = e.target.files;
+    setImg(URL.createObjectURL(file));
+  };
+
+  // console.log('check', Object.getOwnPropertyNames(infoRowTable).length === 0)
+
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      setValue('title', infoRowTable?.title)
+      setValue('status', infoRowTable?.status)
+      setValue('description', infoRowTable?.description)
+      // setValue('title', infoRowTable?.title)
+    }
   }, []);
 
   return (
@@ -147,6 +183,9 @@ const RenderForm: React.FC = () => {
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
                 <InputCustom control={control} errors={errors.title} field="title" label="Tên" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <InputCustom control={control} errors={errors.status} field="status" label="Trạng Thái" />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <InputCustom control={control} errors={errors.description} field="description" label="Giới Thiệu" />
@@ -180,7 +219,7 @@ const RenderForm: React.FC = () => {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={12}>
+              {/* <Grid item xs={12} sm={12}>
                 <FormControl>
                   <FormLabel id="demo-customized-radios">Deleted</FormLabel>
                   <RadioGroup row defaultValue="false" aria-labelledby="demo-customized-radios" name="customized-radios" sx={{ display: 'flex' }}>
@@ -188,7 +227,7 @@ const RenderForm: React.FC = () => {
                     <FormControlLabel value="true" control={<BpRadio />} label="True" />
                   </RadioGroup>
                 </FormControl>
-              </Grid>
+              </Grid> */}
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <button className="handle-next-button" type="submit" onClick={handleNext}>
                   <span className="handle-next-button__title">Continue</span>
@@ -209,17 +248,17 @@ const RenderForm: React.FC = () => {
           <StepContent>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={arrayCategory} field="categorysId" label="categories" placeholder="Phân Loại" />
+                {/* <TextFieldSearch register={register} setValue={setValue} options={arrayCategory} field="categorysId" label="categories" placeholder="Phân Loại" /> */}
               </Grid>
               <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={arrayAuthor} field="authorsId" label="authors" placeholder="Tác Giả" />
+                <TextFieldSearch register={register} setValue={setValue} options={arrayAuthor} field="authors" label="authors" placeholder="Tác Giả" />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={arrayGenre} field="genresId" label="genres" placeholder="Thể Loại" />
+                <TextFieldSearch register={register} setValue={setValue} options={arrayGenre} field="genres" label="genres" placeholder="Thể Loại" />
               </Grid>
-              <Grid item xs={12} sm={12}>
+              {/* <Grid item xs={12} sm={12}>
                 <TextFieldSearch register={register} setValue={setValue} options={arrayStatus} field="statusId" label="status" placeholder="Trạng Thái" />
-              </Grid>
+              </Grid> */}
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <button className="handle-next-button" type="submit" onClick={handleNext}>
                   <span className="handle-next-button__title">Continue</span>
@@ -237,11 +276,21 @@ const RenderForm: React.FC = () => {
 
         <Step>
           <StepLabel>Choose Picture</StepLabel>
-          <StepContent></StepContent>
+          <StepContent>
+            <div>
+              {/* <input type='file' id='images' onChange={onImageChange} /> */}
+              <img src={img} alt="" />
+            </div>
+          </StepContent>
         </Step>
-        <Button disabled={activeStep === 0} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
-          Submit
-        </Button>
+        {activeStep === 4 &&
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+            <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
+              Submit
+            </Button>
+          </Paper>
+        }
       </Stepper>
     </form>
   );
@@ -341,14 +390,14 @@ const EbookData: React.FC = () => {
   }, []);
   console.log('arrayUser', arrayEbook)
   return (
-    <Box sx={{width: '100%', height: '100%'}}>
-      <WrapperDiaLog Component={DialogEbook}/>
-      <TableCustom 
-        title="User Data" 
-        array={arrayEbook} 
-        columns={columnsEbooks} 
+    <Box sx={{ width: '100%', height: '100%' }}>
+      <WrapperDiaLog Component={DialogEbook} />
+      <TableCustom
+        title="Ebook Data"
+        array={arrayEbook}
+        columns={columnsEbooks}
       />
-   
+
     </Box>
   );
 };

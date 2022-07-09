@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
 import { LoginSchema } from '../../../../Functions/Validator';
 import { columnsChapters } from '../../../../Components/TypeColums';
@@ -34,6 +34,7 @@ import InputCustom from '../../../../Components/TextFieldCustom';
 import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
+import actionTypes from '../../../../Store/Actions/constants';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -120,6 +121,38 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
+  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
+  const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
+
+  const handleToggle = (name: string) => () => {
+    dispatch({
+      type: actionTypes.openAccetp, payload: {
+        title: 'Just Checking...',
+        content: `Grant ${name} rights to ${infoRowTable?.name}`,
+        description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
+        handleYes: () => dispatch({ type: 'EDIT_CHAPTER' })
+      }
+    })
+  }
+
+  console.log('inforowtable', infoRowTable);
+
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      setValue('name', infoRowTable?.name)
+      // setValue('license', infoRowTable?.license?.userName)
+      // setValue('title', infoRowTable?.title)
+    }
+  }, []);
+
+
+  const arrayEbook = Selector.app.DataAllManga();
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(Action.app.findManyManga(''));
+  }, []);
+
   const onSubmit = (data: any) => {
     console.log('values', data);
   };
@@ -127,23 +160,14 @@ const RenderForm: React.FC = () => {
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stepper activeStep={activeStep} orientation="vertical">
         <Step>
-          <StepLabel>Info user</StepLabel>
+          <StepLabel>Info Chapter</StepLabel>
           <StepContent>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.displayName} field="displayName" label="DisplayName" />
+                <InputCustom control={control} errors={errors.name} field="name" label="Tên" />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.phoneNumber} field="phoneNumber" label="phoneNumber" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.userName} field="userName" label="UserName" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.email} field="email" label="Email" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.password} field="password" label="Password" />
+                <InputCustom control={control} errors={errors.status} field="status" label="Trạng Thái" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -162,63 +186,11 @@ const RenderForm: React.FC = () => {
         </Step>
 
         <Step>
-          <StepLabel>Choose other</StepLabel>
-          <StepContent>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">Vip</FormLabel>
-                  <RadioGroup row defaultValue="default" aria-labelledby="demo-customized-radios" name="customized-radios">
-                    <FormControlLabel value="default" control={<BpRadio />} label="No vip" />
-                    <FormControlLabel value="vip1" control={<BpRadio />} label="Vip 1" />
-                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 2" />
-                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 3" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">Gender</FormLabel>
-                  <RadioGroup row defaultValue="female" aria-labelledby="demo-customized-radios" name="customized-radios" sx={{ display: 'flex' }}>
-                    <FormControlLabel value="female" control={<BpRadio />} label="Female" />
-                    <FormControlLabel value="male" control={<BpRadio />} label="Male" />
-                    <FormControlLabel value="other" control={<BpRadio />} label="Other" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">IsActive</FormLabel>
-                  <RadioGroup row defaultValue="true" aria-labelledby="demo-customized-radios" name="customized-radios">
-                    <FormControlLabel value="true" control={<BpRadio />} label="Active" />
-                    <FormControlLabel value="false" control={<BpRadio />} label="No active" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
-              </Grid>
-            </Grid>
-          </StepContent>
-        </Step>
-
-        <Step>
           <StepLabel>Choose role</StepLabel>
           <StepContent>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="roles" label="roles" placeholder="Search" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="roles" label="status" placeholder="Status" />
+                <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="ebooks" label="Truyện" placeholder="Truyện" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -239,6 +211,14 @@ const RenderForm: React.FC = () => {
           <StepLabel>Choose Picture</StepLabel>
           <StepContent></StepContent>
         </Step>
+        {activeStep === 3 &&
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+            <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
+              Submit
+            </Button>
+          </Paper>
+        }
       </Stepper>
     </form>
   );
@@ -330,18 +310,18 @@ const DialogChapter: React.FC = () => {
 
 
 const ChapterData: React.FC = () => {
-  const arrayChapter = Selector.app.DataManyChapter();
+  const arrayChapter = Selector.app.DataAllChapter();
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
+    dispatch(Action.app.findChapter());
   }, []);
-  console.log('arrayUser', arrayChapter)
+  console.log('arrayChapter', arrayChapter)
   return (
     <Box sx={{width: '100%', height: '100%'}}>
       <WrapperDiaLog Component={DialogChapter}/>
       <TableCustom 
-        title="User Data" 
+        title="Chapter Data" 
         array={arrayChapter} 
         columns={columnsChapters} 
       />

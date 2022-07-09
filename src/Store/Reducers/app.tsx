@@ -2,21 +2,36 @@ import actionTypes from "../Actions/constants";
 
 const initialState = {
   authDiaLog: false,
+  accept: {
+    status: false,
+    title: 'Just Checking...',
+    content: 'Delete your Account?',
+    description: 'This action is final and you will be unable to recover any data',
+    handleYes: null
+  },
   openDrawer: true,
   openSearch: false,
   openNotify: false,
   openCart: false,
   isSubmitting: false,
-  infoRowTable: {}
+  infoRowTable: {},
+  typeDialog: '{}',
 };
 
 export const AppReducer = (state = initialState, action: any) => {
   switch (action.type) {
     case actionTypes.openDialog:{
-      return {...state, authDiaLog: true }
+      return {...state, authDiaLog: true, typeDialog: action.payload?.typeDialog }
     }
     case actionTypes.closeDialog:{
       return {...state, authDiaLog: false }
+    }
+    case actionTypes.openAccetp: {
+      return {...state, accept: {status: true, ...action.payload}}
+    }
+    case actionTypes.closeAccetp: {
+      state.accept.status = false
+      return {...state }
     }
     case actionTypes.onOffDrawer: { 
       return {...state, openDrawer: action.openDrawer }

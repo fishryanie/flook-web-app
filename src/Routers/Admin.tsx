@@ -12,6 +12,8 @@ const EbookData = Loadable(lazy(() => import('../Pages/Admin/Views/Books/EbookDa
 const ChapterData = Loadable(lazy(() => import('../Pages/Admin/Views/Books/ChapterData')));
 const CategoriesData = Loadable(lazy(() => import('../Pages/Admin/Views/Others/CategoriesData')));
 const StatusData = Loadable(lazy(() => import('../Pages/Admin/Views/Others/StatusData')));
+const CommentData = Loadable(lazy(() => import('../Pages/Admin/Views/Reviews/CommentData')));
+const ReviewData = Loadable(lazy(() => import('../Pages/Admin/Views/Reviews/ReviewData')));
 
 interface AdminRouter {
   path: string;
@@ -34,6 +36,8 @@ const AdminRouter: AdminRouter = {
     { path: namePage.tableGenre, element: <GenreData /> },
     { path: namePage.tableEbook, element: <EbookData /> },
     { path: namePage.tableChapter, element: <ChapterData /> },
+    { path: '/admin/table/reviews/comment', element: <CommentData /> },
+    { path: '/admin/table/reviews/review', element: <ReviewData /> },
     { path: '/admin/table/others/categories', element: <CategoriesData /> },
     { path: '/admin/table/others/status', element: <StatusData /> },
   ]

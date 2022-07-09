@@ -5,9 +5,12 @@ interface initialState{
   listAuthor: Array<string>;
   listBook: Array<string>;
   listAllBook: Array<string>;
+  listAllChapter: Array<string>;
   listChapter: Array<string>;
   listCategory: Array<string>;
   listStatus: Array<string>;
+  listReview: Array<string>;
+  listComment: Array<string>;
   addManga: object;
   oneManga: object;
   oneChapter: object;
@@ -21,7 +24,10 @@ const initialState: initialState = {
   listAuthor: [],
   listCategory: [],
   listStatus: [],
+  listAllChapter: [],
   listChapter: [],
+  listReview: [],
+  listComment: [],
   addManga: {},
   oneManga: {},
   oneChapter: {},
@@ -53,6 +59,9 @@ export const BookReducer = (state = initialState, action: any) => {
     case actionTypes.findAuthorSuccess: {
       return {...state, listAuthor: [...action.payload]}
     }
+    case actionTypes.findChapterSuccess: {
+      return {...state, listAllChapter: [...action.payload]}
+    }
     case actionTypes.findCategoriesSuccess:{
       return {...state, listCategory: [...action.payload]}
     }
@@ -68,6 +77,12 @@ export const BookReducer = (state = initialState, action: any) => {
     }
     case actionTypes.findChapterByIdSuccess: {
       return {...state, oneChapter: action.payload}
+    }
+    case actionTypes.findReviewSuccess: {
+      return {...state, listReview: [...action.payload]}
+    }
+    case actionTypes.findCommentSuccess: {
+      return {...state, listComment: [...action.payload]}
     }
     default: return {...state}
   }

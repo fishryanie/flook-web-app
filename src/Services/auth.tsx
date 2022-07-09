@@ -62,7 +62,7 @@ const ChangePass = async (data: any, token: string) => {
 const FindUser = async (data: any) => {
   const request = {
     method: 'GET',
-    api: API_AUTH + '/findManyUser',
+    api: API_AUTH + '/find-many-user',
     body: data
   };
   const response = await requestAPI(request);
@@ -72,7 +72,7 @@ const FindUser = async (data: any) => {
 const FindManyRole = async (data: any) => {
   const request = {
     method: 'GET',
-    api: API_ROLE + '/findMany',
+    api: API_ROLE + '/find-many-role',
     body: data
   };
   const response = await requestAPI(request);
@@ -99,11 +99,50 @@ const FindManyFeatureGroup = async (data: any) => {
   return response;
 }
 
+const deletedRole = async (id: any) => {
+  const request = {
+    method: 'DELETE',
+    api: `${API_ROLE}/remove-one-role?id=${id}`,
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
+const deletedUser = async (id: any) => {
+  const request = {
+    method: 'DELETE',
+    api: `${API_AUTH}/remove-one-user?id=${id}`,
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
+const deletedManyRole = async (data: any) => {
+  const request = {
+    method: 'DELETE',
+    api: `${API_ROLE}/remove-many-role`,
+    body: data
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
+const deletedManyUser = async (data: any) => {
+  const request = {
+    method: 'DELETE',
+    api: `${API_AUTH}/remove-many-user`,
+    body: data
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
 
 
 
 export default {
   Login, Register, ForgotPass, ChangePass, 
   FindUser, FindManyRole,
-  FindManyFeature, FindManyFeatureGroup
+  FindManyFeature, FindManyFeatureGroup,
+  deletedRole, deletedUser, deletedManyUser, deletedManyRole,
 }
