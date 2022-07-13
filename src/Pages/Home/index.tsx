@@ -3,7 +3,7 @@ import SliderItem from '../../Components/SliderCustom'
 import { dataCarouselDemo } from '../../Functions/settingsSlider'
 import Selector from '../../Store/Selector'
 import Action from '../../Store/Actions'
-import { useDispatch } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 
 const HomePage: React.FC = () => {
@@ -21,11 +21,11 @@ const HomePage: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const listBook = Selector.app.DataManyManga();
+  const listBook = useSelector((state: RootStateOrAny) => state.BookReducer.listBook)
   console.log(listBook)
 
   useEffect(() => {
-    dispatch(Action.app.findManga(data));
+    dispatch(Action.app.searchEbook(data));
   }, [dispatch, data]);
 
 

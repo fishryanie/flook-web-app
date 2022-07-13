@@ -18,7 +18,7 @@ const DataOneChapter = () => useSelector((state: RootStateOrAny) => state.BookRe
 const QuantityManga = () => useSelector((state: RootStateOrAny) => state.BookReducer.countBook);
 const QuantityChapter = () => useSelector((state: RootStateOrAny) => state.BookReducer.countChapter);
 
-const AddManga = () => useSelector((state: RootStateOrAny) => state.BookReducer.addManga);
+const InsertOneEbook = () => useSelector((state: RootStateOrAny) => state.BookReducer.insertOneEbook);
 
 export default {
   DataAllAuthor, DataAllGenre, DataAllManga, DataAllCategory, DataAllStatus,
@@ -26,5 +26,5 @@ export default {
   DataAllChapter, DataManyChapter, DataOneChapter,
   QuantityManga, QuantityChapter,
 
-  AddManga,
+  InsertOneEbook,
 }

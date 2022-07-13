@@ -27,16 +27,16 @@ export const AuthReducer = (state = stateDefault, action:any) => {
     case actionTypes.changePassSuccess: {
       return {...state, change: action.payload }
     }    
-    case actionTypes.findRoleSuccess: {
+    case actionTypes.findManyRoleSuccess: {
       return {...state, arrayRole: [...action.payload] }
     }        
-    case actionTypes.findUserSuccess: {
+    case actionTypes.findManyUserSuccess: {
       return {...state, arrayUser: [...action.payload] }
     }  
-    case actionTypes.findFeatureSuccess: {
+    case actionTypes.findManyFeatureSuccess: {
       return {...state, arrayFeature: [...action.payload]}
     }
-    case actionTypes.findFeatureGroupSuccess: {
+    case actionTypes.findManyFeatureGroupSuccess: {
       console.log('action.payload', action.payload)
       return {...state, arrayFeatureGroups: [...action.payload]}
     }  

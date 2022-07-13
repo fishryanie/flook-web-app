@@ -1,19 +1,24 @@
 import { put, all, takeLatest } from "redux-saga/effects";
 import { responseGenerator } from './index'
-import { notify } from '../../Functions/GlobalFunc'
+import { toastConfig } from '../../Functions/toast'
 import actionTypes from "../Actions/constants";
 import Services from "../../Services"
 import Action from "../Actions"
+import { toast } from "react-toastify";
+import Cookie from "../../hooks/Cookie";
 
 // GENRE
-function* FindGenre(){
+function* FindManyGenre(){
   try {
-    const response: responseGenerator = yield Services.app.findGenre();
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.findManyGenre(readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield put(Action.app.findGenreSuccess(response.data))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findManyGenreSuccess(response.data))
     }else {
-      yield put(Action.app.findGenreFailure(response.message))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findManyGenreFailure(response.message))
     }
   } catch (error) {
     console.log(error)
@@ -22,19 +27,18 @@ function* FindGenre(){
   }
 }
 
-function* DeletedGenre(action: any){
+function* RemoveOneGenre(action: any){
   try {
-    // const data = action.payload
-    // console.log(data)
-    const response: responseGenerator = yield Services.app.deletedGenre(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeOneGenre(action.payload, readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedGenreSuccess(response))
-      yield put(Action.app.findGenre())
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeOneGenreSuccess(response))
+      yield put(Action.app.findManyGenre())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedGenreFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.removeOneGenreFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -43,19 +47,20 @@ function* DeletedGenre(action: any){
   }
 }
 
-function* DeletedManyGenre(action: any){
+function* RemoveManyGenre(action: any){
   try {
     const data = action.payload
     console.log(data)
-    const response: responseGenerator = yield Services.app.deletedManyGenre(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeManyGenre(action.payload, readCookie);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedManyGenreSuccess(response))
-      yield put(Action.app.findGenre())
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeManyGenreSuccess(response))
+      yield put(Action.app.findManyGenre())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedManyGenreFailure(response))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeManyGenreFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -65,14 +70,17 @@ function* DeletedManyGenre(action: any){
 }
 
 // AUTHOR
-function* FindAuthor(){
+function* FindManyAuthor(){
   try {
-    const response: responseGenerator = yield Services.app.findAuthor();
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.findManyAuthor(readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield put(Action.app.findAuthorSuccess(response.data))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findManyAuthorSuccess(response.data))
     }else {
-      yield put(Action.app.findAuthorFailure(response.message))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findManyAuthorFailure(response.message))
     }
   } catch (error) {
     console.log(error)
@@ -81,19 +89,20 @@ function* FindAuthor(){
   }
 }
 
-function* DeletedAuthor(action: any){
+function* RemoveOneAuthor(action: any){
   try {
     // const data = action.payload
     // console.log(data)
-    const response: responseGenerator = yield Services.app.deletedAuthor(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeOneAuthor(action.payload, readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedAuthorSuccess(response))
-      yield put(Action.app.findAuthor())
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeOneAuthorSuccess(response))
+      yield put(Action.app.findManyAuthor())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedAuthorFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.removeOneAuthorFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -102,53 +111,20 @@ function* DeletedAuthor(action: any){
   }
 }
 
-function* DeletedManyAuthor(action: any){
+function* RemoveManyAuthor(action: any){
   try {
     const data = action.payload
     console.log(data)
-    const response: responseGenerator = yield Services.app.deletedManyAuthor(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeManyAuthor(action.payload, readCookie);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedManyAuthorSuccess(response))
-      yield put(Action.app.findAuthor())
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeManyAuthorSuccess(response))
+      yield put(Action.app.findManyAuthor())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedManyAuthorFailure(response))
-    }
-  } catch (error) {
-    console.log(error)
-  } finally {
-    console.log('saga')
-  }
-}
-
-// CATEGORIES
-function* FindCategories(){
-  try {
-    const response: responseGenerator = yield Services.app.findCategories();
-    console.log('response', response)
-    if(response.statusCode === 200){
-      yield put(Action.app.findCategoriesSuccess(response.data))
-    }else {
-      yield put(Action.app.findCategoriesFailure(response.message))
-    }
-  } catch (error) {
-    console.log(error)
-  } finally {
-    console.log('saga')
-  }
-}
-
-// STATUS
-function* FindStatus(){
-  try {
-    const response: responseGenerator = yield Services.app.findStatus();
-    console.log('response', response)
-    if(response.statusCode === 200){
-      yield put(Action.app.findStatusSuccess(response.data))
-    }else {
-      yield put(Action.app.findStatusFailure(response.message))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.removeManyAuthorFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -158,13 +134,16 @@ function* FindStatus(){
 }
 
 // MANGA
-function* AddManga(action: any) {
+function* InsertOneEbook(action: any) {
   try {
-    const response: responseGenerator = yield Services.app.createManga(action.payload)
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.insertOneEbook(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield put(Action.app.addMangaSuccess(response))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.insertOneEbookSuccess(response))
     } else {
-      yield put(Action.app.addMangaFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.insertOneEbookFailure(response))
     }
   } catch (error) {
     console.log('Error', error)
@@ -173,16 +152,18 @@ function* AddManga(action: any) {
   }
 }
 
-function* FindManga(action: any){
+function* SearchEbook(action: any){
   try {
     const data = action.payload
     console.log(data)
-    const response: responseGenerator = yield Services.app.findManga(action.payload);
+    const response: responseGenerator = yield Services.app.searchEbook(action.payload);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield put(Action.app.findMangaSuccess(response))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.searchEbookSuccess(response))
     }else {
-      yield put(Action.app.findMangaFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.searchEbookFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -191,15 +172,17 @@ function* FindManga(action: any){
   }
 }
 
-function* FindMangaById(action: any){
+function* FindOneEbook(action: any){
   const id = action.payload
   try {
-    const response: responseGenerator = yield Services.app.findMangaById(id);
+    const response: responseGenerator = yield Services.app.findOneEbook(id);
     console.log('response', response)
     if (response?.statusCode === 200 || response?.statusCode === 201) {
-      yield put(Action.app.findMangaByIdSuccess(response))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findOneEbookSuccess(response))
     }else{
-      yield put(Action.app.findMangaByIdFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findOneEbookFailure(response))
     }
   } catch (error) {
     console.log('Error DetailSagas', error)
@@ -208,16 +191,19 @@ function* FindMangaById(action: any){
   }
 }
 
-function* FindManyManga(action: any){
+function* FindManyEbook(action: any){
   try {
     // const data = action.payload
     // console.log(data)
-    const response: responseGenerator = yield Services.app.findManyManga(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.findManyEbook(readCookie);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield put(Action.app.findManyMangaSuccess(response))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findManyEbookSuccess(response))
     }else {
-      yield put(Action.app.findManyMangaFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findManyEbookFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -226,19 +212,20 @@ function* FindManyManga(action: any){
   }
 }
 
-function* DeletedManga(action: any){
+function* RemoveOneEbook(action: any){
   try {
     // const data = action.payload
     // console.log(data)
-    const response: responseGenerator = yield Services.app.deletedManga(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeOneEbook(action.payload, readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedMangaSuccess(response))
-      yield put(Action.app.findManyManga(''))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeOneEbookSuccess(response))
+      yield put(Action.app.findManyEbook())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedMangaFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.removeOneEbookFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -247,19 +234,20 @@ function* DeletedManga(action: any){
   }
 }
 
-function* DeletedManyManga(action: any){
+function* RemoveManyEbook(action: any){
   try {
     const data = action.payload
     console.log(data)
-    const response: responseGenerator = yield Services.app.deletedManyManga(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeManyEbook(action.payload, readCookie);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedManyMangaSuccess(response))
-      yield put(Action.app.findManyManga(''))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeManyEbookSuccess(response))
+      yield put(Action.app.findManyEbook())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedManyMangaFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.removeManyEbookFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -269,14 +257,17 @@ function* DeletedManyManga(action: any){
 }
 
 // CHAPTERS
-function* FindChapter(){
+function* FindManyChapter(){
   try {
-    const response: responseGenerator = yield Services.app.findChapter();
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.findManyChapter(readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield put(Action.app.findChapterSuccess(response.data))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findManyChapterSuccess(response.data))
     }else {
-      yield put(Action.app.findChapterFailure(response.message))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findManyChapterFailure(response.message))
     }
   } catch (error) {
     console.log(error)
@@ -285,15 +276,17 @@ function* FindChapter(){
   }
 }
 
-function* FindChapterByMangaId(action: any){
+function* FindOneChapterByEbook(action: any){
   const data = action.payload
   try {
-    const response: responseGenerator = yield Services.app.findChapterByMangaId(data);
+    const response: responseGenerator = yield Services.app.findOneChapterByEbook(data);
     console.log('response', response)
     if (response?.statusCode === 200 || response?.statusCode === 201) {
-      yield put(Action.app.findChapterByMangaIdSuccess(response))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findOneChapterByEbookSuccess(response))
     }else{
-      yield put(Action.app.findChapterByMangaIdFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findOneChapterByEbookFailure(response))
     }
   } catch (error) {
     console.log('Error Detail-ChapterSagas', error)
@@ -302,15 +295,17 @@ function* FindChapterByMangaId(action: any){
   }
 }
 
-function* FindChapterById(action: any){
+function* FindOneChapter(action: any){
   const id = action.payload
   try {
-    const response: responseGenerator = yield Services.app.findChapterById(id);
+    const response: responseGenerator = yield Services.app.findOneChapter(id);
     console.log('response', response)
     if (response?.statusCode === 200 || response?.statusCode === 201) {
-      yield put(Action.app.findChapterByIdSuccess(response))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findOneChapterSuccess(response))
     }else{
-      yield put(Action.app.findChapterByIdFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findOneChapterFailure(response))
     }
   } catch (error) {
     console.log('Error ChapterSagas', error)
@@ -319,19 +314,20 @@ function* FindChapterById(action: any){
   }
 }
 
-function* DeletedChapter(action: any){
+function* RemoveOneChapter(action: any){
   try {
     // const data = action.payload
     // console.log(data)
-    const response: responseGenerator = yield Services.app.deletedChapter(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeOneChapter(action.payload, readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedChapterSuccess(response))
-      yield put(Action.app.findChapter())
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeOneChapterSuccess(response))
+      yield put(Action.app.findManyChapter())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedChapterFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.removeOneChapterFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -340,19 +336,20 @@ function* DeletedChapter(action: any){
   }
 }
 
-function* DeletedManyChapter(action: any){
+function* RemoveManyChapter(action: any){
   try {
     const data = action.payload
     console.log(data)
-    const response: responseGenerator = yield Services.app.deletedManyChapter(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeManyChapter(action.payload, readCookie);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedManyChapterSuccess(response))
-      yield put(Action.app.findChapter())
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeManyChapterSuccess(response))
+      yield put(Action.app.findManyChapter())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedManyChapterFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.removeManyChapterFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -362,14 +359,17 @@ function* DeletedManyChapter(action: any){
 }
 
 // REVIEW
-function* FindReview(){
+function* FindManyReview(){
   try {
-    const response: responseGenerator = yield Services.app.findReview();
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.findManyReview(readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield put(Action.app.findReviewSuccess(response.data))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findManyReviewSuccess(response.data))
     }else {
-      yield put(Action.app.findReviewFailure(response.message))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findManyReviewFailure(response.message))
     }
   } catch (error) {
     console.log(error)
@@ -378,19 +378,20 @@ function* FindReview(){
   }
 }
 
-function* DeletedManyReview(action: any){
+function* RemoveManyReview(action: any){
   try {
     const data = action.payload
     console.log(data)
-    const response: responseGenerator = yield Services.app.deletedManyReview(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeManyReview(action.payload, readCookie);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedManyReviewSuccess(response))
-      yield put(Action.app.findReview())
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeManyReviewSuccess(response))
+      yield put(Action.app.findManyReview())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedManyReviewFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.removeManyReviewFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -400,14 +401,17 @@ function* DeletedManyReview(action: any){
 }
 
 // COMMENT
-function* FindComment(){
+function* FindManyComment(){
   try {
-    const response: responseGenerator = yield Services.app.findComment();
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.findManyComment(readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield put(Action.app.findCommentSuccess(response.data))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findManyCommentSuccess(response.data))
     }else {
-      yield put(Action.app.findCommentFailure(response.message))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findManyCommentFailure(response.message))
     }
   } catch (error) {
     console.log(error)
@@ -416,19 +420,20 @@ function* FindComment(){
   }
 }
 
-function* DeletedManyComment(action: any){
+function* RemoveManyComment(action: any){
   try {
     const data = action.payload
     console.log(data)
-    const response: responseGenerator = yield Services.app.deletedManyComment(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.removeManyComment(action.payload, readCookie);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.app.deletedManyCommentSuccess(response))
-      yield put(Action.app.findComment())
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.removeManyCommentSuccess(response))
+      yield put(Action.app.findManyComment())
     }else {
-      yield notify(response.message)
-      yield put(Action.app.deletedManyCommentFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.removeManyCommentFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -439,34 +444,31 @@ function* DeletedManyComment(action: any){
 
 export default function* appSaga() {
   yield all([
-    takeLatest(actionTypes.addManga, AddManga),
-    takeLatest(actionTypes.findManga, FindManga),
-    takeLatest(actionTypes.findMangaById, FindMangaById),
-    takeLatest(actionTypes.findManyManga, FindManyManga),
-    takeLatest(actionTypes.deletedManga, DeletedManga),
-    takeLatest(actionTypes.deletedManyManga, DeletedManyManga),
+    takeLatest(actionTypes.insertOneEbook, InsertOneEbook),
+    takeLatest(actionTypes.searchEbook, SearchEbook),
+    takeLatest(actionTypes.findOneEbook, FindOneEbook),
+    takeLatest(actionTypes.findManyEbook, FindManyEbook),
+    takeLatest(actionTypes.removeOneEbook, RemoveOneEbook),
+    takeLatest(actionTypes.removeManyEbook, RemoveManyEbook),
     
-    takeLatest(actionTypes.findGenre, FindGenre),
-    takeLatest(actionTypes.deletedGenre, DeletedGenre),
-    takeLatest(actionTypes.deletedManyGenre, DeletedManyGenre),
+    takeLatest(actionTypes.findManyGenre, FindManyGenre),
+    takeLatest(actionTypes.removeOneGenre, RemoveOneGenre),
+    takeLatest(actionTypes.removeManyGenre, RemoveManyGenre),
 
-    takeLatest(actionTypes.findAuthor, FindAuthor),
-    takeLatest(actionTypes.deletedAuthor, DeletedAuthor),
-    takeLatest(actionTypes.deletedManyAuthor, DeletedManyAuthor),
+    takeLatest(actionTypes.findManyAuthor, FindManyAuthor),
+    takeLatest(actionTypes.removeOneAuthor, RemoveOneAuthor),
+    takeLatest(actionTypes.removeManyAuthor, RemoveManyAuthor),
 
-    takeLatest(actionTypes.findCategories, FindCategories),
-    takeLatest(actionTypes.findStatus, FindStatus),
+    takeLatest(actionTypes.findManyChapter, FindManyChapter),
+    takeLatest(actionTypes.findOneChapterByEbook, FindOneChapterByEbook),
+    takeLatest(actionTypes.findOneChapter, FindOneChapter),
+    takeLatest(actionTypes.removeOneChapter, RemoveOneChapter),
+    takeLatest(actionTypes.removeManyChapter, RemoveManyChapter),
 
-    takeLatest(actionTypes.findChapter, FindChapter),
-    takeLatest(actionTypes.findChapterByMangaId, FindChapterByMangaId),
-    takeLatest(actionTypes.findChapterById, FindChapterById),
-    takeLatest(actionTypes.deletedChapter, DeletedChapter),
-    takeLatest(actionTypes.deletedManyChapter, DeletedManyChapter),
+    takeLatest(actionTypes.findManyReview, FindManyReview),
+    takeLatest(actionTypes.removeManyReview, RemoveManyReview),
 
-    takeLatest(actionTypes.findReview, FindReview),
-    takeLatest(actionTypes.deletedManyReview, DeletedManyReview),
-
-    takeLatest(actionTypes.findComment, FindComment),
-    takeLatest(actionTypes.deletedManyComment, DeletedManyComment),
+    takeLatest(actionTypes.findManyComment, FindManyComment),
+    takeLatest(actionTypes.removeManyComment, RemoveManyComment),
   ]) 
 }

@@ -1,10 +1,11 @@
 import { all, put, delay, takeLatest } from "redux-saga/effects";
-import { notify } from '../../Functions/GlobalFunc'
+import { toastConfig } from '../../Functions/toast'
 import { responseGenerator } from './index'
 import actionTypes from '../Actions/constants';
 import Cookie from '../../hooks/Cookie';
 import Services from '../../Services'
 import Action from '../Actions'
+import { toast } from "react-toastify";
 
 
 
@@ -13,15 +14,15 @@ function* Login(action: any) {
     const response: responseGenerator = yield Services.auth.Login(action.payload)
     console.log('response', response)
     if (response.statusCode === 200) {
-      yield Cookie.removeCookie('usrin');
+      yield Cookie.removeCookie('token');
       // set cookie
-      yield Cookie.setCookie('usrin', response.data.accessToken)
-      yield notify(response.message)
+      yield Cookie.setCookie('token', response.data.accessToken)
+      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.LoginSuccess(response))
       yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
     } else {
-      yield notify(response.message)
+      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.LoginFailure(response))
     }
   } catch (error) {
@@ -35,12 +36,12 @@ function* Register(action: any) {
   try {
     const response: responseGenerator = yield Services.auth.Register(action.payload)
     if (response.statusCode === 200) {
-      yield notify(response.message)
+      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.RegisterSuccess(response))
       yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
     } else {
-      yield notify(response.message)
+      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.RegisterFailure(response))
     }
   } catch (error) {
@@ -54,8 +55,10 @@ function* ForgotPass(action: any) {
   try {
     const response: responseGenerator = yield Services.auth.ForgotPass(action.payload)
     if (response.statusCode === 200) {
+      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.ForgotPassSuccess(response))
     } else {
+      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.ForgotPassFailure(response))
     }
   } catch (error) {
@@ -67,15 +70,16 @@ function* ForgotPass(action: any) {
 
 function* ChangePass(action: any) {
   try {
-    const readCookie = Cookie.getCookie('usrin')
+    const readCookie = Cookie.getCookie('token')
 
     const response: responseGenerator = yield Services.auth.ChangePass(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield notify(response.message)
+      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.ChangePassSuccess(response))
       yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
     } else {
+      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.ChangePassFailure(response))
     }
   } catch (error) {
@@ -85,13 +89,16 @@ function* ChangePass(action: any) {
   }
 }
 
-function* FindUser(action: any){
+function* FindManyUser(action: any){
+  const readCookie = Cookie.getCookie('token')
   try {
-    const response: responseGenerator = yield Services.auth.FindUser(action.payload)
+    const response: responseGenerator = yield Services.auth.FindManyUser(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield put(Action.auth.FindUserSuccess(response.data))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.auth.FindManyUserSuccess(response.data))
     }else{
-      yield put(Action.auth.FindUserFailure(response.message))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.auth.FindManyUserFailure(response.message))
     }
   } catch (error) {
     console.log('Error', error)
@@ -100,19 +107,20 @@ function* FindUser(action: any){
   }
 }
 
-function* DeletedUser(action: any){
+function* RemoveOneUser(action: any){
   try {
     // const data = action.payload
     // console.log(data)
-    const response: responseGenerator = yield Services.auth.deletedUser(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.RemoveOneUser(action.payload, readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.auth.DeletedUserSuccess(response))
-      yield put(Action.auth.FindUser(''))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.auth.RemoveOneUserSuccess(response))
+      yield put(Action.auth.FindManyUser(''))
     }else {
-      yield notify(response.message)
-      yield put(Action.auth.DeletedUserFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.auth.RemoveOneUserFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -121,19 +129,20 @@ function* DeletedUser(action: any){
   }
 }
 
-function* DeletedManyUser(action: any){
+function* RemoveManyUser(action: any){
   try {
     const data = action.payload
     console.log(data)
-    const response: responseGenerator = yield Services.auth.deletedManyUser(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.RemoveManyUser(action.payload, readCookie);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.auth.DeletedManyUserSuccess(response))
-      yield put(Action.auth.FindUser(''))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.auth.RemoveManyUserSuccess(response))
+      yield put(Action.auth.FindManyUser(''))
     }else {
-      yield notify(response.message)
-      yield put(Action.auth.DeletedManyUserFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.auth.RemoveManyUserFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -144,10 +153,13 @@ function* DeletedManyUser(action: any){
 
 function* FindManyRole(action: any){
   try {
-    const response: responseGenerator = yield Services.auth.FindManyRole(action.payload)
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.FindManyRole(action.payload, readCookie)
     if (response.statusCode === 200) {
+      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.FindManyRoleSuccess(response.data))
     }else{
+      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.FindManyRoleFailure(response.message))
     }
   } catch (error) {
@@ -157,19 +169,20 @@ function* FindManyRole(action: any){
   }
 }
 
-function* DeletedRole(action: any){
+function* RemoveOneRole(action: any){
   try {
     // const data = action.payload
     // console.log(data)
-    const response: responseGenerator = yield Services.auth.deletedRole(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.RemoveOneRole(action.payload, readCookie);
     console.log('response', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.auth.DeletedRoleSuccess(response))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.auth.RemoveOneRoleSuccess(response))
       yield put(Action.auth.FindManyRole(''))
     }else {
-      yield notify(response.message)
-      yield put(Action.auth.DeletedRoleFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.auth.RemoveOneRoleFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -178,19 +191,20 @@ function* DeletedRole(action: any){
   }
 }
 
-function* DeletedManyRole(action: any){
+function* RemoveManyRole(action: any){
   try {
     const data = action.payload
     console.log(data)
-    const response: responseGenerator = yield Services.auth.deletedManyRole(action.payload);
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.RemoveManyRole(action.payload, readCookie);
     console.log('response comic', response)
     if(response.statusCode === 200){
-      yield notify(response.message)
-      yield put(Action.auth.DeletedManyRoleSuccess(response))
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.auth.RemoveManyRoleSuccess(response))
       yield put(Action.auth.FindManyRole(''))
     }else {
-      yield notify(response.message)
-      yield put(Action.auth.DeletedManyRoleFailure(response))
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.auth.RemoveManyRoleFailure(response))
     }
   } catch (error) {
     console.log(error)
@@ -201,10 +215,13 @@ function* DeletedManyRole(action: any){
 
 function* FindManyFeature(action: any){
   try {
-    const response: responseGenerator = yield Services.auth.FindManyFeature(action.payload)
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.FindManyFeature(action.payload, readCookie)
     if (response.statusCode === 200) {
+      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.FindManyFeatureSuccess(response.data))
     }else{
+      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.FindManyFeatureFailure(response.message))
     }
   } catch (error) {
@@ -216,10 +233,13 @@ function* FindManyFeature(action: any){
 
 function* FindManyFeatureGroup(action: any){
   try {
-    const response: responseGenerator = yield Services.auth.FindManyFeatureGroup(action.payload)
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.FindManyFeatureGroup(action.payload, readCookie)
     if (response.statusCode === 200) {
+      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.FindManyFeatureGroupSuccess(response.data))
     }else{
+      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.FindManyFeatureGroupFailure(response.message))
     }
   } catch (error) {
@@ -237,16 +257,16 @@ export default function* authSaga() {
     takeLatest(actionTypes.forgotPass, ForgotPass),
     takeLatest(actionTypes.changePass, ChangePass),
 
-    takeLatest(actionTypes.findUser, FindUser),
-    takeLatest(actionTypes.deletedUser, DeletedUser),
-    takeLatest(actionTypes.deletedManyUser, DeletedManyUser),
+    takeLatest(actionTypes.findManyUser, FindManyUser),
+    takeLatest(actionTypes.removeOneUser, RemoveOneUser),
+    takeLatest(actionTypes.removeManyUser, RemoveManyUser),
 
-    takeLatest(actionTypes.findRole, FindManyRole),
-    takeLatest(actionTypes.deletedRole, DeletedRole),
-    takeLatest(actionTypes.deletedManyRole, DeletedManyRole),
+    takeLatest(actionTypes.findManyRole, FindManyRole),
+    takeLatest(actionTypes.removeOneRole, RemoveOneRole),
+    takeLatest(actionTypes.removeManyRole, RemoveManyRole),
 
-    takeLatest(actionTypes.findFeature, FindManyFeature),
-    takeLatest(actionTypes.findFeatureGroup, FindManyFeatureGroup),
+    takeLatest(actionTypes.findManyFeature, FindManyFeature),
+    takeLatest(actionTypes.findManyFeatureGroup, FindManyFeatureGroup),
 
   ])
 }

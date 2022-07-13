@@ -3,21 +3,6 @@ import Action from '../Store/Actions';
 import useScriptRef from '../hooks/useScriptRef';
 import { toast } from 'react-toastify';
 
-
-
-export const notify = message => {
-  toast(message, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-  });
-};
-
-
 export const SubmitForm = (dispatch, scriptedRef, type) => {
   return async (values, { setErrors , setStatus, setSubmitting }) => { 
     try {

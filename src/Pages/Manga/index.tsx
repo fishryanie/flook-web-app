@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from "react-hook-form";
 //Store
 import Action from '../../Store/Actions'
@@ -64,10 +64,10 @@ export const selectChapters: Array<Select> = [
 
 const MangaPage: React.FC = () => {
 
-  const ListBook = Selector.app.DataManyManga();
-  const ListAuthor = Selector.app.DataAllAuthor();
-  const ListGenres = Selector.app.DataAllGenre();
-  const CountBook = Selector.app.QuantityManga();
+  const ListBook = useSelector((state: RootStateOrAny) => state.BookReducer.listBook)
+  const ListAuthor = useSelector((state: RootStateOrAny) => state.BookReducer.listAuthor)
+  const ListGenres = useSelector((state: RootStateOrAny) => state.BookReducer.listGenre)
+  const CountBook = useSelector((state: RootStateOrAny) => state.BookReducer.countBook)
 
   const countComic = CountBook % 12 === 0 ? parseInt((CountBook/12).toString()) : parseInt((CountBook/12).toString()) + 1
   const [ openMenuStyle, setOpenMenuStyle ] = useState({opacity:0, height:0, visibility:'hidden'})
@@ -103,7 +103,7 @@ const MangaPage: React.FC = () => {
     data.sort = 'view'
     console.log(data);
     setData({...data, data})
-    dispatch(Action.app.findManga(data))
+    dispatch(Action.app.searchEbook(data))
   }
 
 
@@ -117,9 +117,9 @@ const MangaPage: React.FC = () => {
   
 
   useEffect(() => { 
-    dispatch(Action.app.findManga(data))
-    dispatch(Action.app.findGenre())
-    dispatch(Action.app.findAuthor())
+    dispatch(Action.app.searchEbook(data))
+    dispatch(Action.app.findManyGenre())
+    dispatch(Action.app.findManyAuthor())
   },[dispatch, data])
 
   return (

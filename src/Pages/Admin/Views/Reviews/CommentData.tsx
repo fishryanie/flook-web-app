@@ -122,8 +122,15 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const dataUser = Selector.auth.DataManyUser();
-  const arrayUser = dataUser?.map((item: any) => item?.userName)
+  const dispatch = useDispatch();
+
+  const arrayUser = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayUser);
+  const arrayEbook = useSelector((state: RootStateOrAny) => state.BookReducer.listAllBook);
+
+  useEffect(() => {
+    dispatch(Action.auth.FindManyUser(''));
+    dispatch(Action.app.findManyEbook());
+  }, []);
 
   const [open, setOpen] = useState();
   const handleClick = (index: any) => () => {
@@ -153,11 +160,6 @@ const RenderForm: React.FC = () => {
       // setValue('license', infoRowTable?.license?.userName)
       // setValue('title', infoRowTable?.title)
     }
-  }, []);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
   }, []);
 
   const onSubmit = (data: any) => {
@@ -330,11 +332,11 @@ const DialogComment: React.FC = () => {
 
 
 const CommentData: React.FC = () => {
-  const arrayComment = Selector.app.DataAllComment();
+  const arrayComment = useSelector((state: RootStateOrAny) => state.BookReducer.listComment);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.app.findComment());
+    dispatch(Action.app.findManyComment());
   }, []);
   console.log('arrayComment', arrayComment)
   return (

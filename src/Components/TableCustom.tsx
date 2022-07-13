@@ -82,20 +82,24 @@ const Toolbar: React.FC<toolbarProps> = (props) => {
   const handleDeleteMany = () => {
     let description = '', listDelete: Array<{ _id: string }> = []
     console.log('listDelete', listDelete)
-    selectionRow.forEach((row: any, title: any) => {
+    selectionRow.forEach((row: any) => {
       listDelete.push(row._id.toString())
-      description += row.name + ', '
-      // {
-      //   (row.name) === 'undefined'
-      //     ?
-      //     description += row.title + ', '
-      //     :
-      //     (row.userName === 'undefined')
-      //       ?
-      //       description += row.name + ', '
-      //       :
-      //       description += row.userName + ', '
-      // }
+
+      switch (title) {
+        case 'User Data':
+          return description += row.displayName + ', '
+
+        case 'Ebook Data':
+          return description += row.title + ', '
+
+        case 'Role Data' || 'Genre Data' || 'Author Data' || 'Chapter Data':
+          return description += row.name + ', '
+
+        case 'Review Data' || 'Comment Data':
+          return description += row.ebooks.title + ', '
+
+        default: break;
+      }
     })
     selectionRow.length > 0 && dispatch({
       type: actionTypes.openAccetp, payload: {
@@ -106,28 +110,28 @@ const Toolbar: React.FC<toolbarProps> = (props) => {
         handleYes: () => {
           switch (title) {
             case 'User Data':
-              return dispatch(Action.auth.DeletedManyUser(listDelete))
+              return dispatch(Action.auth.RemoveManyUser(listDelete))
 
             case 'Role Data':
-              return dispatch(Action.auth.DeletedManyRole(listDelete))
+              return dispatch(Action.auth.RemoveManyRole(listDelete))
 
             case 'Ebook Data':
-              return dispatch(Action.app.deletedManyManga(listDelete))
+              return dispatch(Action.app.removeManyEbook(listDelete))
 
             case 'Author Data':
-              return dispatch(Action.app.deletedManyAuthor(listDelete))
+              return dispatch(Action.app.removeManyAuthor(listDelete))
 
             case 'Genre Data':
-              return dispatch(Action.app.deletedManyGenre(listDelete))
+              return dispatch(Action.app.removeManyGenre(listDelete))
 
             case 'Chapter Data':
-              return dispatch(Action.app.deletedManyChapter(listDelete))
+              return dispatch(Action.app.removeManyChapter(listDelete))
 
             case 'Review Data':
-              return dispatch(Action.app.deletedManyReview(listDelete))
+              return dispatch(Action.app.removeManyReview(listDelete))
 
             case 'Comment Data':
-              return dispatch(Action.app.deletedManyComment(listDelete))
+              return dispatch(Action.app.removeManyComment(listDelete))
 
             default: break;
           }

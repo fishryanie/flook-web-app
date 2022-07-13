@@ -121,7 +121,7 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const arrayRole = Selector.auth.DataManyRole();
+  const arrayRole = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayRole)
 
   useEffect(() => {
     dispatch(Action.auth.FindManyRole(''));
@@ -491,7 +491,7 @@ const UserData: React.FC = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
+    dispatch(Action.auth.FindManyUser(''));
   }, []);
   console.log('arrayUser', arrayUser)
   return (

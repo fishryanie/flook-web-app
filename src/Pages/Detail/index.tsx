@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
@@ -18,7 +18,7 @@ const DetailPage: React.FC = () => {
   const id = params.id;
   console.log(id)
 
-  const CountChapter = Selector.app.QuantityChapter();
+  const CountChapter = useSelector((state: RootStateOrAny) => state.BookReducer.countChapter)
 
   const [data, setData] = useState({
     id: id,
@@ -32,11 +32,11 @@ const DetailPage: React.FC = () => {
 
   useEffect(() => {
     if (dataOneManga === '') {
-      dispatch(Action.app.findMangaById(id))
-      dispatch(Action.app.findChapterByMangaId(data))
+      dispatch(Action.app.findOneEbook(id))
+      dispatch(Action.app.findOneChapterByEbook(data))
     } else {
-      dispatch(Action.app.findMangaById(id))
-      dispatch(Action.app.findChapterByMangaId(data))
+      dispatch(Action.app.findOneEbook(id))
+      dispatch(Action.app.findOneChapterByEbook(data))
     }
   }, [dispatch, data]);
 

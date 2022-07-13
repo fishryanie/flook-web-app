@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { notify } from '../Functions/GlobalFunc'
 import actionTypes from '../Store/Actions/constants';
 
 const Accept: React.FC = () => {

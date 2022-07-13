@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Action from '../../Store/Actions';
 import Selector from '../../Store/Selector';
@@ -13,11 +13,11 @@ const ChapterPage: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const dataOneChapter = Selector.app.DataOneChapter();
+  const dataOneChapter = useSelector((state: RootStateOrAny) => state.BookReducer.oneChapter)
   console.log(dataOneChapter);
 
   useEffect(() => {
-    dispatch(Action.app.findChapterById(id))
+    dispatch(Action.app.findOneChapter(id))
   }, [dispatch]);
 
   return (

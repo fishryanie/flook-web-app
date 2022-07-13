@@ -41,9 +41,9 @@ const AuthDiaLog: React.FC = props => {
           </TabList>
         </Box>
         <TabPanel value="1" sx={styleTabPanel}><AuthWrapper Component={FormLogin}/></TabPanel>
-        <TabPanel value="2" sx={styleTabPanel}><AuthWrapper Component={FormRegister}/></TabPanel>
-        <TabPanel value="3" sx={styleTabPanel}><AuthWrapper Component={FormFogotPass} hidden={true}/></TabPanel>
-        <TabPanel value="4" sx={styleTabPanel}><AuthWrapper Component={FormChangePass} hidden={true}/></TabPanel>
+        {/* <TabPanel value="2" sx={styleTabPanel}><AuthWrapper Component={FormRegister}/></TabPanel> */}
+        {/* <TabPanel value="3" sx={styleTabPanel}><AuthWrapper Component={FormFogotPass} hidden={true}/></TabPanel> */}
+        {/* <TabPanel value="4" sx={styleTabPanel}><AuthWrapper Component={FormChangePass} hidden={true}/></TabPanel> */}
         {/* <TabPanel value="5" sx={{height: 600, width:450}}>
           <AuthWrapper Component={FormAppyAuthor}/>
         </TabPanel>

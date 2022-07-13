@@ -1,5 +1,6 @@
 import { requestAPI } from "../Functions/GlobalFunc";
-import { API_AUTH, API_ROLE, API_FEATURE, API_FEATURE_GROUP } from "../Configs/api";
+import { domain } from "../Configs/api";
+import apiString from '../Configs/api'
 
 
 interface login {
@@ -20,8 +21,8 @@ interface forgot {
 const Login = async (data: login) => {
   const request = {
     method: 'POST',
-    api: API_AUTH + '/login',
-    body: {...data, type: 'LOGIN_APP' }
+    api: domain + apiString.login,
+    body: {...data}
   };
   const response = await requestAPI(request);
   return response;
@@ -30,8 +31,8 @@ const Login = async (data: login) => {
 const Register = async (data: register) => {
   const request = {
     method: 'POST',
-    api: API_AUTH + '/register',
-    body: {...data, type: 'CREATE_APP' }
+    api: domain + apiString.register,
+    body: {...data}
   };
   const response = await requestAPI(request);
   return response;
@@ -40,7 +41,7 @@ const Register = async (data: register) => {
 const ForgotPass = async (data: forgot) => {
   const request = {
     method: 'PUT',
-    api: API_AUTH + '/forgotPassword',
+    api: domain + apiString.forgotPassword,
     body: data
   };
   const response = await requestAPI(request);
@@ -51,7 +52,7 @@ const ChangePass = async (data: any, token: string) => {
   console.log("service", data)
   const request = {
     method: 'PUT',
-    api: API_AUTH + '/changePassword',
+    api: domain + apiString.changePassword,
     body: data,
     token: token,
   };
@@ -59,79 +60,87 @@ const ChangePass = async (data: any, token: string) => {
   return response;
 }
 
-const FindUser = async (data: any) => {
+const FindManyUser = async (data: any, token: any) => {
   const request = {
     method: 'GET',
-    api: API_AUTH + '/find-many-user',
-    body: data
+    api: domain + apiString.findManyUser,
+    body: data,
+    token: token,
   };
   const response = await requestAPI(request);
   return response;
 }
 
-const FindManyRole = async (data: any) => {
+const FindManyRole = async (data: any, token: any) => {
   const request = {
     method: 'GET',
-    api: API_ROLE + '/find-many-role',
-    body: data
+    api: domain + apiString.findManyRole,
+    body: data,
+    token: token,
   };
   const response = await requestAPI(request);
   return response;
 }
 
-const FindManyFeature = async (data: any) => {
+const FindManyFeature = async (data: any, token: any) => {
   const request = {
     method: 'GET',
-    api: API_FEATURE + '/findMany',
-    body: data
+    api: domain + apiString.findManyFeature,
+    body: data,
+    token: token,
   };
   const response = await requestAPI(request);
   return response;
 }
 
-const FindManyFeatureGroup = async (data: any) => {
+const FindManyFeatureGroup = async (data: any, token: any) => {
   const request = {
     method: 'GET',
-    api: API_FEATURE_GROUP + '/findMany',
-    body: data
+    api: domain + apiString.findManyFeatureGroup,
+    body: data,
+    token: token,
   };
   const response = await requestAPI(request);
   return response;
 }
 
-const deletedRole = async (id: any) => {
+const RemoveOneRole = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_ROLE}/remove-one-role?id=${id}`,
+    api: domain + apiString.removeOneRole + `?id=${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedUser = async (id: any) => {
+const RemoveOneUser = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_AUTH}/remove-one-user?id=${id}`,
+    api: domain + apiString.removeOneUser + `?id=${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedManyRole = async (data: any) => {
+const RemoveManyRole = async (data: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_ROLE}/remove-many-role`,
-    body: data
+    api: domain + apiString.removeManyRole,
+    body: data,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedManyUser = async (data: any) => {
+const RemoveManyUser = async (data: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_AUTH}/remove-many-user`,
-    body: data
+    api: domain + apiString.removeManyUsers,
+    body: data,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
@@ -141,8 +150,14 @@ const deletedManyUser = async (data: any) => {
 
 
 export default {
-  Login, Register, ForgotPass, ChangePass, 
-  FindUser, FindManyRole,
-  FindManyFeature, FindManyFeatureGroup,
-  deletedRole, deletedUser, deletedManyUser, deletedManyRole,
+  Login, Register, ForgotPass, ChangePass,
+
+  FindManyUser, RemoveOneUser, RemoveManyUser,
+  
+  FindManyRole, RemoveOneRole, RemoveManyRole,
+
+  FindManyFeature, 
+  
+  FindManyFeatureGroup,
+  
 }

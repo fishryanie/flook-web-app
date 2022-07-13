@@ -1,5 +1,7 @@
 import actionTypes from "./constants";
 
+//=============================// ACCOUNT //====================================//
+
 const Login = (data:any) => ({type: actionTypes.login, payload: data})
 const LoginSuccess = (data: any) => ({type: actionTypes.loginSuccess, payload: data})
 const LoginFailure = (data: any) => ({type: actionTypes.loginFailure, payload: data})
@@ -16,46 +18,51 @@ const ChangePass = (data: any) => ({type: actionTypes.changePass, payload: data}
 const ChangePassSuccess = (data: any) => ({type: actionTypes.changePassSuccess, payload: data})
 const ChangePassFailure = (data: any) => ({type: actionTypes.changePassFailure, payload: data})
 
-const FindUser = (token:string) => ({type: actionTypes.findUser, payload: token})
-const FindUserFailure = (data: any) => ({type: actionTypes.findUserFailure, payload: data})
-const FindUserSuccess = (data: any) => ({type: actionTypes.findUserSuccess, payload: data})
+//=============================// USER //====================================//
 
-const FindManyRole = (token:string) => ({type: actionTypes.findRole, payload: token})
-const FindManyRoleFailure = (data: any) => ({type: actionTypes.findRoleFailure, payload: data})
-const FindManyRoleSuccess = (data: any) => ({type: actionTypes.findRoleSuccess, payload: data})
+const FindManyUser = (token:string) => ({type: actionTypes.findManyUser, payload: token})
+const FindManyUserFailure = (data: any) => ({type: actionTypes.findManyUserFailure, payload: data})
+const FindManyUserSuccess = (data: any) => ({type: actionTypes.findManyUserSuccess, payload: data})
 
-const FindManyFeature = (token:string) => ({type: actionTypes.findFeature, payload: token})
-const FindManyFeatureFailure = (data: any) => ({type: actionTypes.findFeatureFailure, payload: data})
-const FindManyFeatureSuccess = (data: any) => ({type: actionTypes.findFeatureSuccess, payload: data})
+const DeleteOneUser = (id: any) => ({type: actionTypes.deleteOneUser, payload: id})
+const DeleteOneUserFailure = (data: any) => ({type: actionTypes.deleteOneUserFailure, payload: data})
+const DeleteOneUserSuccess = (data: any) => ({type: actionTypes.deleteOneUserSuccess, payload: data})
 
-const FindManyFeatureGroup = (token: string) => ({type: actionTypes.findFeatureGroup, payload: token})
-const FindManyFeatureGroupFailure = (data: any) => ({type: actionTypes.findFeatureGroupFailure, payload: data})
-const FindManyFeatureGroupSuccess = (data: any) => ({type: actionTypes.findFeatureGroupSuccess, payload: data})
+const RemoveOneUser = (id: any) => ({type: actionTypes.removeOneUser, payload: id})
+const RemoveOneUserFailure = (data: any) => ({type: actionTypes.removeOneUserFailure, payload: data})
+const RemoveOneUserSuccess = (data: any) => ({type: actionTypes.removeOneUserSuccess, payload: data})
 
-const DeleteRole = (id: any) => ({type: actionTypes.deleteRole, payload: id})
-const DeleteRoleFailure = (data: any) => ({type: actionTypes.deleteRoleFailure, payload: data})
-const DeleteRoleSuccess = (data: any) => ({type: actionTypes.deleteRoleSuccess, payload: data})
+const RemoveManyUser = (data:any) => ({type: actionTypes.removeManyUser, payload: data})
+const RemoveManyUserFailure = (data:any) => ({type: actionTypes.removeManyUserFailure, payload: data});
+const RemoveManyUserSuccess = (data:any) => ({type: actionTypes.removeManyUserSuccess, payload: data});
 
-const DeletedRole = (id: any) => ({type: actionTypes.deletedRole, payload: id})
-const DeletedRoleFailure = (data: any) => ({type: actionTypes.deletedRoleFailure, payload: data})
-const DeletedRoleSuccess = (data: any) => ({type: actionTypes.deletedRoleSuccess, payload: data})
+//=============================// FEATURE //====================================//
 
-const DeletedManyRole = (data:any) => ({type: actionTypes.deletedManyRole, payload: data})
-const DeletedManyRoleFailure = (data:any) => ({type: actionTypes.deletedManyRoleFailure, payload: data});
-const DeletedManyRoleSuccess = (data:any) => ({type: actionTypes.deletedManyRoleSuccess, payload: data});
+const FindManyFeature = (token:string) => ({type: actionTypes.findManyFeature, payload: token})
+const FindManyFeatureFailure = (data: any) => ({type: actionTypes.findManyFeatureFailure, payload: data})
+const FindManyFeatureSuccess = (data: any) => ({type: actionTypes.findManyFeatureSuccess, payload: data})
 
-const DeleteUser = (id: any) => ({type: actionTypes.deleteUser, payload: id})
-const DeleteUserFailure = (data: any) => ({type: actionTypes.deleteUserFailure, payload: data})
-const DeleteUserSuccess = (data: any) => ({type: actionTypes.deleteUserSuccess, payload: data})
+const FindManyFeatureGroup = (token: string) => ({type: actionTypes.findManyFeatureGroup, payload: token})
+const FindManyFeatureGroupFailure = (data: any) => ({type: actionTypes.findManyFeatureGroupFailure, payload: data})
+const FindManyFeatureGroupSuccess = (data: any) => ({type: actionTypes.findManyFeatureGroupSuccess, payload: data})
 
-const DeletedUser = (id: any) => ({type: actionTypes.deletedUser, payload: id})
-const DeletedUserFailure = (data: any) => ({type: actionTypes.deletedUserFailure, payload: data})
-const DeletedUserSuccess = (data: any) => ({type: actionTypes.deletedUserSuccess, payload: data})
+//=============================// ROLE //====================================//
 
-const DeletedManyUser = (data:any) => ({type: actionTypes.deletedManyUser, payload: data})
-const DeletedManyUserFailure = (data:any) => ({type: actionTypes.deletedManyUserFailure, payload: data});
-const DeletedManyUserSuccess = (data:any) => ({type: actionTypes.deletedManyUserSuccess, payload: data});
+const FindManyRole = (token:string) => ({type: actionTypes.findManyRole, payload: token})
+const FindManyRoleFailure = (data: any) => ({type: actionTypes.findManyRoleFailure, payload: data})
+const FindManyRoleSuccess = (data: any) => ({type: actionTypes.findManyRoleSuccess, payload: data})
 
+const DeleteOneRole = (id: any) => ({type: actionTypes.deleteOneRole, payload: id})
+const DeleteOneRoleFailure = (data: any) => ({type: actionTypes.deleteOneRoleFailure, payload: data})
+const DeleteOneRoleSuccess = (data: any) => ({type: actionTypes.deleteOneRoleSuccess, payload: data})
+
+const RemoveOneRole = (id: any) => ({type: actionTypes.removeOneRole, payload: id})
+const RemoveOneRoleFailure = (data: any) => ({type: actionTypes.removeOneRoleFailure, payload: data})
+const RemoveOneRoleSuccess = (data: any) => ({type: actionTypes.removeOneRoleSuccess, payload: data})
+
+const RemoveManyRole = (data:any) => ({type: actionTypes.removeManyRole, payload: data})
+const RemoveManyRoleFailure = (data:any) => ({type: actionTypes.removeManyRoleFailure, payload: data});
+const RemoveManyRoleSuccess = (data:any) => ({type: actionTypes.removeManyRoleSuccess, payload: data});
 
 export default {
   Login, LoginSuccess, LoginFailure, 
@@ -63,17 +70,17 @@ export default {
   ForgotPass, ForgotPassSuccess, ForgotPassFailure,
   ChangePass, ChangePassSuccess, ChangePassFailure,
 
-  FindUser, FindUserFailure, FindUserSuccess,
+  FindManyUser, FindManyUserSuccess, FindManyUserFailure,
+  DeleteOneUser, DeleteOneUserSuccess, DeleteOneUserFailure,
+  RemoveOneUser, RemoveOneUserSuccess, RemoveOneUserFailure,
+  RemoveManyUser, RemoveManyUserSuccess, RemoveManyUserFailure,
+
   FindManyRole, FindManyRoleFailure, FindManyRoleSuccess,
+  DeleteOneRole, DeleteOneRoleSuccess, DeleteOneRoleFailure,
+  RemoveOneRole, RemoveOneRoleSuccess, RemoveOneRoleFailure,
+  RemoveManyRole, RemoveManyRoleSuccess, RemoveManyRoleFailure,
 
   FindManyFeature, FindManyFeatureFailure, FindManyFeatureSuccess,
   FindManyFeatureGroup, FindManyFeatureGroupFailure, FindManyFeatureGroupSuccess,
 
-  DeleteRole, DeleteRoleFailure, DeleteRoleSuccess,
-  DeletedRole, DeletedRoleFailure, DeletedRoleSuccess,
-  DeletedManyRole, DeletedManyRoleFailure, DeletedManyRoleSuccess,
-
-  DeleteUser, DeleteUserFailure, DeleteUserSuccess,
-  DeletedUser, DeletedUserFailure, DeletedUserSuccess,
-  DeletedManyUser, DeletedManyUserFailure, DeletedManyUserSuccess,
 }

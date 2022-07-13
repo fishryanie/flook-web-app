@@ -10,7 +10,7 @@ import Navigator from "./Components/Navigator"
 import NotificationSection from "./NotificationSection";
 import ProfileSection from "./ProfileSection";
 import namePage from "../../Constants/NamePage";
-import Dialog from '../../Components/WrapperDiaLog'
+import WrapperDiaLog from '../../Components/WrapperDiaLog'
 import AuthDiaLog from '../Auth'
 
 const Header = props => {
@@ -73,7 +73,7 @@ const Header = props => {
         <Navigator stringClass={openNav}/>
       </header>
       {carousel && <Carousel/>}
-      <Dialog Component={AuthDiaLog}/>
+      <WrapperDiaLog Component={AuthDiaLog}/>
     </HomeHeader>
   )
 }

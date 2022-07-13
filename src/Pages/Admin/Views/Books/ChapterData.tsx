@@ -35,6 +35,7 @@ import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
+import { BookReducer } from '../../../../Store/Reducers/book';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -140,17 +141,17 @@ const RenderForm: React.FC = () => {
   useEffect(() => {
     if (typeDialog !== 'FORM_CREATE') {
       setValue('name', infoRowTable?.name)
-      // setValue('license', infoRowTable?.license?.userName)
+      setValue('ebooks', infoRowTable?.ebooks?.title)
       // setValue('title', infoRowTable?.title)
     }
   }, []);
 
 
-  const arrayEbook = Selector.app.DataAllManga();
+  const arrayEbook = useSelector((state: RootStateOrAny) => state.BookReducer.listAllBook);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.app.findManyManga(''));
+    dispatch(Action.app.findManyEbook());
   }, []);
 
   const onSubmit = (data: any) => {
@@ -190,7 +191,7 @@ const RenderForm: React.FC = () => {
           <StepContent>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="ebooks" label="Truyện" placeholder="Truyện" />
+                <TextFieldSearch register={register} setValue={setValue} options={arrayEbook} field="ebooks" label="Truyện" placeholder="Truyện" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -310,11 +311,11 @@ const DialogChapter: React.FC = () => {
 
 
 const ChapterData: React.FC = () => {
-  const arrayChapter = Selector.app.DataAllChapter();
+  const arrayChapter = useSelector((state: RootStateOrAny) => state.BookReducer.listAllChapter);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.app.findChapter());
+    dispatch(Action.app.findManyChapter());
   }, []);
   console.log('arrayChapter', arrayChapter)
   return (

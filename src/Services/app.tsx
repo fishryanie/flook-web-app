@@ -1,20 +1,20 @@
-import { API_EBOOK, API_AUTHOR, API_GENRE, API_CHAPTER, API_CATEGORY, API_STATUS, API_REVIEW, API_COMMENT} from '../Configs/api'
+import {domain} from '../Configs/api';
+import apiString from '../Configs/api'
 import { requestAPI } from '../Functions/GlobalFunc';
-import zaloConfig from '../Configs/zalo'
-import HmacSHA256 from 'crypto-js'
 
 //===================================|| Genre ||===============================//
 
-const findGenre = async () => {
+const findManyGenre = async (token: any) => {
   const request = {
     method: 'GET',
-    api: API_GENRE + '/find-many-genre',
+    api: domain + apiString.findManyGenre,
+    token: token
   };
   const response = await requestAPI(request);
   return response;
 };
 
-const createGenre = async (data: any) => {
+const insertOneGenre = async (data: any) => {
   
 }
 
@@ -22,33 +22,31 @@ const updateGenre = async (data: any) => {
   
 }
 
-const removeGenre = async (data: any) => {
-  
-}
-
 const deleteGenre = async (id: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_GENRE}/delete-one-genre?id=${id}`,
+    api: domain + apiString.deleteOneGenre + `?id=${id}`,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedGenre = async (id: any) => {
+const removeOneGenre = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_GENRE}/remove-one-genre?id=${id}`,
+    api: domain + apiString.removeOneGenre + `?id=${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedManyGenre = async (data: any) => {
+const removeManyGenre = async (data: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_GENRE}/remove-many-genre`,
-    body: data
+    api: domain + apiString.removeManyGenre,
+    body: data,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
@@ -57,17 +55,18 @@ const deletedManyGenre = async (data: any) => {
 
 //===================================|| Author ||===============================//
 
-const findAuthor = async () => {
+const findManyAuthor = async (token: any) => {
   console.log('sevice')
   const request = {
     method: 'GET',
-    api: API_AUTHOR + '/find-many-author',
+    api: domain + apiString.findManyAuthor,
+    token: token
   };
   const response = await requestAPI(request);
   return response;
 };
 
-const createAuthor = async (data: any) => {
+const insertOneAuthor = async (data: any) => {
 
 }
 
@@ -75,33 +74,31 @@ const updateAuthor = async (data: any) => {
 
 }
 
-const removeAuthor = async (data: any) => {
-
-}
-
 const deleteAuthor = async (id: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_AUTHOR}/delete-one?id=${id}`,
+    api: `${domain}/delete-one?id=${id}`,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedAuthor = async (id: any) => {
+const removeOneAuthor = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_AUTHOR}/remove-one-author?id=${id}`,
+    api: `${domain + apiString.removeOneAuthor}?id=${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedManyAuthor = async (data: any) => {
+const removeManyAuthor = async (data: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_AUTHOR}/remove-many-author`,
-    body: data
+    api: domain + apiString.removeManyAuthor,
+    body: data,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
@@ -110,79 +107,78 @@ const deletedManyAuthor = async (data: any) => {
 
 //===================================|| Books ||================================//
 
-const findManga = async (data: any) => {
+const searchEbook = async (data: any) => {
   console.log('sevice')
   const request = {
     method: 'POST',
-    api: API_EBOOK + `/filterManga?page=${data.page}&sort=${data.sort}`,
+    api: domain + apiString.searchEbook + `?page=${data.page}&sort=${data.sort}`,
     body: data
   }
   const response = await requestAPI(request)
   return response
 }
 
-export const findMangaById = async (id: string)  => {
+export const findOneEbook = async (id: string)  => {
   const request = {
     method: 'GET',
-    api: `${API_EBOOK}/getMangaById/${id}`,
+    api: domain + apiString.findOneEbook + `?id=${id}`,
   }
   const response = await requestAPI(request)
   return response
 }
 
-export const findManyManga = async (data: any)  => {
+export const findManyEbook = async (token: any)  => {
   const request = {
     method: 'GET',
-    api: `${API_EBOOK}/find-ebook`,
-    body: data
+    api: domain + apiString.findManyEbook + `?deleted=false`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
 
-const createManga = async (data: any) => {
+const insertOneEbook = async (data: any, token: any) => {
   const request = {
     method: 'POST',
-    api: `${API_EBOOK}/addManga`,
-    body: data
+    api: domain + apiString.insertOneEbook,
+    body: data,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const updateManga = async (data: any) => {
+const updateEbook = async (data: any) => {
   
 }
 
-const removeManga = async (data: any) => {
-  
-}
-
-const deleteManga = async (id: any) => {
+const deleteEbook = async (id: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_EBOOK}/delete-one-ebook?id=${id}`,
+    api: domain + apiString.deleteOneEbook + `?id=${id}`,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedManga = async (id: any) => {
+const removeOneEbook = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_EBOOK}/remove-one-ebook?id=${id}`,
+    api: domain + apiString.removeOneEbook + `?id=${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedManyManga = async (data: any) => {
+const removeManyEbook = async (data: any, token: any) => {
   console.log('service', data)
   const request = {
     method: 'DELETE',
-    api: `${API_EBOOK}/remove-many-ebook`,
-    body: data
+    api: domain + apiString.removeManyEbook,
+    body: data,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
@@ -191,91 +187,87 @@ const deletedManyManga = async (data: any) => {
 
 //==================================|| Chapters ||===============================//
 
-const findChapter = async () => {
+const findManyChapter = async (token: any) => {
   console.log('sevice')
   const request = {
     method: 'GET',
-    api: API_CHAPTER + `/find-many-chapter`,
+    api: domain + apiString.findManyChapter,
+    token: token
   }
   const response = await requestAPI(request)
   return response
 }
 
-export const findChapterById = async (id: string)  => {
+export const findOneChapter = async (id: string)  => {
   const request = {
     method: 'GET',
-    api: `${API_CHAPTER}/getChapterById/${id}`,
+    api: domain + apiString.findOneChapter + `?id=${id}`,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const findChapterByMangaId = async (data: any) => {
+const findOneChapterByEbook = async (data: any) => {
   console.log('sevice')
   const request = {
     method: 'POST',
-    api: `${API_CHAPTER}/getChapterByMangaId/${data.id}?page=${data.page}&sort=${data.sort}`,
+    api: domain + apiString.findOneChapter + `?id=${data.id}&page=${data.page}&sort=${data.sort}`,
     body: data
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedChapter = async (id: any) => {
+const removeOneChapter = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_CHAPTER}/remove-one-chapter?id=${id}`,
+    api: domain + apiString.removeOneChapter + `?id=${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedManyChapter = async (data: any) => {
+const removeManyChapter = async (data: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_CHAPTER}/remove-many-chapter`,
-    body: data
+    api: domain + apiString.removeManyChapter,
+    body: data,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
-}
-
-
-const findAllBank = () => {
-  const reqtime = Date.now();
-  const params = {
-    appid: zaloConfig.appid,
-    reqtime: reqtime, // miliseconds
-    mac: CryptoJS.HmacSHA256(zaloConfig.appid + "|" + reqtime, zaloConfig.key1).toString() // appid|reqtime
-  };
 }
 
 //==================================|| Comment ||===============================//
 
-const findComment = async () => {
+const findManyComment = async (token: any) => {
   console.log('sevice')
   const request = {
     method: 'GET',
-    api: API_COMMENT + `/find-many-comment`,
+    api: domain + apiString.findManyComment,
+    token: token
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedComment = async (id: any) => {
+const removeOneComment = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_COMMENT}/remove-one-comment?id=${id}`,
+    api: domain + apiString.removeOneComment + `?id=${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedManyComment = async (data: any) => {
+const removeManyComment = async (data: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_COMMENT}/remove-many-comment`,
-    body: data
+    api: domain + apiString.removeManyComment,
+    body: data,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
@@ -283,62 +275,49 @@ const deletedManyComment = async (data: any) => {
 
 //==================================|| Review ||===============================//
 
-const findReview = async () => {
+const findManyReview = async (token: any) => {
   console.log('sevice')
   const request = {
     method: 'GET',
-    api: API_REVIEW + `/find-many-review`,
+    api: domain + apiString.findManyReview,
+    token: token
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedReview = async (id: any) => {
+const removeOneReview = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_REVIEW}/remove-one-review?id${id}`,
+    api: domain + apiString.removeOneReview + `?id${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const deletedManyReview = async (data: any) => {
+const removeManyReview = async (data: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: `${API_REVIEW}/remove-many-review`,
-    body: data
+    api: domain + apiString.removeManyReview,
+    body: data,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
-
-//==================================|| Categories ||===============================//
-export const findCategories = async ()  => {
-  const request = {
-    method: 'GET',
-    api: `${API_CATEGORY}/findMany`,
-  }
-  const response = await requestAPI(request)
-  return response
-}
-
-//==================================|| Status ||===============================//
-export const findStatus = async ()  => {
-  const request = {
-    method: 'GET',
-    api: `${API_STATUS}/findStatus`,
-  }
-  const response = await requestAPI(request)
-  return response
-}
-
 
 export default {
-  findManga, findMangaById, findManyManga,createManga, updateManga, removeManga, deleteManga, deletedManga, deletedManyManga,
-  findGenre, createGenre, updateGenre, removeGenre, deleteGenre, deletedGenre, deletedManyGenre,
-  findAuthor, createAuthor, updateAuthor, removeAuthor, deleteAuthor, deletedAuthor,deletedManyAuthor,
-  findChapter, findChapterById, findChapterByMangaId, deletedChapter, deletedManyChapter,
-  findComment, deletedComment, deletedManyComment,
-  findReview, deletedReview, deletedManyReview,
-  findCategories, findStatus,
+  searchEbook, findOneEbook, findManyEbook, insertOneEbook, updateEbook, deleteEbook, removeOneEbook, removeManyEbook,
+
+  findManyGenre, insertOneGenre, updateGenre, deleteGenre, removeOneGenre, removeManyGenre,
+
+  findManyAuthor, insertOneAuthor, updateAuthor, deleteAuthor, removeOneAuthor, removeManyAuthor,
+
+  findManyChapter, findOneChapter, findOneChapterByEbook, removeOneChapter, removeManyChapter,
+
+  findManyComment, removeOneComment, removeManyComment,
+
+  findManyReview, removeOneReview, removeManyReview,
+
 }

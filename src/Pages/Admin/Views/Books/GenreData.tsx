@@ -123,13 +123,18 @@ const RenderForm: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const [open, setOpen] = useState();
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
   const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
 
-  const handleClick = (index: any) => () => {
-    setOpen(open === index ? null : index)
-  };
+  console.log('inforowtable', infoRowTable);
+
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      // setValue('images', infoRowTable?.images?.url)
+      setValue('name', infoRowTable?.name)
+      // setValue('title', infoRowTable?.title)
+    }
+  }, []);
 
   const handleToggle = (name: string) => () => {
     dispatch({
@@ -141,16 +146,6 @@ const RenderForm: React.FC = () => {
       }
     })
   }
-
-  console.log('inforowtable', infoRowTable);
-
-  useEffect(() => {
-    if (typeDialog !== 'FORM_CREATE') {
-      setValue('images', infoRowTable?.images?.url)
-      setValue('name', infoRowTable?.name)
-      // setValue('title', infoRowTable?.title)
-    }
-  }, []);
 
   const onSubmit = (data: any) => {
     console.log('values', data);
@@ -181,11 +176,11 @@ const RenderForm: React.FC = () => {
               </StepContent>
             </Step>
 
-            <Step>
+            {/* <Step>
               <StepLabel>Choose Picture</StepLabel>
               <StepContent></StepContent>
-            </Step>
-            {activeStep === 2 &&
+            </Step> */}
+            {activeStep === 1 &&
               <Paper square elevation={0} sx={{ p: 3 }}>
                 <Typography>All steps completed - you&apos;re finished</Typography>
                 <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
@@ -284,11 +279,11 @@ const DialogGenre: React.FC = () => {
 
 
 const GenreData: React.FC = () => {
-  const arrayGenre = Selector.app.DataAllGenre();
+  const arrayGenre = useSelector((state: RootStateOrAny) => state.BookReducer.listGenre);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.app.findGenre());
+    dispatch(Action.app.findManyGenre());
   }, []);
   console.log('arrayUser', arrayGenre)
   return (

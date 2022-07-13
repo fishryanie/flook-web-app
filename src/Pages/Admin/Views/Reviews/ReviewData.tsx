@@ -122,8 +122,15 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const dataUser = Selector.auth.DataManyUser();
-  const arrayUser = dataUser?.map((item: any) => item?.userName)
+  const dispatch = useDispatch();
+
+  const arrayUser = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayUser);
+  const arrayEbook = useSelector((state: RootStateOrAny) => state.BookReducer.listAllBook);
+
+  useEffect(() => {
+    dispatch(Action.auth.FindManyUser(''));
+    dispatch(Action.app.findManyEbook());
+  }, []);
 
   const [open, setOpen] = useState();
   const handleClick = (index: any) => () => {
@@ -153,11 +160,6 @@ const RenderForm: React.FC = () => {
       // setValue('license', infoRowTable?.license?.userName)
       // setValue('title', infoRowTable?.title)
     }
-  }, []);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
   }, []);
 
   const onSubmit = (data: any) => {
@@ -195,10 +197,10 @@ const RenderForm: React.FC = () => {
               <StepContent>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12}>
-                    <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="users" label="users" placeholder="Người dùng" />
+                    <TextFieldSearch register={register} setValue={setValue} options={arrayUser} field="users" label="users" placeholder="Người dùng" />
                   </Grid>
                   <Grid item xs={12} sm={12}>
-                    <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="ebooks" label="ebooks" placeholder="Truyện" />
+                    <TextFieldSearch register={register} setValue={setValue} options={arrayEbook} field="ebooks" label="ebooks" placeholder="Truyện" />
                   </Grid>
                   <Grid className="box-button-form" item xs={12} sm={12}>
                     <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -318,11 +320,11 @@ const DialogReview: React.FC = () => {
 
 
 const ReviewData: React.FC = () => {
-  const arrayReview = Selector.app.DataAllReview();
+  const arrayReview = useSelector((state: RootStateOrAny) => state.BookReducer.listReview);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.app.findReview());
+    dispatch(Action.app.findManyReview());
   }, []);
   console.log('arrayReview', arrayReview)
   return (

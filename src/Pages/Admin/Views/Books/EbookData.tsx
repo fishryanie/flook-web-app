@@ -35,6 +35,7 @@ import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
+import UpLoadImage from '../../../../Components/UpLoadImage'
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -121,15 +122,16 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const arrayAuthor = Selector.app.DataAllAuthor();
-  const arrayGenre = Selector.app.DataAllGenre();
+  const arrayAuthor = useSelector((state: RootStateOrAny) => state.BookReducer.listAuthor);
+  const arrayGenre = useSelector((state: RootStateOrAny) => state.BookReducer.listGenre);
   // const arrayCategory = Selector.app.DataAllCategory();
   // const arrayStatus = Selector.app.DataAllStatus();
 
   const dispatch = useDispatch();
+
   useEffect(() => {
-    dispatch(Action.app.findAuthor());
-    dispatch(Action.app.findGenre());
+    dispatch(Action.app.findManyAuthor());
+    dispatch(Action.app.findManyGenre());
     // dispatch(Action.app.findCategories());
     // dispatch(Action.app.findStatus());
   }, []);
@@ -155,22 +157,12 @@ const RenderForm: React.FC = () => {
 
   console.log('inforowtable', infoRowTable);
 
-  // image
-  const [img, setImg] = useState();
-
-  const onImageChange = (e: any, setImg: any) => {
-    const [file] = e.target.files;
-    setImg(URL.createObjectURL(file));
-  };
-
-  // console.log('check', Object.getOwnPropertyNames(infoRowTable).length === 0)
-
   useEffect(() => {
     if (typeDialog !== 'FORM_CREATE') {
       setValue('title', infoRowTable?.title)
       setValue('status', infoRowTable?.status)
       setValue('description', infoRowTable?.description)
-      // setValue('title', infoRowTable?.title)
+      setValue('authors', infoRowTable?.authors?.name)
     }
   }, []);
 
@@ -213,7 +205,7 @@ const RenderForm: React.FC = () => {
               <Grid item xs={12} sm={12}>
                 <FormControl>
                   <FormLabel id="demo-customized-radios">Vip</FormLabel>
-                  <RadioGroup row defaultValue="false" aria-labelledby="demo-customized-radios" name="customized-radios">
+                  <RadioGroup row defaultValue='false' aria-labelledby="demo-customized-radios" name="customized-radios">
                     <FormControlLabel value="false" control={<BpRadio />} label="No vip" />
                     <FormControlLabel value="true" control={<BpRadio />} label="Vip" />
                   </RadioGroup>
@@ -277,10 +269,7 @@ const RenderForm: React.FC = () => {
         <Step>
           <StepLabel>Choose Picture</StepLabel>
           <StepContent>
-            <div>
-              {/* <input type='file' id='images' onChange={onImageChange} /> */}
-              <img src={img} alt="" />
-            </div>
+            <UpLoadImage/>
           </StepContent>
         </Step>
         {activeStep === 4 &&
@@ -382,11 +371,11 @@ const DialogEbook: React.FC = () => {
 
 
 const EbookData: React.FC = () => {
-  const arrayEbook = Selector.app.DataAllManga();
+  const arrayEbook = useSelector((state: RootStateOrAny) => state.BookReducer.listAllBook);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.app.findManyManga(''));
+    dispatch(Action.app.findManyEbook());
   }, []);
   console.log('arrayUser', arrayEbook)
   return (

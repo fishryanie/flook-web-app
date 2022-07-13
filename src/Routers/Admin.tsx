@@ -10,8 +10,8 @@ const AuthorData = Loadable(lazy(() => import('../Pages/Admin/Views/Books/Author
 const GenreData = Loadable(lazy(() => import('../Pages/Admin/Views/Books/GenreData')));
 const EbookData = Loadable(lazy(() => import('../Pages/Admin/Views/Books/EbookData')));
 const ChapterData = Loadable(lazy(() => import('../Pages/Admin/Views/Books/ChapterData')));
-const CategoriesData = Loadable(lazy(() => import('../Pages/Admin/Views/Others/CategoriesData')));
-const StatusData = Loadable(lazy(() => import('../Pages/Admin/Views/Others/StatusData')));
+const CategoriesData = Loadable(lazy(() => import('../Pages/Admin/Views/Books/ChapterData')));
+const StatusData = Loadable(lazy(() => import('../Pages/Admin/Views/Books/ChapterData')));
 const CommentData = Loadable(lazy(() => import('../Pages/Admin/Views/Reviews/CommentData')));
 const ReviewData = Loadable(lazy(() => import('../Pages/Admin/Views/Reviews/ReviewData')));
 

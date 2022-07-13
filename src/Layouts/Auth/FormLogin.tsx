@@ -13,6 +13,8 @@ import useScriptRef from '../../hooks/useScriptRef';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
 import InputCustom from '../../Components/TextFieldCustom';
+import { useForm } from 'react-hook-form';
+import Action from '../../Store/Actions';
 
 const FormLogin: React.FC = () => {
   const [checked, setChecked] = useState(true);
@@ -23,33 +25,50 @@ const FormLogin: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  return (
-    <Formik initialValues={initialValues} validationSchema={LoginSchema} onSubmit={SubmitForm(dispatch, scriptedRef, 'LOGIN')}>
-      {({ handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, errors }) => (
-        <form noValidate onSubmit={handleSubmit}>
-          <Grid container spacing={1}>
-            <Grid item xs={12} sm={12}>
-              <InputCustom handleBlur={handleBlur} handleChange={handleChange} touched={touched.userName} values={values.userName} errors={errors.userName} field="userName" label="User Name" />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <InputCustom handleBlur={handleBlur} handleChange={handleChange} touched={touched.password} values={values.password} errors={errors.password} field="password" label="Password" />
-            </Grid>
-          </Grid>
-          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-            <FormControlLabel label="Remember me" control={<Checkbox checked={checked} onChange={(event: any) => setChecked(event.target.checked)} name="checked" color="primary" />} />
-            <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-              Forgot Password?
-            </Typography>
-          </Stack>
+  const {
+    control,
+    reset,
+    setValue,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    // resolver: yupResolver(LoginSchema),
+    mode: 'all',
+    criteriaMode: 'all',
+    shouldFocusError: true,
+  });
 
-          <Box sx={{ mt: 2 }}>
-            <Button size="large" type="submit" color="secondary" variant="contained" fullWidth disableElevation disabled={isSubmitting}>
-              Submit
-            </Button>
-          </Box>
-        </form>
-      )}
-    </Formik>
+  const onSubmit = (data: any) => {
+    dispatch(Action.auth.Login(data))
+    console.log('values', data);
+  };
+
+  return (
+
+    <form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12}>
+          <InputCustom control={control} errors={errors.username} field="username" label="Tên Đăng Nhập" />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <InputCustom control={control} errors={errors.password} field="password" label="Mật Khẩu" />
+        </Grid>
+      </Grid>
+      <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+        <FormControlLabel label="Remember me" control={<Checkbox checked={checked} onChange={(event: any) => setChecked(event.target.checked)} name="checked" color="primary" />} />
+        <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+          Forgot Password?
+        </Typography>
+      </Stack>
+
+      <Box sx={{ mt: 2 }}>
+        <Button size="large" type="submit" color="secondary" variant="contained" fullWidth disableElevation>
+          Submit
+        </Button>
+      </Box>
+    </form>
+
   );
 };
 

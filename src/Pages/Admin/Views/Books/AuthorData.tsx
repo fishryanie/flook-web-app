@@ -122,8 +122,7 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const dataUser = Selector.auth.DataManyUser();
-  const arrayUser = dataUser?.map((item: any) => item?.userName)
+  const arrayUser = useSelector((state: RootStateOrAny) => state.AppReducer.arrayUser)
 
   const [open, setOpen] = useState();
   const handleClick = (index: any) => () => {
@@ -157,7 +156,7 @@ const RenderForm: React.FC = () => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.auth.FindUser(''));
+    dispatch(Action.auth.FindManyUser(''));
   }, []);
 
   const onSubmit = (data: any) => {
@@ -195,7 +194,7 @@ const RenderForm: React.FC = () => {
               <StepContent>
                 <Grid container spacing={1}>
                   <Grid item xs={12} sm={12}>
-                    <TextFieldSearch register={register} setValue={setValue} options={selectRoles} field="license" label="license" placeholder="License" />
+                    <TextFieldSearch register={register} setValue={setValue} options={arrayUser} field="license" label="License" placeholder="License" />
                   </Grid>
                   <Grid className="box-button-form" item xs={12} sm={12}>
                     <button className="handle-next-button" type="submit" onClick={handleNext}>
@@ -315,11 +314,11 @@ const DialogAuthor: React.FC = () => {
 
 
 const AuthorData: React.FC = () => {
-  const arrayAuthor = Selector.app.DataAllAuthor();
+  const arrayAuthor = useSelector((state: RootStateOrAny) => state.BookReducer.listAuthor);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(Action.app.findAuthor());
+    dispatch(Action.app.findManyAuthor());
   }, []);
   console.log('arrayAuhtor', arrayAuthor)
   return (
