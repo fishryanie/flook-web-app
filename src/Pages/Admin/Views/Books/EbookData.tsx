@@ -36,6 +36,7 @@ import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
 import UpLoadImage from '../../../../Components/UpLoadImage'
+import SendIcon from '@mui/icons-material/Send';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -103,6 +104,10 @@ function BpRadio(props: RadioProps) {
 }
 
 const RenderForm: React.FC = () => {
+
+  const formData = new FormData();
+  const dispatch = useDispatch();
+
   const {
     control,
     reset,
@@ -124,20 +129,14 @@ const RenderForm: React.FC = () => {
 
   const arrayAuthor = useSelector((state: RootStateOrAny) => state.BookReducer.listAuthor);
   const arrayGenre = useSelector((state: RootStateOrAny) => state.BookReducer.listGenre);
-  // const arrayCategory = Selector.app.DataAllCategory();
-  // const arrayStatus = Selector.app.DataAllStatus();
 
-  const dispatch = useDispatch();
+  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable);
+  const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog);
 
   useEffect(() => {
     dispatch(Action.app.findManyAuthor());
     dispatch(Action.app.findManyGenre());
-    // dispatch(Action.app.findCategories());
-    // dispatch(Action.app.findStatus());
   }, []);
-
-  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
-  const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
 
   const handleToggle = (name: string) => () => {
     dispatch({
@@ -150,19 +149,54 @@ const RenderForm: React.FC = () => {
     })
   }
 
-  const onSubmit = (data: any) => {
-    // dispatch(Action.app.addManga(data));
-    console.log('values', data);
+  const onSubmit = (data: any, name: any) => {
+    if (typeDialog !== 'FORM_CREATE') {
+      dispatch({
+        type: actionTypes.openAccetp, payload: {
+          title: 'Just Checking...',
+          content: `Grant ${name} rights to ${infoRowTable?.title}`,
+          description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
+          handleYes: () => dispatch(Action.app.updateOneGenre(infoRowTable?._id, data))
+        }
+      })
+    }
+    else {
+      for (const key in data) {
+        if (key === 'images') {
+          formData.append(key, data[key][0])   
+        }
+        if(key === 'authors'){
+          Array.isArray(data[key])
+          ? data[key].forEach((row: any) => {
+            formData.append(key, row._id.toString());
+            })
+          :
+          formData.append(key, data[key])
+        }
+        if(key === 'genres'){
+          Array.isArray(data[key])
+          ? data[key].forEach((row: any) => {
+            formData.append(key, row._id.toString());
+            })
+          :
+          formData.append(key, data[key])
+        }
+        formData.append(key, data[key])
+      }
+      dispatch(Action.app.insertOneEbook(formData))
+    }
   };
 
   console.log('inforowtable', infoRowTable);
 
   useEffect(() => {
     if (typeDialog !== 'FORM_CREATE') {
-      setValue('title', infoRowTable?.title)
-      setValue('status', infoRowTable?.status)
-      setValue('description', infoRowTable?.description)
-      setValue('authors', infoRowTable?.authors?.name)
+      for (const key in infoRowTable) {
+        if (key === 'images') {
+          formData.append(key, infoRowTable[key]?.background?.url)   
+        }
+        formData.append(key, infoRowTable[key])
+      }
     }
   }, []);
 
@@ -183,15 +217,10 @@ const RenderForm: React.FC = () => {
                 <InputCustom control={control} errors={errors.description} field="description" label="Giới Thiệu" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
+              <Grid item sx={{mt:4}} xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
+              </Grid>
               </Grid>
             </Grid>
             <Box></Box>
@@ -221,15 +250,10 @@ const RenderForm: React.FC = () => {
                 </FormControl>
               </Grid> */}
               <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
+              <Grid item sx={{mt:4}} xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
+              </Grid>
               </Grid>
             </Grid>
           </StepContent>
@@ -252,15 +276,10 @@ const RenderForm: React.FC = () => {
                 <TextFieldSearch register={register} setValue={setValue} options={arrayStatus} field="statusId" label="status" placeholder="Trạng Thái" />
               </Grid> */}
               <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
+              <Grid item sx={{mt:4}} xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
+              </Grid>
               </Grid>
             </Grid>
           </StepContent>
@@ -269,15 +288,17 @@ const RenderForm: React.FC = () => {
         <Step>
           <StepLabel>Choose Picture</StepLabel>
           <StepContent>
-            <UpLoadImage/>
+          <UpLoadImage register={register} setValue={setValue} field='images'/>
+            <Grid item sx={{mt:4}} xs={12} sm={12}>
+              <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+              <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
+            </Grid>
           </StepContent>
         </Step>
-        {activeStep === 4 &&
+        {activeStep === 4 && 
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
-              Submit
-            </Button>
+            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Submit</Button>
           </Paper>
         }
       </Stepper>

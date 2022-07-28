@@ -5,6 +5,14 @@ const findManyGenre = () => ({ type: actionTypes.findManyGenre })
 const findManyGenreFailure = (data:any) => ({type: actionTypes.findManyGenreFailure, payload: data});
 const findManyGenreSuccess = (data:any) => ({type: actionTypes.findManyGenreSuccess, payload: data});
 
+const insertOneGenre = (data: any) => ({ type: actionTypes.insertOneGenre, payload: data});
+const insertOneGenreFailure = (data:any) => ({type: actionTypes.insertOneGenreFailure, payload: data});
+const insertOneGenreSuccess = (data:any) => ({type: actionTypes.insertOneGenreSuccess, payload: data});
+
+const updateOneGenre = (id: any, data: any) => ({ type: actionTypes.updateOneGenre, payload: { id, data }});
+const updateOneGenreFailure = (data:any) => ({type: actionTypes.updateOneGenreFailure, payload: data});
+const updateOneGenreSuccess = (data:any) => ({type: actionTypes.updateOneGenreSuccess, payload: data});
+
 const deleteOneGenre = (id: any) => ({type: actionTypes.deleteOneGenre, payload: id});
 const deleteOneGenreSuccess = (data: any) => ({type: actionTypes.deleteOneGenreSuccess, payload: data})
 const deleteOneGenreFailure = (data: any) => ({type: actionTypes.deleteOneGenreFailure, payload: data})
@@ -21,6 +29,14 @@ const removeManyGenreSuccess = (data:any) => ({type: actionTypes.removeManyGenre
 const findManyAuthor = () => ({type: actionTypes.findManyAuthor})
 const findManyAuthorFailure = (data:any) => ({type: actionTypes.findManyAuthorFailure, payload: data});
 const findManyAuthorSuccess = (data:any) => ({type: actionTypes.findManyAuthorSuccess, payload: data});
+
+const insertOneAuthor = (data: any) => ({ type: actionTypes.insertOneAuthor, payload: data});
+const insertOneAuthorFailure = (data:any) => ({type: actionTypes.insertOneAuthorFailure, payload: data});
+const insertOneAuthorSuccess = (data:any) => ({type: actionTypes.insertOneAuthorSuccess, payload: data});
+
+const updateOneAuthor = (id: any, data: any) => ({ type: actionTypes.updateOneAuthor, payload: { id, data }});
+const updateOneAuthorFailure = (data:any) => ({type: actionTypes.updateOneAuthorFailure, payload: data});
+const updateOneAuthorSuccess = (data:any) => ({type: actionTypes.updateOneAuthorSuccess, payload: data});
 
 const deleteOneAuthor = (id: any) => ({type: actionTypes.deleteOneAuthor, payload: id});
 const deleteOneAuthorSuccess = (data: any) => ({type: actionTypes.deleteOneAuthorSuccess, payload: data})
@@ -72,9 +88,13 @@ const findOneChapter = (id:any) => ({type: actionTypes.findOneChapter, payload: 
 const findOneChapterFailure = (data:any) => ({type: actionTypes.findOneChapterFailure, payload: data});
 const findOneChapterSuccess = (data:any) => ({type: actionTypes.findOneChapterSuccess, payload: data})
 
-const findOneChapterByEbook = (data:any) => ({type: actionTypes.findOneChapterByEbook, payload: data})
-const findOneChapterByEbookFailure = (data:any) => ({type: actionTypes.findOneChapterByEbookFailure, payload: data})
-const findOneChapterByEbookSuccess = (data:any) => ({type: actionTypes.findOneChapterByEbookSuccess, payload: data})
+const searchChapter = (data:any) => ({type: actionTypes.searchChapter, payload: data})
+const searchChapterFailure = (data:any) => ({type: actionTypes.searchChapterFailure, payload: data})
+const searchChapterSuccess = (data:any) => ({type: actionTypes.searchChapterSuccess, payload: data})
+
+const insertOneChapter = (data: any) => ({ type: actionTypes.insertOneChapter, payload: data});
+const insertOneChapterFailure = (data:any) => ({type: actionTypes.insertOneChapterFailure, payload: data});
+const insertOneChapterSuccess = (data:any) => ({type: actionTypes.insertOneChapterSuccess, payload: data});
 
 const removeOneChapter = (id: any) => ({type: actionTypes.removeOneChapter, payload: id});
 const removeOneChapterSuccess = (data: any) => ({type: actionTypes.removeOneChapterSuccess, payload: data})
@@ -89,6 +109,18 @@ const findManyReview = () => ({type: actionTypes.findManyReview})
 const findManyReviewFailure = (data:any) => ({type: actionTypes.findManyReviewFailure, payload: data});
 const findManyReviewSuccess = (data:any) => ({type: actionTypes.findManyReviewSuccess, payload: data})
 
+const insertOneReview = (data: any) => ({ type: actionTypes.insertOneReview, payload: data});
+const insertOneReviewFailure = (data:any) => ({type: actionTypes.insertOneReviewFailure, payload: data});
+const insertOneReviewSuccess = (data:any) => ({type: actionTypes.insertOneReviewSuccess, payload: data});
+
+const updateOneReview = (id: any, data: any) => ({ type: actionTypes.updateOneReview, payload: { id, data }});
+const updateOneReviewFailure = (data:any) => ({type: actionTypes.updateOneReviewFailure, payload: data});
+const updateOneReviewSuccess = (data:any) => ({type: actionTypes.updateOneReviewSuccess, payload: data});
+
+const removeOneReview = (id:any) => ({type: actionTypes.removeOneReview, payload: id})
+const removeOneReviewFailure = (data:any) => ({type: actionTypes.removeOneReviewFailure, payload: data});
+const removeOneReviewSuccess = (data:any) => ({type: actionTypes.removeOneReviewSuccess, payload: data});
+
 const removeManyReview = (data:any) => ({type: actionTypes.removeManyReview, payload: data})
 const removeManyReviewFailure = (data:any) => ({type: actionTypes.removeManyReviewFailure, payload: data});
 const removeManyReviewSuccess = (data:any) => ({type: actionTypes.removeManyReviewSuccess, payload: data});
@@ -98,6 +130,18 @@ const findManyComment = () => ({type: actionTypes.findManyComment})
 const findManyCommentFailure = (data:any) => ({type: actionTypes.findManyCommentFailure, payload: data});
 const findManyCommentSuccess = (data:any) => ({type: actionTypes.findManyCommentSuccess, payload: data})
 
+const insertOneComment = (data: any) => ({ type: actionTypes.insertOneComment, payload: data});
+const insertOneCommentFailure = (data:any) => ({type: actionTypes.insertOneCommentFailure, payload: data});
+const insertOneCommentSuccess = (data:any) => ({type: actionTypes.insertOneCommentSuccess, payload: data});
+
+const updateOneComment = (id: any, data: any) => ({ type: actionTypes.updateOneComment, payload: { id, data }});
+const updateOneCommentFailure = (data:any) => ({type: actionTypes.updateOneCommentFailure, payload: data});
+const updateOneCommentSuccess = (data:any) => ({type: actionTypes.updateOneCommentSuccess, payload: data});
+
+const removeOneComment = (id: any) => ({type: actionTypes.removeOneComment, payload: id})
+const removeOneCommentFailure = (data:any) => ({type: actionTypes.removeOneCommentFailure, payload: data});
+const removeOneCommentSuccess = (data:any) => ({type: actionTypes.removeOneCommentSuccess, payload: data});
+
 const removeManyComment = (data:any) => ({type: actionTypes.removeManyComment, payload: data})
 const removeManyCommentFailure = (data:any) => ({type: actionTypes.removeManyCommentFailure, payload: data});
 const removeManyCommentSuccess = (data:any) => ({type: actionTypes.removeManyCommentSuccess, payload: data});
@@ -106,11 +150,15 @@ const removeManyCommentSuccess = (data:any) => ({type: actionTypes.removeManyCom
 export default {
 
   findManyGenre, findManyGenreFailure, findManyGenreSuccess,
+  insertOneGenre, insertOneGenreSuccess, insertOneGenreFailure,
+  updateOneGenre, updateOneGenreSuccess, updateOneGenreFailure,
   deleteOneGenre, deleteOneGenreSuccess, deleteOneGenreFailure,
   removeOneGenre, removeOneGenreSuccess, removeOneGenreFailure,
   removeManyGenre, removeManyGenreSuccess, removeManyGenreFailure,
 
   findManyAuthor, findManyAuthorFailure, findManyAuthorSuccess,
+  insertOneAuthor, insertOneAuthorSuccess, insertOneAuthorFailure,
+  updateOneAuthor, updateOneAuthorSuccess, updateOneAuthorFailure,
   deleteOneAuthor, deleteOneAuthorSuccess, deleteOneAuthorFailure,
   removeOneAuthor, removeOneAuthorSuccess, removeOneAuthorFailure,
   removeManyAuthor, removeManyAuthorSuccess, removeManyAuthorFailure,
@@ -125,16 +173,23 @@ export default {
 
   findManyChapter, findManyChapterFailure, findManyChapterSuccess,
   findOneChapter, findOneChapterFailure, findOneChapterSuccess,
-  findOneChapterByEbook, findOneChapterByEbookFailure, findOneChapterByEbookSuccess,
+  searchChapter, searchChapterFailure, searchChapterSuccess,
+  insertOneChapter, insertOneChapterSuccess, insertOneChapterFailure,
   removeOneChapter, removeOneChapterSuccess, removeOneChapterFailure,
   removeManyChapter, removeManyChapterSuccess, removeManyChapterFailure,
 
   
 
   findManyReview, findManyReviewFailure, findManyReviewSuccess,
+  insertOneReview, insertOneReviewSuccess, insertOneReviewFailure,
+  updateOneReview, updateOneReviewSuccess, updateOneReviewFailure,
+  removeOneReview, removeOneReviewSuccess, removeOneReviewFailure,
   removeManyReview, removeManyReviewSuccess, removeManyReviewFailure,
 
   findManyComment, findManyCommentSuccess, findManyCommentFailure,
+  insertOneComment, insertOneCommentSuccess, insertOneCommentFailure,
+  updateOneComment, updateOneCommentSuccess, updateOneCommentFailure,
+  removeOneComment, removeOneCommentSuccess, removeOneCommentFailure,
   removeManyComment, removeManyCommentSuccess, removeManyCommentFailure,
     
 }

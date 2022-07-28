@@ -1,4 +1,4 @@
-import {domain} from '../Configs/api';
+import { domain } from '../Configs/api';
 import apiString from '../Configs/api'
 import { requestAPI } from '../Functions/GlobalFunc';
 
@@ -8,18 +8,32 @@ const findManyGenre = async (token: any) => {
   const request = {
     method: 'GET',
     api: domain + apiString.findManyGenre,
-    token: token
+    token: token,
   };
   const response = await requestAPI(request);
   return response;
 };
 
-const insertOneGenre = async (data: any) => {
-  
+const insertOneGenre = async (data: any, token: any) => {
+  const request = {
+    method: 'POST',
+    api: domain + apiString.insertOneGenre,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
 }
 
-const updateGenre = async (data: any) => {
-  
+const updateOneGenre = async (id: any, data: any, token: any) => {
+  const request = {
+    method: 'PUT',
+    api: domain + apiString.updateOneGenre + `?id=${id}`,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
 }
 
 const deleteGenre = async (id: any) => {
@@ -66,12 +80,26 @@ const findManyAuthor = async (token: any) => {
   return response;
 };
 
-const insertOneAuthor = async (data: any) => {
-
+const insertOneAuthor = async (data: any, token: any) => {
+  const request = {
+    method: 'POST',
+    api: domain + apiString.insertOneAuthor,
+    body: data,
+    token: token,
+  };
+  const response = await requestAPI(request);
+  return response;
 }
 
-const updateAuthor = async (data: any) => {
-
+const updateOneAuthor = async (id: any, data: any, token: any) => {
+  const request = {
+    method: 'PUT',
+    api: domain + apiString.updateOneAuthor + `?id=${id}`,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
 }
 
 const deleteAuthor = async (id: any) => {
@@ -107,27 +135,29 @@ const removeManyAuthor = async (data: any, token: any) => {
 
 //===================================|| Books ||================================//
 
-const searchEbook = async (data: any) => {
+const searchEbook = async (data: any, token: any) => {
   console.log('sevice')
   const request = {
     method: 'POST',
     api: domain + apiString.searchEbook + `?page=${data.page}&sort=${data.sort}`,
-    body: data
+    body: data,
+    token: token
   }
   const response = await requestAPI(request)
   return response
 }
 
-export const findOneEbook = async (id: string)  => {
+export const findOneEbook = async (id: string, token: any) => {
   const request = {
     method: 'GET',
     api: domain + apiString.findOneEbook + `?id=${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-export const findManyEbook = async (token: any)  => {
+export const findManyEbook = async (token: any) => {
   const request = {
     method: 'GET',
     api: domain + apiString.findManyEbook + `?deleted=false`,
@@ -149,8 +179,8 @@ const insertOneEbook = async (data: any, token: any) => {
   return response
 }
 
-const updateEbook = async (data: any) => {
-  
+const updateOneEbook = async (data: any) => {
+
 }
 
 const deleteEbook = async (id: any) => {
@@ -187,6 +217,17 @@ const removeManyEbook = async (data: any, token: any) => {
 
 //==================================|| Chapters ||===============================//
 
+const insertOneChapter = async (data: any, token: any) => {
+  const request = {
+    method: 'POST',
+    api: domain + apiString.insertOneChapter,
+    body: data,
+    token: token,
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
 const findManyChapter = async (token: any) => {
   console.log('sevice')
   const request = {
@@ -198,21 +239,23 @@ const findManyChapter = async (token: any) => {
   return response
 }
 
-export const findOneChapter = async (id: string)  => {
+export const findOneChapter = async (id: string, token: any) => {
   const request = {
     method: 'GET',
     api: domain + apiString.findOneChapter + `?id=${id}`,
+    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const findOneChapterByEbook = async (data: any) => {
+const searchChapter = async (data: any, token: any) => {
   console.log('sevice')
   const request = {
     method: 'POST',
-    api: domain + apiString.findOneChapter + `?id=${data.id}&page=${data.page}&sort=${data.sort}`,
-    body: data
+    api: domain + apiString.searchChapter + `?id=${data.id}&page=${data.page}&sort=${data.sort}`,
+    body: data,
+    token: token
   }
   const response = await requestAPI(request)
   return response
@@ -252,6 +295,28 @@ const findManyComment = async (token: any) => {
   return response
 }
 
+const insertOneComment = async (data: any, token: any) => {
+  const request = {
+    method: 'POST',
+    api: domain + apiString.insertOneComment,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
+const updateOneComment = async (id: any, data: any, token: any) => {
+  const request = {
+    method: 'PUT',
+    api: domain + apiString.updateOneComment + `?id=${id}`,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
 const removeOneComment = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
@@ -286,10 +351,32 @@ const findManyReview = async (token: any) => {
   return response
 }
 
+const insertOneReview = async (data: any, token: any) => {
+  const request = {
+    method: 'POST',
+    api: domain + apiString.insertOneReview,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
+const updateOneReview = async (id: any, data: any, token: any) => {
+  const request = {
+    method: 'PUT',
+    api: domain + apiString.updateOneReview + `?id=${id}`,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
 const removeOneReview = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
-    api: domain + apiString.removeOneReview + `?id${id}`,
+    api: domain + apiString.removeOneReview + `?id=${id}`,
     token: token,
   }
   const response = await requestAPI(request)
@@ -308,16 +395,16 @@ const removeManyReview = async (data: any, token: any) => {
 }
 
 export default {
-  searchEbook, findOneEbook, findManyEbook, insertOneEbook, updateEbook, deleteEbook, removeOneEbook, removeManyEbook,
+  searchEbook, findOneEbook, findManyEbook, insertOneEbook, updateOneEbook, deleteEbook, removeOneEbook, removeManyEbook,
 
-  findManyGenre, insertOneGenre, updateGenre, deleteGenre, removeOneGenre, removeManyGenre,
+  findManyGenre, insertOneGenre, updateOneGenre, deleteGenre, removeOneGenre, removeManyGenre,
 
-  findManyAuthor, insertOneAuthor, updateAuthor, deleteAuthor, removeOneAuthor, removeManyAuthor,
+  findManyAuthor, insertOneAuthor, updateOneAuthor, deleteAuthor, removeOneAuthor, removeManyAuthor,
 
-  findManyChapter, findOneChapter, findOneChapterByEbook, removeOneChapter, removeManyChapter,
+  findManyChapter, findOneChapter, searchChapter, insertOneChapter, removeOneChapter, removeManyChapter,
 
-  findManyComment, removeOneComment, removeManyComment,
+  findManyComment, insertOneComment, updateOneComment, removeOneComment, removeManyComment,
 
-  findManyReview, removeOneReview, removeManyReview,
+  findManyReview, insertOneReview, updateOneReview, removeOneReview, removeManyReview,
 
 }

@@ -10,7 +10,7 @@ const Register = (data:any) => ({type: actionTypes.register, payload: data})
 const RegisterSuccess = (data: any) => ({type: actionTypes.registerSuccess, payload: data})
 const RegisterFailure = (data: any) => ({type: actionTypes.registerFailure, payload: data})
 
-const ForgotPass = (data:any) => ({type: actionTypes.forgotPass, payload: data})
+const ForgotPass = (id: any, data:any) => ({type: actionTypes.forgotPass, payload: {id, data}})
 const ForgotPassSuccess = (data: any) => ({type: actionTypes.forgotPassSuccess, payload: data})
 const ForgotPassFailure = (data: any) => ({type: actionTypes.forgotPassFailure, payload: data})
 
@@ -23,6 +23,14 @@ const ChangePassFailure = (data: any) => ({type: actionTypes.changePassFailure, 
 const FindManyUser = (token:string) => ({type: actionTypes.findManyUser, payload: token})
 const FindManyUserFailure = (data: any) => ({type: actionTypes.findManyUserFailure, payload: data})
 const FindManyUserSuccess = (data: any) => ({type: actionTypes.findManyUserSuccess, payload: data})
+
+const InsertOneUser = (data: any) => ({ type: actionTypes.insertOneUser, payload: data});
+const InsertOneUserFailure = (data:any) => ({type: actionTypes.insertOneUserFailure, payload: data});
+const InsertOneUserSuccess = (data:any) => ({type: actionTypes.insertOneUserSuccess, payload: data});
+
+const UpdateOneUser = (id: any, data: any) => ({ type: actionTypes.updateOneUser, payload: { id, data }});
+const UpdateOneUserFailure = (data:any) => ({type: actionTypes.updateOneUserFailure, payload: data});
+const UpdateOneUserSuccess = (data:any) => ({type: actionTypes.updateOneUserSuccess, payload: data});
 
 const DeleteOneUser = (id: any) => ({type: actionTypes.deleteOneUser, payload: id})
 const DeleteOneUserFailure = (data: any) => ({type: actionTypes.deleteOneUserFailure, payload: data})
@@ -72,6 +80,8 @@ export default {
 
   FindManyUser, FindManyUserSuccess, FindManyUserFailure,
   DeleteOneUser, DeleteOneUserSuccess, DeleteOneUserFailure,
+  InsertOneUser, InsertOneUserSuccess, InsertOneUserFailure,
+  UpdateOneUser, UpdateOneUserSuccess, UpdateOneUserFailure,
   RemoveOneUser, RemoveOneUserSuccess, RemoveOneUserFailure,
   RemoveManyUser, RemoveManyUserSuccess, RemoveManyUserFailure,
 

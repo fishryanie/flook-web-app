@@ -27,6 +27,7 @@ import DialogActions from '@mui/material/DialogActions';
 import LinearProgress from '@mui/material/LinearProgress';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/material/CircularProgress';
+import SendIcon from '@mui/icons-material/Send';
 
 import TextFieldSearch from '../../../../Components/TextFieldSearch';
 import WrapperDiaLog from '../../../../Components/WrapperDiaLog';
@@ -35,6 +36,7 @@ import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
+import UpLoadImage from '../../../../Components/UpLoadImage';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -102,6 +104,16 @@ function BpRadio(props: RadioProps) {
 }
 
 const RenderForm: React.FC = () => {
+
+  const formData = new FormData()
+
+  const arrayRole = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayRole)
+  const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
+  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
+
+  const [open, setOpen] = useState();
+  const [activeStep, setActiveStep] = useState(0);
+
   const {
     control,
     reset,
@@ -116,24 +128,12 @@ const RenderForm: React.FC = () => {
     shouldFocusError: true,
   });
 
-  const [activeStep, setActiveStep] = useState(0);
+  const dispatch = useDispatch();
+
   const handleNext = () => setActiveStep(activeStep + 1);
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const arrayRole = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayRole)
-
-  useEffect(() => {
-    dispatch(Action.auth.FindManyRole(''));
-  }, []);
-
-  const [open, setOpen] = useState();
-  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
-  
-  const dispatch = useDispatch()
-  const handleClick = (index: any) => () => {
-    setOpen(open === index ? null : index)
-  };
 
   const handleToggle = (name: string) => () => {
     dispatch({type: actionTypes.openAccetp, payload: {
@@ -144,18 +144,40 @@ const RenderForm: React.FC = () => {
     }})
   }
 
-  console.log('inforowtable', infoRowTable);
-
   const onSubmit = (data: any) => {
-    console.log('values', data);
+    for (const key in data) {
+      if (key === 'images') {
+        formData.append(key, data[key][0])   
+      }
+      if(key === 'roles'){
+        Array.isArray(data[key])
+        ? data[key].forEach((row: any) => {
+          formData.append(key, row._id.toString());
+          })
+        :
+        formData.append(key, data[key])
+      }
+      formData.append(key, data[key])
+    }
+    console.log('formData', formData.getAll('roles'));
+    dispatch(Action.auth.InsertOneUser(formData))
   };
+
+
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      for (const key in infoRowTable) {
+        if (key === 'images') {
+          formData.append(key, infoRowTable[key].avatar)   
+        }
+        formData.append(key, infoRowTable[key])
+      }
+    }
+  }, []);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
-      {
-        ((infoRowTable: any) => infoRowTable === '') 
-      ?
-        <Stepper activeStep={activeStep} orientation="vertical">
+      <Stepper activeStep={activeStep} orientation="vertical">
         <Step>
           <StepLabel>Info user</StepLabel>
           <StepContent>
@@ -167,7 +189,7 @@ const RenderForm: React.FC = () => {
                 <InputCustom control={control} errors={errors.phoneNumber} field="phoneNumber" label="phoneNumber" />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.userName} field="userName" label="UserName" />
+                <InputCustom control={control} errors={errors.username} field="username" label="UserName" />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <InputCustom control={control} errors={errors.email} field="email" label="Email" />
@@ -175,16 +197,9 @@ const RenderForm: React.FC = () => {
               <Grid item xs={12} sm={12}>
                 <InputCustom control={control} errors={errors.password} field="password" label="Password" />
               </Grid>
-              <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
+              <Grid item sx={{mt:4}} xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
               </Grid>
             </Grid>
             <Box></Box>
@@ -225,16 +240,9 @@ const RenderForm: React.FC = () => {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
+              <Grid item sx={{mt:4}} xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
               </Grid>
             </Grid>
           </StepContent>
@@ -247,16 +255,9 @@ const RenderForm: React.FC = () => {
               <Grid item xs={12} sm={12}>
                 <TextFieldSearch register={register} setValue={setValue} options={arrayRole} field="roles" label="roles" placeholder="Role" />
               </Grid>
-              <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
+              <Grid item sx={{mt:4}} xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
               </Grid>
             </Grid>
           </StepContent>
@@ -264,139 +265,21 @@ const RenderForm: React.FC = () => {
 
         <Step>
           <StepLabel>Choose Picture</StepLabel>
-          <StepContent></StepContent>
+          <StepContent>
+            <UpLoadImage register={register} setValue={setValue} field='images'/>
+            <Grid item sx={{mt:4}} xs={12} sm={12}>
+              <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+              <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
+            </Grid>
+          </StepContent>
         </Step>
         {activeStep === 4 && 
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
-            Submit
-          </Button>
-        </Paper>
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Submit</Button>
+          </Paper>
         }
         </Stepper>
-      :
-        <Stepper activeStep={activeStep} orientation="vertical">
-        <Step>
-          <StepLabel>Info user</StepLabel>
-          <StepContent>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.displayName} field="displayName" label="DisplayName" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.phoneNumber} field="phoneNumber" label="phoneNumber" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.userName} field="userName" label="UserName" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.email} field="email" label="Email" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.password} field="password" label="Password" />
-              </Grid>
-              <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
-              </Grid>
-            </Grid>
-            <Box></Box>
-          </StepContent>
-        </Step>
-
-        <Step>
-          <StepLabel>Choose other</StepLabel>
-          <StepContent>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">Vip</FormLabel>
-                  <RadioGroup row defaultValue="false" aria-labelledby="demo-customized-radios" name="customized-radios">
-                    <FormControlLabel value="false" control={<BpRadio />} label="No vip" />
-                    <FormControlLabel value="vip1" control={<BpRadio />} label="Vip 1" />
-                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 2" />
-                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 3" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">Gender</FormLabel>
-                  <RadioGroup row defaultValue="female" aria-labelledby="demo-customized-radios" name="customized-radios" sx={{ display: 'flex' }}>
-                    <FormControlLabel value="female" control={<BpRadio />} label="Female" />
-                    <FormControlLabel value="male" control={<BpRadio />} label="Male" />
-                    <FormControlLabel value="other" control={<BpRadio />} label="Other" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">IsActive</FormLabel>
-                  <RadioGroup row defaultValue="true" aria-labelledby="demo-customized-radios" name="customized-radios">
-                    <FormControlLabel value="true" control={<BpRadio />} label="Active" />
-                    <FormControlLabel value="false" control={<BpRadio />} label="No active" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
-              </Grid>
-            </Grid>
-          </StepContent>
-        </Step>
-
-        <Step>
-          <StepLabel>Choose role</StepLabel>
-          <StepContent>
-            <Grid container spacing={1}>
-              <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={arrayRole} field="roles" label="roles" placeholder="Role" />
-              </Grid>
-              <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
-              </Grid>
-            </Grid>
-          </StepContent>
-        </Step>
-
-        <Step>
-          <StepLabel>Choose Picture</StepLabel>
-          <StepContent></StepContent>
-        </Step>
-        {activeStep === 4 && 
-        <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
-            Submit
-          </Button>
-        </Paper>
-        }
-        </Stepper>
-      }
     </form>
   );
 };
@@ -487,13 +370,15 @@ const DialogUser: React.FC = () => {
 
 
 const UserData: React.FC = () => {
+
   const arrayUser = Selector.auth.DataManyUser();
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(Action.auth.FindManyUser(''));
+    dispatch(Action.auth.FindManyRole(''));
   }, []);
-  console.log('arrayUser', arrayUser)
+
   return (
     <Box sx={{width: '100%', height: '100%'}}>
       <WrapperDiaLog Component={DialogUser}/>

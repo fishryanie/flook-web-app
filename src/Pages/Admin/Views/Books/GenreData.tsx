@@ -35,6 +35,7 @@ import TableCustom from '../../../../Components/TableCustom';
 import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
+import SendIcon from '@mui/icons-material/Send';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -102,6 +103,10 @@ function BpRadio(props: RadioProps) {
 }
 
 const RenderForm: React.FC = () => {
+
+  const formData = new FormData();
+  const dispatch = useDispatch();
+
   const {
     control,
     reset,
@@ -121,74 +126,67 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const dispatch = useDispatch();
-
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
   const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
 
   console.log('inforowtable', infoRowTable);
 
+
+  const onSubmit = (data: any, name: any) => {
+    if (typeDialog !== 'FORM_CREATE') {
+      dispatch({
+        type: actionTypes.openAccetp, payload: {
+          title: 'Just Checking...',
+          content: `Grant ${name} rights to ${infoRowTable?.name}`,
+          description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
+          handleYes: () => dispatch(Action.app.updateOneGenre(infoRowTable?._id, data))
+        }
+      })
+    }
+    else {
+      dispatch(Action.app.insertOneGenre(data))
+    }
+  };
+
   useEffect(() => {
     if (typeDialog !== 'FORM_CREATE') {
-      // setValue('images', infoRowTable?.images?.url)
-      setValue('name', infoRowTable?.name)
-      // setValue('title', infoRowTable?.title)
+      for (const key in infoRowTable) {
+        setValue(key, infoRowTable[key]);
+        formData.append(key, infoRowTable[key])
+      }
     }
   }, []);
 
-  const handleToggle = (name: string) => () => {
-    dispatch({
-      type: actionTypes.openAccetp, payload: {
-        title: 'Just Checking...',
-        content: `Grant ${name} rights to ${infoRowTable?.name}`,
-        description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
-        handleYes: () => dispatch({ type: 'EDIT_GENRE' })
-      }
-    })
-  }
-
-  const onSubmit = (data: any) => {
-    console.log('values', data);
-  };
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stepper activeStep={activeStep} orientation="vertical">
-            <Step>
-              <StepLabel>Info Genre</StepLabel>
-              <StepContent>
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={12}>
-                    <InputCustom control={control} errors={errors.name} field="name" label="Tên loại" />
-                  </Grid>
-                  <Grid className="box-button-form" item xs={12} sm={12}>
-                    <button className="handle-next-button" type="submit" onClick={handleNext}>
-                      <span className="handle-next-button__title">Continue</span>
-                      <span className="handle-next-button__icon">
-                        <i className="bx bx-check-double"></i>
-                      </span>
-                    </button>
-                    <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                      Back
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Box></Box>
-              </StepContent>
-            </Step>
+        <Step>
+          <StepLabel>Info Genre</StepLabel>
+          <StepContent>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12}>
+                <InputCustom control={control} errors={errors.name} field="name" label="Tên loại" />
+              </Grid>
+              <Grid className="box-button-form" item xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+              </Grid>
+            </Grid>
+            <Box></Box>
+          </StepContent>
+        </Step>
 
-            {/* <Step>
+        {/* <Step>
               <StepLabel>Choose Picture</StepLabel>
               <StepContent></StepContent>
             </Step> */}
-            {activeStep === 1 &&
-              <Paper square elevation={0} sx={{ p: 3 }}>
-                <Typography>All steps completed - you&apos;re finished</Typography>
-                <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
-                  Submit
-                </Button>
-              </Paper>
-            }
-          </Stepper>
+        {activeStep === 1 &&
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Submit</Button>
+          </Paper>
+        }
+      </Stepper>
     </form>
   );
 };

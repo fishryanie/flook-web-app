@@ -9,6 +9,8 @@ import Button from '@mui/material/Button';
 import Cookie from '../../hooks/Cookie';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import Action from '../../Store/Actions';
+import { useForm } from 'react-hook-form';
 
 const FormChangePass: React.FC = () => {
   const scriptedRef = useScriptRef();
@@ -18,64 +20,65 @@ const FormChangePass: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const readCookie = Cookie.getCookie('usrin')
+  const {
+    control,
+    reset,
+    setValue,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    // resolver: yupResolver(LoginSchema),
+    mode: 'all',
+    criteriaMode: 'all',
+    shouldFocusError: true,
+  });
 
-  console.log("token", readCookie)
+  const onSubmit = (data: any) => {
+    dispatch(Action.auth.ChangePass(data))
+    console.log('values', data);
+  };
 
   return (
-    <Formik initialValues={initialValues} validationSchema={ChangePasswordSchema} onSubmit={SubmitForm(dispatch, scriptedRef, 'CHANGEPASS')}>			
-      {({handleBlur, handleChange, handleSubmit, isSubmitting, touched, values, errors}) => (
-        <form noValidate onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-						<Grid item xs={12} sm={12}>
-              <InputCustom 
-                handleBlur={handleBlur} 
-                handleChange={handleChange} 
-                touched={touched.password} 
-                values={values.password} 
-                errors={errors.password} 
-                field='password'
-                label='Current Password'
-              />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <InputCustom 
-                handleBlur={handleBlur} 
-                handleChange={handleChange}
-                touched={touched.password_New} 
-                values={values.password_New} 
-                errors={errors.password_New} 
-                field='password_New' 
-                label='New Password'
-              />
-            </Grid>
-            <Grid item xs={12} sm={12}>
-              <InputCustom 
-                handleBlur={handleBlur} 
-                handleChange={handleChange} 
-                touched={touched.password_NewComfirm} 
-                values={values.password_NewComfirm} 
-                errors={errors.password_NewComfirm} 
-                field='password_NewComfirm' 
-                label='New Password Comfirm'
-              />
-            </Grid>
-          </Grid>
-          <Box sx={{ mt: 2 }}>
-            <Button 
-              size="large" 
-              type="submit" 
-              color="secondary"
-              variant="contained" 
-              fullWidth
-              disableElevation 
-              disabled={isSubmitting}>
-              Submit
-            </Button>
-          </Box>
-        </form>
-      )}
-    </Formik>
+    <form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12}>
+          <InputCustom control={control} errors={errors.password} field="password" label="Password" />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <InputCustom control={control} errors={errors.password_New} field="password_New" label="New Password" />
+        </Grid>
+        <Grid item xs={12} sm={12}>
+          <InputCustom control={control} errors={errors.password_NewComfirm} field="password_NewComfirm" label="Confirm Password" />
+        </Grid>
+      </Grid>
+      {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+        <FormControlLabel label="Remember me" control={
+          <Checkbox
+            checked={checked}
+            onChange={(event: any) => setChecked(event.target.checked)}
+            name="checked"
+            color="primary"
+          />}
+        />
+        <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+          Forgot Password?
+        </Typography>
+      </Stack> */}
+
+      <Box sx={{ mt: 2 }}>
+        <Button
+          disableElevation
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          color="secondary"
+        >
+          Submit
+        </Button>
+      </Box>
+    </form>
   );
 }
 

@@ -79,6 +79,10 @@ const actionTypes = {
   removeManyRoleFailure: 'REMOVE_MANY_ROLE_FAILURE',
   removeManyRoleSuccess: 'REMOVE_MANY_ROLE_SUCCESS',
 
+  updateOneRole: 'UPDATE_ONE_ROLE',
+  updateOneRoleFailure: 'UPDATE_ONE_ROLE_FAILURE',
+  updateOneRoleSuccess: 'UPDATE_ONE_ROLE_SUCCESS',
+
   deleteOneUser: 'DELETE_ONE_USER',
   deleteOneUserFailure: 'DELETE_ONE_USER_FAILURE',
   deleteOneUserSuccess: 'DELETE_ONE_USER_SUCCESS',
@@ -90,6 +94,14 @@ const actionTypes = {
   removeManyUser: 'REMOVE_MANY_USER',
   removeManyUserFailure: 'REMOVE_MANY_USER_FAILURE',
   removeManyUserSuccess: 'REMOVE_MANY_USER_SUCCESS',
+
+  insertOneUser: 'INSERT_ONE_USER',
+  insertOneUserFailure: 'INSERT_ONE_USER_FAILURE',
+  insertOneUserSuccess: 'INSERT_ONE_USER_SUCCESS',
+
+  updateOneUser: 'UPDATE_ONE_USER',
+  updateOneUserFailure: 'UPDATE_ONE_USER_FAILURE',
+  updateOneUserSuccess: 'UPDATE_ONE_USER_SUCCESS',
 
 
   // MOVIE
@@ -139,6 +151,10 @@ const actionTypes = {
   insertOneEbookFailure: 'INSERT_ONE_EBOOK_FAILURE',
   insertOneEbookSuccess: 'INSERT_ONE_EBOOK_SUCCESS',
 
+  updateOneEbook: 'UPDATE_ONE_EBOOK',
+  updateOneEbookFailure: 'UPDATE_ONE_EBOOK_FAILURE',
+  updateOneEbookSuccess: 'UPDATE_ONE_EBOOK_SUCCESS',
+
   deleteOneEbook: 'DELETE_ONE_EBOOK',
   deleteOneEbookFailure: 'DELETE_ONE_EBOOK_FAILURE',
   deleteOneEbookSuccess: 'DELETE_ONE_EBOOK_SUCCESS',
@@ -156,9 +172,13 @@ const actionTypes = {
   findManyAuthorFailure: "FIND_MANY_AUTHOR_FAILURE",
   findManyAuthorSuccess: "FIND_MANY_AUTHOR_SUCCESS",
 
-  findManyGenre: 'FIND_MANY_GENRE',
-  findManyGenreFailure: 'FIND_MANY_GENRE_FAILURE',
-  findManyGenreSuccess: 'FIND_MANY_GENRE_SUCCESS',
+  insertOneAuthor: 'INSERT_ONE_AUTHOR',
+  insertOneAuthorFailure: 'INSERT_ONE_AUTHOR_FAILURE',
+  insertOneAuthorSuccess: 'INSERT_ONE_AUTHOR_SUCCESS',
+
+  updateOneAuthor: 'UPDATE_ONE_AUTHOR',
+  updateOneAuthorFailure: 'UPDATE_ONE_AUTHOR_FAILURE',
+  updateOneAuthorSuccess: 'UPDATE_ONE_AUTHOR_SUCCESS',
 
   deleteOneAuthor: 'DELETE_ONE_AUTHOR',
   deleteOneAuthorFailure: 'DELETE_ONE_AUTHOR_FAILURE',
@@ -171,6 +191,19 @@ const actionTypes = {
   removeManyAuthor: 'REMOVE_MANY_AUTHOR',
   removeManyAuthorFailure: 'REMOVE_MANY_AUTHOR_FAILURE',
   removeManyAuthorSuccess: 'REMOVE_MANY_AUTHOR_SUCCESS',
+
+  //GENRE
+  findManyGenre: 'FIND_MANY_GENRE',
+  findManyGenreFailure: 'FIND_MANY_GENRE_FAILURE',
+  findManyGenreSuccess: 'FIND_MANY_GENRE_SUCCESS',
+
+  insertOneGenre: 'INSERT_ONE_GENRE',
+  insertOneGenreFailure: 'INSERT_ONE_GENRE_FAILURE',
+  insertOneGenreSuccess: 'INSERT_ONE_GENRE_SUCCESS',
+
+  updateOneGenre: 'UPDATE_ONE_GENRE',
+  updateOneGenreFailure: 'UPDATE_ONE_GENRE_FAILURE',
+  updateOneGenreSuccess: 'UPDATE_ONE_GENRE_SUCCESS',
 
   deleteOneGenre: 'DELETE_ONE_GENRE',
   deleteOneGenreFailure: 'DELETE_ONE_GENRE_FAILURE',
@@ -190,13 +223,21 @@ const actionTypes = {
   findManyChapterFailure: "FIND_MANY_CHAPTER_FAILURE",
   findManyChapterSuccess: "FIND_MANY_CHAPTER_SUCCESS",
 
-  findOneChapterByEbook: "FIND_ONE_CHAPTERS_BY_EBOOK",
-  findOneChapterByEbookFailure: "FIND_ONE_CHAPTER_BY_EBOOK_FAILURE",
-  findOneChapterByEbookSuccess: "FIND_ONE_CHAPTER_BY_EBOOK_SUCCESS",
+  searchChapter: "SEARCH_CHAPTER",
+  searchChapterFailure: "SEARCH_CHAPTER_FAILURE",
+  searchChapterSuccess: "SEARCH_CHAPTER_SUCCESS",
 
   findOneChapter: "FIND_ONE_CHAPTER",
   findOneChapterFailure: "FIND_ONE_CHAPTER_FAILURE",
   findOneChapterSuccess: "FIND_ONE_CHAPTER_SUCCESS",
+
+  insertOneChapter: "INSERT_ONE_CHAPTER",
+  insertOneChapterFailure: 'INSERT_ONE_CHAPTER_FAILURE',
+  insertOneChapterSuccess: 'INSERT_ONE_CHAPTER_SUCCESS',
+
+  updateOneChapter: 'UPDATE_ONE_CHAPTER',
+  updateOneChapterFailure: 'UPDATE_ONE_CHAPTER_FAILURE',
+  updateOneChapterSuccess: 'UPDATE_ONE_CHAPTER_SUCCESS',
 
   deleteOneChapter: 'DELETE_ONE_CHAPTER',
   deleteOneChapterFailure: 'DELETE_ONE_CHAPTER_FAILURE',
@@ -215,6 +256,14 @@ const actionTypes = {
   findManyReviewFailure: 'FIND_MANY_REVIEW_FAILURE',
   findManyReviewSuccess: 'FIND_MANY_REVIEW_SUCCESS',
 
+  insertOneReview: 'INSERT_ONE_REVIEW',
+  insertOneReviewFailure: 'INSERT_ONE_REVIEW_FAILURE',
+  insertOneReviewSuccess: 'INSERT_ONE_REVIEW_SUCCESS',
+
+  updateOneReview: 'UPDATE_ONE_REVIEW',
+  updateOneReviewFailure: 'UPDATE_ONE_REVIEW_FAILURE',
+  updateOneReviewSuccess: 'UPDATE_ONE_REVIEW_SUCCESS',
+
   removeOneReview: 'REMOVE_ONE_REVIEW',
   removeOneReviewFailure: 'REMOVE_ONE_REVIEW_FAILURE',
   removeOneReviewSuccess: 'REMOVE_ONE_REVIEW_SUCCESS',
@@ -227,6 +276,14 @@ const actionTypes = {
   findManyComment: 'FIND_MANY_COMMENT',
   findManyCommentFailure: 'FIND_MANY_COMMENT_FAILURE',
   findManyCommentSuccess: 'FIND_MANY_COMMENT_SUCCESS',
+
+  insertOneComment: 'INSERT_ONE_COMMENT',
+  insertOneCommentFailure: 'INSERT_ONE_COMMENT_FAILURE',
+  insertOneCommentSuccess: 'INSERT_ONE_COMMENT_SUCCESS',
+
+  updateOneComment: 'UPDATE_ONE_COMMENT',
+  updateOneCommentFailure: 'UPDATE_ONE_COMMENT_FAILURE',
+  updateOneCommentSuccess: 'UPDATE_ONE_COMMENT_SUCCESS',
 
   removeOneComment: 'REMOVE_ONE_COMMENT',
   removeOneCommentFailure: 'REMOVE_ONE_COMMENT_FAILURE',

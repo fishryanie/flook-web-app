@@ -58,7 +58,7 @@ export const BookReducer = (state = initialState, action: any) => {
     case actionTypes.findManyChapterSuccess: {
       return {...state, listAllChapter: [...action.payload]}
     }
-    case actionTypes.findOneChapterByEbookSuccess: {
+    case actionTypes.searchChapterSuccess: {
       return {
         ...state,
         countChapter: action.payload.count,

@@ -17,8 +17,8 @@ const handleDelete = (row: any, table: string) => () => {
   store.dispatch({
     type: actionTypes.openAccetp, payload: {
       title: 'Just Checking...',
-      content: `Delete one ${row?.name || row?.title || row?.displayName || row?.ebooks?.title} `,
-      description: `Are you sure you want to delete ${row?.name || row?.title || row?.displayName || row?.ebooks?.title}`,
+      content: `Delete one ${row?.name || row?.title || row?.displayName || row?.ebooks?.title || row?.content} `,
+      description: `Are you sure you want to delete ${row?.name || row?.title || row?.displayName || row?.ebooks?.title || row?.content}`,
 
       handleYes: () => {
         switch (table) {
@@ -34,10 +34,10 @@ const handleDelete = (row: any, table: string) => () => {
             return store.dispatch(Action.app.removeOneGenre((row._id).toString()))
           case 'chapters':
             return store.dispatch(Action.app.removeOneChapter((row._id).toString()))
-          // case 'reviews':
-          //   return store.dispatch(Action.app.deletedGenre((row._id).toString()))
-          // case 'comments':
-          //   return store.dispatch(Action.app.deletedChapter((row._id).toString()))
+          case 'reviews':
+            return store.dispatch(Action.app.removeOneReview((row._id).toString()))
+          case 'comments':
+            return store.dispatch(Action.app.removeOneComment((row._id).toString()))
           default: break;
         }
       }
@@ -77,10 +77,10 @@ const columAction = (type: string, table: string) => ({
 // ========================== Info table ====================================>>>
 export const columnsUsers: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
-  { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params?.row?.images?.avata?.url === '' ? <IconPhoto /> : <Avatar src={params?.row?.images?.avata?.url} alt='images user' /> },
+  { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params?.row?.images?.avatar?.url === '' ? <IconPhoto /> : <Avatar src={params?.row?.images?.avatar?.url} alt='images user' /> },
   { width: 200, editable: false, field: "email", headerName: "Email" },
   { width: 170, editable: true, field: "displayName", headerName: "DisplayName" },
-  { width: 150, editable: false, field: "userName", headerName: "UserName" },
+  { width: 150, editable: false, field: "username", headerName: "UserName" },
   { width: 150, editable: false, hide: true, field: "password", headerName: "Mật khẩu" },
   { width: 170, editable: false, field: "phoneNumber", headerName: "Phone Number" },
   { width: 220, editable: false, field: "roles", headerName: "Roles", renderCell: (params: any) => params.row.roles.map((item: any) => item.name).join(", ") },
@@ -99,7 +99,7 @@ export const columnsEbooks: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
   { width: 100, editable: true, field: "images", headerName: "Background", renderCell: (params: any) => params?.row?.images?.background?.url === '' ? <IconPhoto /> : <Avatar src={params?.row?.images?.background?.url} alt='images manga' /> },
   { width: 220, editable: false, field: "title", headerName: "Title" },
-  { width: 150, editable: true, field: "authors", headerName: "Tác giả", renderCell: (params: any) => params?.row?.authors?.map((item: any) => item.name).join(", ") },
+  { width: 250, editable: true, field: "authors", headerName: "Tác giả", renderCell: (params: any) => params?.row?.authors?.map((item: any) => item.name).join(", ") },
   { width: 250, editable: false, field: "genres", headerName: "Thể loại", renderCell: (params: any) => params?.row?.genres?.map((item: any) => item.name).join(", ") },
   { width: 150, editable: false, field: "status", headerName: "Trạng thái" },
   { width: 350, editable: false, field: "description", headerName: "Giới thiệu" },
@@ -119,7 +119,7 @@ export const columnsGenres: any = [
 
 export const columnsAuthors: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
-  { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params?.row?.images?.avata?.url === '' ? <IconPhoto /> : <Avatar src={params?.row?.images?.avata?.url} alt='images' /> },
+  { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params?.row?.images?.avatar?.url === '' ? <IconPhoto /> : <Avatar src={params?.row?.images?.avatar?.url} alt='images' /> },
   { width: 200, editable: false, field: "name", headerName: "Tên" },
   { width: 200, editable: false, field: "license", headerName: "License", renderCell: (params: any) => (params?.row?.license) === '' ? 'Null' : params?.row?.license?.displayName },
   { ...columAction('eye', 'authors') }

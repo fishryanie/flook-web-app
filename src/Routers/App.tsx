@@ -24,7 +24,7 @@ const AppRouter = [
     element: <AppTemplate Component={MangaPage} Carousel={false}/> 
   },
   { 
-    path: namePage.chapter + '/:name' + '/:chap' + '/:id',  
+    path: namePage.chapter + '/:name' + '/:chapter' + '/:id',  
     element: <AppTemplate Component={ChapterPage} Carousel={false}/>  
   },
   { 

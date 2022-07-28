@@ -38,7 +38,7 @@ const Register = async (data: register) => {
   return response;
 };
 
-const ForgotPass = async (data: forgot) => {
+const ForgotPass = async (id: any, data: forgot) => {
   const request = {
     method: 'PUT',
     api: domain + apiString.forgotPassword,
@@ -104,6 +104,28 @@ const FindManyFeatureGroup = async (data: any, token: any) => {
   return response;
 }
 
+const InsertOneUser = async (data: any, token: any) => {
+  const request = {
+    method: 'POST',
+    api: domain + apiString.insertOneUser,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
+const UpdateOneUser = async (data: any, token: any) => {
+  const request = {
+    method: 'POST',
+    api: domain + apiString.updateOneUser,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
 const RemoveOneRole = async (id: any, token: any) => {
   const request = {
     method: 'DELETE',
@@ -152,7 +174,7 @@ const RemoveManyUser = async (data: any, token: any) => {
 export default {
   Login, Register, ForgotPass, ChangePass,
 
-  FindManyUser, RemoveOneUser, RemoveManyUser,
+  FindManyUser, RemoveOneUser, RemoveManyUser, InsertOneUser, UpdateOneUser,
   
   FindManyRole, RemoveOneRole, RemoveManyRole,
 

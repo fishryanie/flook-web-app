@@ -81,8 +81,8 @@ const MangaPage: React.FC = () => {
     chapters: ['All'],
     search: ['All'],
     status: ['All'],
-    author: ['All'],
-    genre: ['All'],
+    authors: ['All'],
+    genres: ['All'],
     sort: 0
   })
 
@@ -199,8 +199,8 @@ const MangaPage: React.FC = () => {
         <Box className='manga-menu-dropdown' sx={openMenuStyle}>
           <Grid className='container' container sx={{pt:5, pb:5}}>
             <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='search' label="Search" placeholder="Search" options={ListAuthor}/></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='author' label="Author" placeholder="Author" options={ListAuthor}/></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='genre' label="Genre" placeholder="Genre" options={ListGenres} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='authors' label="Author" placeholder="Author" options={ListAuthor}/></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='genres' label="Genre" placeholder="Genre" options={ListGenres} /></Grid>
             <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='allowedAge' label="Allowed Age" placeholder="Allowed Age" options={selectAllowedAge} /></Grid>
             <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='chapters' label="Chapters" placeholder="Chapters" options={selectChapters} /></Grid>
             <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='status' label="Status" placeholder="Status" options={selectStatus} /></Grid>

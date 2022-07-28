@@ -10,13 +10,13 @@ const HomePage: React.FC = () => {
 
   const [ data, setData ] = useState({
     page: 1,
-    allowedAge: [],
-    chapters: [],
-    search: [],
-    status: [],
-    author: [],
-    genre: [],
-    sort: 'view'
+    allowedAge: ['All'],
+    chapters: ['All'],
+    search: ['All'],
+    status: ['All'],
+    authors: ['All'],
+    genres: ['All'],
+    sort: 0,
   })
 
   const dispatch = useDispatch();

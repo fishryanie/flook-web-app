@@ -36,6 +36,8 @@ import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
 import { BookReducer } from '../../../../Store/Reducers/book';
+import UpLoadImage from '../../../../Components/UpLoadImage';
+import SendIcon from '@mui/icons-material/Send';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -103,6 +105,10 @@ function BpRadio(props: RadioProps) {
 }
 
 const RenderForm: React.FC = () => {
+
+  const dispatch = useDispatch();
+  const formData = new FormData();
+
   const {
     control,
     reset,
@@ -138,25 +144,52 @@ const RenderForm: React.FC = () => {
 
   console.log('inforowtable', infoRowTable);
 
-  useEffect(() => {
-    if (typeDialog !== 'FORM_CREATE') {
-      setValue('name', infoRowTable?.name)
-      setValue('ebooks', infoRowTable?.ebooks?.title)
-      // setValue('title', infoRowTable?.title)
-    }
-  }, []);
-
-
   const arrayEbook = useSelector((state: RootStateOrAny) => state.BookReducer.listAllBook);
 
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(Action.app.findManyEbook());
   }, []);
 
-  const onSubmit = (data: any) => {
-    console.log('values', data);
+  const onSubmit = (data: any, name: any) => {
+    if (typeDialog !== 'FORM_CREATE') {
+      dispatch({
+        type: actionTypes.openAccetp, payload: {
+          title: 'Just Checking...',
+          content: `Grant ${name} rights to ${infoRowTable?.name}`,
+          description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
+          handleYes: () => dispatch(Action.app.updateOneGenre(infoRowTable?._id, data))
+        }
+      })
+    }
+    else {
+      for (const key in data) {
+        if (key === 'images') {
+          formData.append(key, data[key][0])
+        }
+        if (key === 'ebooks') {
+          Array.isArray(data[key])
+            ? data[key].forEach((row: any) => {
+              formData.append(key, row._id.toString());
+            })
+            :
+            formData.append(key, data[key])
+        }
+        formData.append(key, data[key])
+      }
+      dispatch(Action.app.insertOneChapter(formData))
+      console.log('formData', formData);
+    }
   };
+
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      for (const key in infoRowTable) {
+        setValue(key, infoRowTable[key]);
+        formData.append(key, infoRowTable[key])
+      }
+    }
+  }, []);
+
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stepper activeStep={activeStep} orientation="vertical">
@@ -171,15 +204,8 @@ const RenderForm: React.FC = () => {
                 <InputCustom control={control} errors={errors.status} field="status" label="Trạng Thái" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
               </Grid>
             </Grid>
             <Box></Box>
@@ -194,15 +220,8 @@ const RenderForm: React.FC = () => {
                 <TextFieldSearch register={register} setValue={setValue} options={arrayEbook} field="ebooks" label="Truyện" placeholder="Truyện" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
-                <button className="handle-next-button" type="submit" onClick={handleNext}>
-                  <span className="handle-next-button__title">Continue</span>
-                  <span className="handle-next-button__icon">
-                    <i className="bx bx-check-double"></i>
-                  </span>
-                </button>
-                <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                  Back
-                </Button>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
               </Grid>
             </Grid>
           </StepContent>
@@ -210,14 +229,20 @@ const RenderForm: React.FC = () => {
 
         <Step>
           <StepLabel>Choose Picture</StepLabel>
-          <StepContent></StepContent>
+          <StepContent>
+            <UpLoadImage register={register} setValue={setValue} field='images' />
+            <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
+              <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+              <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+            </Grid>
+          </StepContent>
         </Step>
         {activeStep === 3 &&
           <Paper square elevation={0} sx={{ p: 3 }}>
-            <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
-              Submit
-            </Button>
+            <Paper square elevation={0} sx={{ p: 3 }}>
+              <Typography>All steps completed - you&apos;re finished</Typography>
+              <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Submit</Button>
+            </Paper>
           </Paper>
         }
       </Stepper>
@@ -319,14 +344,14 @@ const ChapterData: React.FC = () => {
   }, []);
   console.log('arrayChapter', arrayChapter)
   return (
-    <Box sx={{width: '100%', height: '100%'}}>
-      <WrapperDiaLog Component={DialogChapter}/>
-      <TableCustom 
-        title="Chapter Data" 
-        array={arrayChapter} 
-        columns={columnsChapters} 
+    <Box sx={{ width: '100%', height: '100%' }}>
+      <WrapperDiaLog Component={DialogChapter} />
+      <TableCustom
+        title="Chapter Data"
+        array={arrayChapter}
+        columns={columnsChapters}
       />
-   
+
     </Box>
   );
 };

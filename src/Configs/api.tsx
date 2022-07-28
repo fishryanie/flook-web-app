@@ -72,6 +72,7 @@ const apiString = {
   removeManyEbook: `${ebook}/remove-many-ebook`,
 
   // chapter
+  searchChapter: `${chapter}/search-chapter`,
   findOneChapter: `${chapter}/find-one-chapter`,
   findManyChapter: `${chapter}/find-many-chapter`,
   insertOneChapter: `${chapter}/insert-one-chapter`,

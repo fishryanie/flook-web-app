@@ -53,7 +53,7 @@ function* Register(action: any) {
 
 function* ForgotPass(action: any) {
   try {
-    const response: responseGenerator = yield Services.auth.ForgotPass(action.payload)
+    const response: responseGenerator = yield Services.auth.ForgotPass(action.payload.id, action.payload.data)
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.auth.ForgotPassSuccess(response))
@@ -104,6 +104,44 @@ function* FindManyUser(action: any){
     console.log('Error', error)
   } finally {
     console.log('ChangePass')
+  }
+}
+
+function* InsertOneUser(action: any) {
+  try {
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.InsertOneUser(action.payload, readCookie)
+    if (response.statusCode === 200) {
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.auth.InsertOneUserSuccess(response))
+      yield put(Action.auth.FindManyUser(readCookie))
+    } else {
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.auth.InsertOneUserFailure(response))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('InsertOneUser')
+  }
+}
+
+function* UpdateOneUser(action: any) {
+  try {
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.UpdateOneUser(action.payload, readCookie)
+    if (response.statusCode === 200) {
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.auth.UpdateOneUserSuccess(response))
+      yield put(Action.auth.FindManyUser(readCookie))
+    } else {
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.auth.UpdateOneUserFailure(response))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('UpdateOneUser')
   }
 }
 
@@ -258,6 +296,8 @@ export default function* authSaga() {
     takeLatest(actionTypes.changePass, ChangePass),
 
     takeLatest(actionTypes.findManyUser, FindManyUser),
+    takeLatest(actionTypes.insertOneUser, InsertOneUser),
+    takeLatest(actionTypes.updateOneUser, UpdateOneUser),
     takeLatest(actionTypes.removeOneUser, RemoveOneUser),
     takeLatest(actionTypes.removeManyUser, RemoveManyUser),
 

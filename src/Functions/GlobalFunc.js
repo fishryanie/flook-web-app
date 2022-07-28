@@ -53,7 +53,7 @@ export const requestAPI = async (request, header = {}) => {
     (method == 'POST' || method == 'DELETE' || method == 'PUT') &&
     request.body
   ) {
-    configs['data'] = JSON.stringify(request.body);
+    configs['data'] = request.body;
   }
   
   try {

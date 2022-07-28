@@ -24,7 +24,7 @@ const ChapterPage: React.FC = () => {
     <section className="chapter-page">
       <div className="main">
         <section className="page_head">
-          <h1 className="text-center py-2"> {dataOneChapter?.book?.title} </h1>
+          <h1 className="text-center py-2"> {dataOneChapter?.ebooks?.title} </h1>
           <div className="page_control text-center d-flex m-auto">
             <a href="" className="page_link_left ">Previous</a>
             <span className="w-100 h-100 d-flex justify-content-center align-items-center">Chapter : {dataOneChapter?.name} </span>
@@ -117,7 +117,7 @@ const ChapterPage: React.FC = () => {
                   <i className='bx bx-chevron-right' />
                 </a>
               </div>
-              {dataOneChapter?.image?.map((item: any, index: number) => {
+              {dataOneChapter?.images?.map((item: any, index: number) => {
                 return (
                   <div key={index} className="manga_inner">
                     <img className="w-100" src={item?.url} alt="" />

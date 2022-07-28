@@ -36,6 +36,7 @@ import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
 import UpLoadImage from '../../../../Components/UpLoadImage';
+import SendIcon from '@mui/icons-material/Send';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -103,6 +104,9 @@ function BpRadio(props: RadioProps) {
 }
 
 const RenderForm: React.FC = () => {
+  const formData = new FormData();
+  const dispatch = useDispatch();
+
   const {
     control,
     reset,
@@ -122,15 +126,14 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const arrayUser = useSelector((state: RootStateOrAny) => state.AppReducer.arrayUser)
+  const arrayUser = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayUser);
+  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable);
+  const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog);
 
   const [open, setOpen] = useState();
   const handleClick = (index: any) => () => {
     setOpen(open === index ? null : index)
   };
-
-  const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
-  const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
 
   const handleToggle = (name: string) => () => {
     dispatch({
@@ -143,87 +146,91 @@ const RenderForm: React.FC = () => {
     })
   }
 
-  console.log('inforowtable', infoRowTable);
-
-  useEffect(() => {
-    if (typeDialog !== 'FORM_CREATE') {
-      setValue('images', infoRowTable?.images?.url)
-      setValue('name', infoRowTable?.name)
-      setValue('license', infoRowTable?.license?.userName)
-      // setValue('title', infoRowTable?.title)
-    }
-  }, []);
-
-  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(Action.auth.FindManyUser(''));
   }, []);
 
-  const onSubmit = (data: any) => {
-    console.log('values', data);
+
+  const onSubmit = (data: any, name: any) => {
+    if (typeDialog !== 'FORM_CREATE') {
+      dispatch({
+        type: actionTypes.openAccetp, payload: {
+          title: 'Just Checking...',
+          content: `Grant ${name} rights to ${infoRowTable?.name}`,
+          description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
+          handleYes: () => dispatch(Action.app.updateOneAuthor(infoRowTable?._id, data))
+        }
+      })
+    }
+    else {
+        const newData = {
+          name: data.name,
+          license: data.license.map((item: any) => item._id.toString())
+        }
+        console.log('data', newData);
+        dispatch(Action.app.insertOneAuthor(newData))
+    }
   };
+
+  console.log('inforowtable', infoRowTable);
+
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      for (const key in infoRowTable) {
+        // if (key === 'images') {
+        //   setValue(key, infoRowTable[key]?.avatar?.url)
+        //   formData.append(key, infoRowTable[key]?.background?.url)
+        // }
+        // if (key === 'license') {
+        //   setValue(key, infoRowTable[key])
+        //   formData.append(key, infoRowTable[key]?.background?.url)
+        // }
+        setValue(key, infoRowTable[key])
+        formData.append(key, infoRowTable[key])
+      }
+    }
+  }, []);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stepper activeStep={activeStep} orientation="vertical">
-            <Step>
-              <StepLabel>Info Author</StepLabel>
-              <StepContent>
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={12}>
-                    <InputCustom control={control} errors={errors.name} field="name" label="Name" />
-                  </Grid>
-                  <Grid className="box-button-form" item xs={12} sm={12}>
-                    <button className="handle-next-button" type="submit" onClick={handleNext}>
-                      <span className="handle-next-button__title">Continue</span>
-                      <span className="handle-next-button__icon">
-                        <i className="bx bx-check-double"></i>
-                      </span>
-                    </button>
-                    <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                      Back
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Box></Box>
-              </StepContent>
-            </Step>
+        <Step>
+          <StepLabel>Info Author</StepLabel>
+          <StepContent>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12}>
+                <InputCustom control={control} errors={errors.name} field="name" label="Name" />
+              </Grid>
+              <Grid className="box-button-form" item xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+              </Grid>
+            </Grid>
+            <Box></Box>
+          </StepContent>
+        </Step>
 
-            <Step>
-              <StepLabel>Choose role</StepLabel>
-              <StepContent>
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={12}>
-                    <TextFieldSearch register={register} setValue={setValue} options={arrayUser} field="license" label="License" placeholder="License" />
-                  </Grid>
-                  <Grid className="box-button-form" item xs={12} sm={12}>
-                    <button className="handle-next-button" type="submit" onClick={handleNext}>
-                      <span className="handle-next-button__title">Continue</span>
-                      <span className="handle-next-button__icon">
-                        <i className="bx bx-check-double"></i>
-                      </span>
-                    </button>
-                    <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                      Back
-                    </Button>
-                  </Grid>
-                </Grid>
-              </StepContent>
-            </Step>
-
-            <Step>
-              <StepLabel>Choose Picture</StepLabel>
-              <StepContent></StepContent>
-            </Step>
-            {activeStep === 3 &&
-              <Paper square elevation={0} sx={{ p: 3 }}>
-                <Typography>All steps completed - you&apos;re finished</Typography>
-                <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
-                  Submit
-                </Button>
-              </Paper>
-            }
-          </Stepper>
+        <Step>
+          <StepLabel>Choose role</StepLabel>
+          <StepContent>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12}>
+                <TextFieldSearch register={register} setValue={setValue} options={arrayUser} field="license" label="License" placeholder="License" />
+              </Grid>
+              <Grid className="box-button-form" item xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+              </Grid>
+            </Grid>
+          </StepContent>
+        </Step>
+        {activeStep === 2 &&
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Submit</Button>
+          </Paper>
+        }
+      </Stepper>
     </form>
   );
 };

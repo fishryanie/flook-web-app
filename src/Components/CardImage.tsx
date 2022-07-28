@@ -7,7 +7,7 @@ export interface CardImageProps {
   item: {
     _id: string;
     title: string;
-    authorsId: [
+    authors: [
       { 
         name: string;
       }
@@ -37,8 +37,8 @@ const CardImage: React.FC<CardImageProps> = props => {
         <div className="card-spacing" />
         <div className="card-content">
           <div className="card-author">
-            {item.authorsId?.map((authorsId) => <span>
-              {item.authorsId.length >= 1 ? authorsId.name + ', ' : authorsId.name}
+            {item.authors?.map((authors) => <span>
+              {item.authors.length >= 1 ? authors.name + ', ' : authors.name}
               </span> )}
           </div>
           <div className="card-title">{item?.title}</div>

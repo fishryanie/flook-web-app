@@ -27,6 +27,8 @@ import DialogActions from '@mui/material/DialogActions';
 import LinearProgress from '@mui/material/LinearProgress';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/material/CircularProgress';
+import Rating from '@mui/material/Rating';
+import StarIcon from '@mui/icons-material/Star';
 
 import TextFieldSearch from '../../../../Components/TextFieldSearch';
 import WrapperDiaLog from '../../../../Components/WrapperDiaLog';
@@ -36,6 +38,7 @@ import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
 import UpLoadImage from '../../../../Components/UpLoadImage';
+import SendIcon from '@mui/icons-material/Send';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -83,7 +86,22 @@ const selectRoles = [
   { id: 8, name: 'service admin' },
 ];
 
+const labels: { [index: string]: string } = {
+  0.5: 'Useless',
+  1: 'Useless+',
+  1.5: 'Poor',
+  2: 'Poor+',
+  2.5: 'Ok',
+  3: 'Ok+',
+  3.5: 'Good',
+  4: 'Good+',
+  4.5: 'Excellent',
+  5: 'Excellent+',
+};
 
+function getLabelText(value: number) {
+  return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
+}
 
 function BpRadio(props: RadioProps) {
   return (
@@ -103,6 +121,9 @@ function BpRadio(props: RadioProps) {
 }
 
 const RenderForm: React.FC = () => {
+
+  const formData = new FormData();
+
   const {
     control,
     reset,
@@ -121,6 +142,9 @@ const RenderForm: React.FC = () => {
   const handleNext = () => setActiveStep(activeStep + 1);
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
+
+  const [rating, setRating] = useState<number | null>(2);
+  const [hover, setHover] = useState(-1);
 
   const dispatch = useDispatch();
 
@@ -153,83 +177,113 @@ const RenderForm: React.FC = () => {
 
   console.log('inforowtable', infoRowTable);
 
+  const onSubmit = (data: any, name: any) => {
+    if (typeDialog !== 'FORM_CREATE') {
+      dispatch({
+        type: actionTypes.openAccetp, payload: {
+          title: 'Just Checking...',
+          content: `Grant ${name} rights to ${infoRowTable?.name}`,
+          description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
+          handleYes: () => dispatch(Action.app.updateOneGenre(infoRowTable?._id, data))
+        }
+      })
+    }
+    else {
+      const newData = {
+        content: data.content,
+        users: data.users.map((item: any) => item._id.toString()),
+        rating: rating,
+        ebooks: data.ebooks.map((item: any) => item._id.toString())
+      }
+      console.log('data', newData);
+      dispatch(Action.app.insertOneReview(newData))
+    }
+  };
+
   useEffect(() => {
     if (typeDialog !== 'FORM_CREATE') {
-      // setValue('images', infoRowTable?.images?.url)
-      setValue('content', infoRowTable?.content)
-      // setValue('license', infoRowTable?.license?.userName)
-      // setValue('title', infoRowTable?.title)
+      for (const key in infoRowTable) {
+        setValue(key, infoRowTable[key]);
+        formData.append(key, infoRowTable[key])
+      }
     }
   }, []);
-
-  const onSubmit = (data: any) => {
-    console.log('values', data);
-  };
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Stepper activeStep={activeStep} orientation="vertical">
-            <Step>
-              <StepLabel>Info Review</StepLabel>
-              <StepContent>
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={12}>
-                    <InputCustom control={control} errors={errors.content} field="content" label="Nội dung" />
-                  </Grid>
-                  <Grid className="box-button-form" item xs={12} sm={12}>
-                    <button className="handle-next-button" type="submit" onClick={handleNext}>
-                      <span className="handle-next-button__title">Continue</span>
-                      <span className="handle-next-button__icon">
-                        <i className="bx bx-check-double"></i>
-                      </span>
-                    </button>
-                    <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                      Back
-                    </Button>
-                  </Grid>
-                </Grid>
-                <Box></Box>
-              </StepContent>
-            </Step>
+        <Step>
+          <StepLabel>Info Review</StepLabel>
+          <StepContent>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12}>
+                <InputCustom control={control} errors={errors.content} field="content" label="Nội dung" />
+              </Grid>
+              <Grid className="box-button-form" item xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+              </Grid>
+            </Grid>
+            <Box></Box>
+          </StepContent>
+        </Step>
 
-            <Step>
-              <StepLabel>Choose role</StepLabel>
-              <StepContent>
-                <Grid container spacing={1}>
-                  <Grid item xs={12} sm={12}>
-                    <TextFieldSearch register={register} setValue={setValue} options={arrayUser} field="users" label="users" placeholder="Người dùng" />
-                  </Grid>
-                  <Grid item xs={12} sm={12}>
-                    <TextFieldSearch register={register} setValue={setValue} options={arrayEbook} field="ebooks" label="ebooks" placeholder="Truyện" />
-                  </Grid>
-                  <Grid className="box-button-form" item xs={12} sm={12}>
-                    <button className="handle-next-button" type="submit" onClick={handleNext}>
-                      <span className="handle-next-button__title">Continue</span>
-                      <span className="handle-next-button__icon">
-                        <i className="bx bx-check-double"></i>
-                      </span>
-                    </button>
-                    <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mt: 1, mr: 1 }}>
-                      Back
-                    </Button>
-                  </Grid>
-                </Grid>
-              </StepContent>
-            </Step>
+        <Step>
+          <StepLabel>Choose role</StepLabel>
+          <StepContent>
+            <Grid container spacing={1}>
+              <Grid item xs={12} sm={12}>
+                <TextFieldSearch register={register} setValue={setValue} options={arrayUser} field="users" label="users" placeholder="Người dùng" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <TextFieldSearch register={register} setValue={setValue} options={arrayEbook} field="ebooks" label="ebooks" placeholder="Truyện" />
+              </Grid>
+              <Grid item xs={12} sm={12}>
+                <Typography>Rating</Typography>
+                <Box
+                  sx={{
+                    width: 200,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Rating
+                    name="hover-feedback"
+                    value={rating}
+                    precision={0.5}
+                    getLabelText={getLabelText}
+                    onChange={(event, newValue) => {
+                      setRating(newValue);
+                    }}
+                    onChangeActive={(event, newHover) => {
+                      setHover(newHover);
+                    }}
+                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                  />
+                  {rating !== null && (
+                    <Box sx={{ ml: 2 }}>{labels[hover !== -1 ? hover : rating]}</Box>
+                  )}
+                </Box>
+              </Grid>
+              <Grid className="box-button-form" item xs={12} sm={12}>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+              </Grid>
+            </Grid>
+          </StepContent>
+        </Step>
 
-            <Step>
+        {/* <Step>
               <StepLabel>Choose Picture</StepLabel>
               <StepContent></StepContent>
-            </Step>
-            {activeStep === 3 &&
-              <Paper square elevation={0} sx={{ p: 3 }}>
-                <Typography>All steps completed - you&apos;re finished</Typography>
-                <Button onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>
-                  Submit
-                </Button>
-              </Paper>
-            }
-          </Stepper>
+            </Step> */}
+        {activeStep === 2 &&
+          <Paper square elevation={0} sx={{ p: 3 }}>
+            <Typography>All steps completed - you&apos;re finished</Typography>
+            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Submit</Button>
+          </Paper>
+        }
+      </Stepper>
     </form>
   );
 };

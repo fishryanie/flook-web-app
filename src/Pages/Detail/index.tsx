@@ -16,7 +16,7 @@ const DetailPage: React.FC = () => {
   const navigate = useNavigate();
 
   const id = params.id;
-  console.log(id)
+  console.log("id", id)
 
   const CountChapter = useSelector((state: RootStateOrAny) => state.BookReducer.countChapter)
 
@@ -27,16 +27,16 @@ const DetailPage: React.FC = () => {
   })
   const [page, setPage] = useState(1)
 
-  const dataOneManga = Selector.app.DataOneManga();
-  const listChapter = Selector.app.DataManyChapter();
-
+  const dataOneManga = useSelector((state: RootStateOrAny) => state.BookReducer.oneBook)
+  const listChapter = useSelector((state: RootStateOrAny) => state.BookReducer.listChapter)
+  
   useEffect(() => {
     if (dataOneManga === '') {
       dispatch(Action.app.findOneEbook(id))
-      dispatch(Action.app.findOneChapterByEbook(data))
+      dispatch(Action.app.searchChapter(data))
     } else {
       dispatch(Action.app.findOneEbook(id))
-      dispatch(Action.app.findOneChapterByEbook(data))
+      dispatch(Action.app.searchChapter(data))
     }
   }, [dispatch, data]);
 
@@ -47,7 +47,7 @@ const DetailPage: React.FC = () => {
     setData({ ...data, page: value })
   };
 
-  const handleClick = (item: any) => () => navigate(`${namePage.chapter}/${item.book.title}/chap-${item.name}/${item._id}`)
+  const handleClick = (item: any) => () => navigate(`${namePage.chapter}/${item?.ebooks?.title}/${item.name}/${item._id}`)
 
   return (
     <section className="detail-page">
@@ -59,7 +59,7 @@ const DetailPage: React.FC = () => {
               <div className="widget-sidebar">
                 <div className="poster-manga">
                   <a href="" className="poster">
-                    <img src={dataOneManga?.manga?.images?.background?.url} alt="photo" />
+                    <img src={dataOneManga?.images?.background?.url} alt="photo" />
                     <div className="icon_img_poster">
                       <i className="bx bx-play" />
                     </div>
@@ -69,29 +69,23 @@ const DetailPage: React.FC = () => {
                   <ul>
                     <li>
                       <p>
-                        Tên : <span> {dataOneManga?.manga?.title} </span>
+                        Tên : <span> {dataOneManga?.title} </span>
                       </p>
                     </li>
                     <li>
                       <p>
                         Tác Giả :
-                        {dataOneManga?.manga?.authorsId?.map((item: any, index: number) => {
+                        {dataOneManga?.authors?.map((item: any, index: number) => {
                           return (
                             <span key={index}> {item.name}, </span>
                           )
                         })}
-                      </p>
-                    </li>
-                    <li>
-                      <p>
-                        Phân Loại : 
-                        <span> {dataOneManga?.manga?.categorysId?.name} </span>
                       </p>
                     </li>
                     <li>
                       <p>
                         Thể Loại :
-                        {dataOneManga?.manga?.genresId?.map((item: any, index: number) => {
+                        {dataOneManga?.genres?.map((item: any, index: number) => {
                           return (
                             <span key={index}> {item.name}, </span>
                           )
@@ -100,7 +94,7 @@ const DetailPage: React.FC = () => {
                     </li>
                     <li>
                       <p>
-                        Allowed-Age : <span> {dataOneManga?.manga?.allowedAge} </span>
+                        Allowed-Age : <span> {dataOneManga?.allowedAge} </span>
                       </p>
                     </li>
                     <li>
@@ -119,7 +113,7 @@ const DetailPage: React.FC = () => {
                 {/* POSTER MANGA */}
                 <div className="poster-manga">
                   <a href="manga-naruto">
-                    <img src="https://res.cloudinary.com/dwnucvodc/image/upload/v1649153403/Flex-ticket/ImageBook/xgogayutkcrzclsrdmm8.jpg" alt="Manga Naruto" />
+                    <img src="https://animehay.club//upload/poster/3517.jpg" alt="Manga Naruto" />
                   </a>
                   <a href="#" className="rating">
                     <p>RATING</p>
@@ -131,7 +125,7 @@ const DetailPage: React.FC = () => {
                     </a>
                   </div>
                   <div className="content-anime">
-                    <h1>Boruto Naruto Next Generation</h1>
+                    <h1>Đấu Phá Thương Khung: Duyên Khởi</h1>
                     <hr />
                     <p>MANGA</p>
                   </div>
@@ -176,15 +170,11 @@ const DetailPage: React.FC = () => {
               {/* DETAIL CONTENT */}
               <section className="detail__content">
                 <header className="header__detail__content">
-                  <h1>{dataOneManga?.manga?.title}</h1>
+                  <h1>{dataOneManga?.title}</h1>
                   <p>
-                    Manga Status <span>: 
-                      {dataOneManga?.manga?.statusId?.map((item: any, index: number) => {
-                        return (
-                          <span key={index}> {item.name}, </span>
-                        )
-                      })} 
-                      </span>
+                    Manga Status <span>:
+                      <span> {dataOneManga?.status} </span>
+                    </span>
                   </p>
                   <div className="rating__star">
                     <i className="icon_rating__star active fa-solid fa-star" />
@@ -208,7 +198,7 @@ const DetailPage: React.FC = () => {
                         <i className="fa-solid fa-star-half-stroke" />
                       </h4>
                       <h4>
-                        <span> {dataOneManga?.manga?.view} </span>
+                        <span> {dataOneManga?.view} </span>
                         <br />
                         <p>VIEWS</p>
                         <i className="fa-solid fa-eye" />
@@ -220,7 +210,7 @@ const DetailPage: React.FC = () => {
                 <article className="content-text">
                   <h2>THE STORY LINE</h2>
                   <p>
-                    {dataOneManga?.manga?.description}
+                    {dataOneManga?.description}
                   </p>
                 </article>
                 {/* BUTTONS */}
@@ -267,7 +257,7 @@ const DetailPage: React.FC = () => {
                           <li key={index}>
                             <div className="chapter__link" onClick={handleClick(item)}>
                               <div className="chapter__item">
-                                <h3>CHAPTER {item.name} </h3>
+                                <h3>{item.name} </h3>
                                 <p>Chapter Title Goes Here</p>
                               </div>
                             </div>

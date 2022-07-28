@@ -14,6 +14,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import { SubmitForm } from '../../Functions/GlobalFunc'
 
 import InputCustom from '../../Components/TextFieldCustom';
+import { useForm } from 'react-hook-form';
 
 const initialValues = { userName: '', password: '', phoneNumber: '',email: '', passwordComfirm: '', submit: null }
 const FormRegister: React.FC = props => {
@@ -21,93 +22,59 @@ const FormRegister: React.FC = props => {
   const scriptedRef = useScriptRef();
   const dispatch = useDispatch()
   
+  const {
+    control,
+    reset,
+    setValue,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    // resolver: yupResolver(LoginSchema),
+    mode: 'all',
+    criteriaMode: 'all',
+    shouldFocusError: true,
+  });
+
+  const onSubmit = (data: any) => {
+    dispatch(Action.auth.Register(data))
+    console.log('values', data);
+  };
+
   return (
-    <Formik initialValues={initialValues} validationSchema={RegisterSchema} onSubmit={SubmitForm(dispatch, scriptedRef, 'REGISTER')}>			
-      {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-        <form noValidate onSubmit={handleSubmit}>
-					<Grid container spacing={1}>
-						<Grid item xs={12} sm={12}>
-							<InputCustom 
-								handleBlur={handleBlur} 
-								handleChange={handleChange} 
-								touched={touched.email} 
-								values={values.email} 
-								errors={errors.email} 
-								field='email' 
-								label='Email'
-							/>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<InputCustom 
-								handleBlur={handleBlur} 
-								handleChange={handleChange} 
-								touched={touched.userName} 
-								values={values.userName} 
-								errors={errors.userName} 
-								field='userName' 
-								label='User Name'
-							/>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<InputCustom 
-								handleBlur={handleBlur} 
-								handleChange={handleChange} 
-								touched={touched.phoneNumber} 
-								values={values.phoneNumber} 
-								errors={errors.phoneNumber} 
-								field='phoneNumber' 
-								label='Phone Number'
-							/>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<InputCustom 
-								handleBlur={handleBlur} 
-								handleChange={handleChange} 
-								touched={touched.password} 
-								values={values.password}
-								errors={errors.password} 
-								field='password' 
-								label='Password'
-							/>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<InputCustom 
-								handleBlur={handleBlur} 
-								handleChange={handleChange} 
-								touched={touched.passwordComfirm} 
-								values={values.passwordComfirm} 
-								errors={errors.passwordComfirm} 
-								field='passwordComfirm' 
-								label='Password Comfirm'/>
-						</Grid>
-					</Grid>
-					<Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-						<FormControlLabel label="Remember me" control={
-							<Checkbox checked={checked} onChange={(event: any) => setChecked(event.target.checked)}
-								name="checked"
-								color="primary"
-							/>}
-						/>
-						{/* <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-							Forgot Password?
-						</Typography> */}
-					</Stack>
-					<Box sx={{ mt: 2 }}>
-						<Button
-							disableElevation
-							disabled={isSubmitting}
-							fullWidth
-							size="large"
-							type="submit"
-							variant="contained"
-							color="secondary"
-						>
-						Sign up
-						</Button>
-					</Box>
-        </form>
-      )}
-    </Formik>
+    <form noValidate onSubmit={handleSubmit(onSubmit)}>
+      <Grid container spacing={1}>
+        <Grid item xs={12} sm={12}>
+          <InputCustom control={control} errors={errors.email} field="email" label="Email" />
+        </Grid>
+      </Grid>
+      {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+        <FormControlLabel label="Remember me" control={
+          <Checkbox
+            checked={checked}
+            onChange={(event: any) => setChecked(event.target.checked)}
+            name="checked"
+            color="primary"
+          />}
+        />
+        <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+          Forgot Password?
+        </Typography>
+      </Stack> */}
+
+      <Box sx={{ mt: 2 }}>
+        <Button
+          disableElevation
+          fullWidth
+          size="large"
+          type="submit"
+          variant="contained"
+          color="secondary"
+        >
+          Submit
+        </Button>
+      </Box>
+    </form>
   );
 }
 export default FormRegister
