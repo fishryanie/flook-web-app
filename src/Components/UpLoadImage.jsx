@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux';
 
 export default function UpLoadImage(props) {
   const { setValue, register ,field } = props
   const [selectedFile, setSelectedFile] = useState()
   const [preview, setPreview] = useState()
   const containerRef= useRef(null);
+
+  // const infoRowTable = useSelector((state) => state.AppReducer.infoRowTable)
+  // const typeDialog = useSelector((state) => state.AppReducer.typeDialog)
 
   const onSelectFile = e => {
     if (!e.target.files || e.target.files.length === 0) {
@@ -23,6 +27,12 @@ export default function UpLoadImage(props) {
     document.querySelector(".button_outer").classList.remove("file_uploaded");
     document.querySelector(".button_outer").style.display = "inline-block";
   }
+
+  // useEffect(() => {
+  //   if (typeDialog !== 'FORM_CREATE') {
+  //     setPreview(infoRowTable.images.background.url)
+  //   }
+  // }, []);
 
   useEffect(() => {
     if (!selectedFile) {

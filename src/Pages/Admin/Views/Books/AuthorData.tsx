@@ -150,15 +150,26 @@ const RenderForm: React.FC = () => {
     dispatch(Action.auth.FindManyUser(''));
   }, []);
 
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      for (const key in infoRowTable) {
+        setValue(key, infoRowTable[key])
+      }
+    }
+  }, []);
 
   const onSubmit = (data: any, name: any) => {
     if (typeDialog !== 'FORM_CREATE') {
+      const updateData = {
+        name: data.name,
+        license: Array.isArray(data.license) ? data.license.map((item: any) => item._id.toString()) : data.license._id
+      }
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
           content: `Grant ${name} rights to ${infoRowTable?.name}`,
           description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
-          handleYes: () => dispatch(Action.app.updateOneAuthor(infoRowTable?._id, data))
+          handleYes: () => dispatch(Action.app.updateOneAuthor(infoRowTable?._id, updateData))
         }
       })
     }
@@ -173,23 +184,6 @@ const RenderForm: React.FC = () => {
   };
 
   console.log('inforowtable', infoRowTable);
-
-  useEffect(() => {
-    if (typeDialog !== 'FORM_CREATE') {
-      for (const key in infoRowTable) {
-        // if (key === 'images') {
-        //   setValue(key, infoRowTable[key]?.avatar?.url)
-        //   formData.append(key, infoRowTable[key]?.background?.url)
-        // }
-        // if (key === 'license') {
-        //   setValue(key, infoRowTable[key])
-        //   formData.append(key, infoRowTable[key]?.background?.url)
-        // }
-        setValue(key, infoRowTable[key])
-        formData.append(key, infoRowTable[key])
-      }
-    }
-  }, []);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>

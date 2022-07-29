@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
+import { useSelector } from 'react-redux';
 
 
 const countries= [
@@ -41,9 +42,36 @@ export default function TextFieldSearch(props) {
   const [selectedCaste, setSelectedCaste] = useState([]);
 
   console.log('selectedCaste', selectedCaste)
+
+  const infoRowTable = useSelector((state) => state.AppReducer.infoRowTable)
+  const typeDialog = useSelector((state) => state.AppReducer.typeDialog)
+
   useEffect(() => {
     register(field);
   }, [register]);
+
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      if (field === 'users'){
+        setSelectedCaste([infoRowTable.users])
+      }
+      if (field === 'ebooks'){
+        setSelectedCaste([infoRowTable.ebooks])
+      }
+      if (field === 'userId'){
+        setSelectedCaste([infoRowTable.userId])
+      }
+      if (field === 'authors'){
+        setSelectedCaste(infoRowTable.authors)
+      }
+      if (field === 'genres'){
+        setSelectedCaste(infoRowTable.genres)
+      }
+      if (field === 'license'){
+        setSelectedCaste([infoRowTable.license])
+      }
+    }
+  }, [field]);
   
   const RenderInput = (params) => {  
     return (

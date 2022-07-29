@@ -10,6 +10,7 @@ import { AntSwitch } from '../Assets/Theme/AppStyle';
 import { IconPhoto } from '@tabler/icons';
 import { useDispatch } from "react-redux";
 import { store } from '../Store/store';
+import Rating from '@mui/material/Rating';
 import actionTypes from '../Store/Actions/constants';
 import Action from '../Store/Actions';
 
@@ -144,7 +145,7 @@ export const columnsReviews: any = [
   // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
   { width: 150, editable: false, field: "users", headerName: "Người dùng", renderCell: (params: any) => params.row.users?.displayName },
   { width: 250, editable: true, field: "ebooks", headerName: "Truyện", renderCell: (params: any) => params.row.ebooks?.title },
-  { width: 150, editable: false, field: "rating", headerName: "Đánh giá" },
+  { width: 200, editable: false, field: "rating", headerName: "Đánh giá", renderCell: (params: any) => params.row.rating === '' ? 0 : <Rating name="read-only" value={params.row.rating} readOnly />},
   { width: 400, editable: false, field: "content", headerName: "Nội dung" },
 
   { ...columAction('eye', 'reviews') }

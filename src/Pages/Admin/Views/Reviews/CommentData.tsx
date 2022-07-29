@@ -144,27 +144,29 @@ const RenderForm: React.FC = () => {
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
   const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
 
-  const handleToggle = (name: string) => () => {
-    dispatch({
-      type: actionTypes.openAccetp, payload: {
-        title: 'Just Checking...',
-        content: `Grant ${name} rights to ${infoRowTable?.title}`,
-        description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
-        handleYes: () => dispatch({ type: 'EDIT_EBOOK' })
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      for (const key in infoRowTable) {
+        setValue(key, infoRowTable[key]);
       }
-    })
-  }
+    }
+  }, []);
 
   console.log('inforowtable', infoRowTable);
 
   const onSubmit = (data: any, name: any) => {
     if (typeDialog !== 'FORM_CREATE') {
+      const updateData = {
+        content: data.content,
+        userId: Array.isArray(data.userId) ? data.userId.map((item: any) => item._id.toString()) : data.userId,
+      }
+      console.log('updateData', updateData)
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
           content: `Grant ${name} rights to ${infoRowTable?.name}`,
           description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
-          handleYes: () => dispatch(Action.app.updateOneGenre(infoRowTable?._id, data))
+          handleYes: () => dispatch(Action.app.updateOneComment(infoRowTable?._id, updateData))
         }
       })
     }
@@ -172,21 +174,11 @@ const RenderForm: React.FC = () => {
       const newData = {
         content: data.content,
         userId: data.userId.map((item: any) => item._id.toString()),
-        bookId: data.bookId.map((item: any) => item._id.toString())
       }
       console.log('data', newData);
       dispatch(Action.app.insertOneComment(newData))
     }
   };
-
-  useEffect(() => {
-    if (typeDialog !== 'FORM_CREATE') {
-      for (const key in infoRowTable) {
-        setValue(key, infoRowTable[key]);
-        formData.append(key, infoRowTable[key])
-      }
-    }
-  }, []);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -213,9 +205,6 @@ const RenderForm: React.FC = () => {
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
                 <TextFieldSearch register={register} setValue={setValue} options={arrayUser} field="userId" label="userId" placeholder="Người dùng" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <TextFieldSearch register={register} setValue={setValue} options={arrayEbook} field="bookId" label="bookId" placeholder="Truyện" />
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>

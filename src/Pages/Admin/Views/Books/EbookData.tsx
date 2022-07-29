@@ -138,16 +138,16 @@ const RenderForm: React.FC = () => {
     dispatch(Action.app.findManyGenre());
   }, []);
 
-  const handleToggle = (name: string) => () => {
-    dispatch({
-      type: actionTypes.openAccetp, payload: {
-        title: 'Just Checking...',
-        content: `Grant ${name} rights to ${infoRowTable?.title}`,
-        description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
-        handleYes: () => dispatch({ type: 'EDIT_EBOOK' })
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      for (const key in infoRowTable) {
+        if (key === 'images') {
+          setValue(key, infoRowTable[key]?.background?.url)   
+        }
+        setValue(key, infoRowTable[key])
       }
-    })
-  }
+    }
+  }, []);
 
   const onSubmit = (data: any, name: any) => {
     if (typeDialog !== 'FORM_CREATE') {
@@ -188,17 +188,6 @@ const RenderForm: React.FC = () => {
   };
 
   console.log('inforowtable', infoRowTable);
-
-  useEffect(() => {
-    if (typeDialog !== 'FORM_CREATE') {
-      for (const key in infoRowTable) {
-        if (key === 'images') {
-          formData.append(key, infoRowTable[key]?.background?.url)   
-        }
-        formData.append(key, infoRowTable[key])
-      }
-    }
-  }, []);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>

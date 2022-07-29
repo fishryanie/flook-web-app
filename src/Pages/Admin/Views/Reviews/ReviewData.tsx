@@ -120,7 +120,7 @@ function BpRadio(props: RadioProps) {
   );
 }
 
-const RenderForm: React.FC = () => {
+const RenderForm: React.FC = (props) => {
 
   const formData = new FormData();
 
@@ -143,7 +143,7 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-  const [rating, setRating] = useState<number | null>(2);
+  const [rating, setRating] = useState<number | null>(0.5);
   const [hover, setHover] = useState(-1);
 
   const dispatch = useDispatch();
@@ -164,27 +164,33 @@ const RenderForm: React.FC = () => {
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
   const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
 
-  const handleToggle = (name: string) => () => {
-    dispatch({
-      type: actionTypes.openAccetp, payload: {
-        title: 'Just Checking...',
-        content: `Grant ${name} rights to ${infoRowTable?.title}`,
-        description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
-        handleYes: () => dispatch({ type: 'EDIT_EBOOK' })
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      for (const key in infoRowTable) {
+        setValue(key, infoRowTable[key]);
+        if(key === "rating"){
+          setRating(infoRowTable[key])
+        }
       }
-    })
-  }
+    }
+  }, []);
 
   console.log('inforowtable', infoRowTable);
 
   const onSubmit = (data: any, name: any) => {
     if (typeDialog !== 'FORM_CREATE') {
+      const updateData = {
+        content: data.content,
+        users: Array.isArray(data.users) ? data.users.map((item: any) => item._id.toString()) : data.users,
+        rating: rating,
+        ebooks: Array.isArray(data.ebooks) ? data.ebooks.map((item: any) => item._id.toString()) : data.ebooks
+      }
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
           content: `Grant ${name} rights to ${infoRowTable?.name}`,
           description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
-          handleYes: () => dispatch(Action.app.updateOneGenre(infoRowTable?._id, data))
+          handleYes: () => dispatch(Action.app.updateOneReview(infoRowTable?._id, updateData))
         }
       })
     }
@@ -199,15 +205,6 @@ const RenderForm: React.FC = () => {
       dispatch(Action.app.insertOneReview(newData))
     }
   };
-
-  useEffect(() => {
-    if (typeDialog !== 'FORM_CREATE') {
-      for (const key in infoRowTable) {
-        setValue(key, infoRowTable[key]);
-        formData.append(key, infoRowTable[key])
-      }
-    }
-  }, []);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
