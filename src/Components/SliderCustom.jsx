@@ -10,7 +10,7 @@ import CardImage from './CardImage';
 // const SliderItem: React.FC<SlideProps> = props => {
   const SliderItem = (props) => {
   const { title, data } = props
-  const settings = settingsSlider('row-slider-item', 4, 2000)
+  const settings = settingsSlider('row-slider-item', 5, 2000)
   return (
     <section className='slider-main'>
       <div className='carousel-slider-item'>

@@ -240,7 +240,7 @@ const ProfileSection = (props) => {
                             </Typography>
                         }
                       </Stack>
-                      {
+                      {/* {
                         (!userLoggin)
                           ?
                           <Typography variant="subtitle2">...</Typography>
@@ -250,7 +250,7 @@ const ProfileSection = (props) => {
                               <Typography variant="subtitle2" key={index}>{item?.name}</Typography>
                             )
                           })
-                      }
+                      } */}
                     </Stack>
                     <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
