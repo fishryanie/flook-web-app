@@ -179,8 +179,15 @@ const insertOneEbook = async (data: any, token: any) => {
   return response
 }
 
-const updateOneEbook = async (data: any) => {
-
+const updateOneEbook = async (id: any, data: any, token: any) => {
+  const request = {
+    method: 'PUT',
+    api: domain + apiString.updateOneEbook + `?id=${id}`,
+    body: data,
+    token: token,
+  }
+  const response = await requestAPI(request)
+  return response
 }
 
 const deleteEbook = async (id: any) => {
@@ -221,6 +228,17 @@ const insertOneChapter = async (data: any, token: any) => {
   const request = {
     method: 'POST',
     api: domain + apiString.insertOneChapter,
+    body: data,
+    token: token,
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
+const updateOneChapter = async (id: any, data: any, token: any) => {
+  const request = {
+    method: 'PUT',
+    api: domain + apiString.updateOneChapter + `?id=${id}`,
     body: data,
     token: token,
   }
@@ -401,7 +419,7 @@ export default {
 
   findManyAuthor, insertOneAuthor, updateOneAuthor, deleteAuthor, removeOneAuthor, removeManyAuthor,
 
-  findManyChapter, findOneChapter, searchChapter, insertOneChapter, removeOneChapter, removeManyChapter,
+  findManyChapter, findOneChapter, searchChapter, insertOneChapter, updateOneChapter, removeOneChapter, removeManyChapter,
 
   findManyComment, insertOneComment, updateOneComment, removeOneComment, removeManyComment,
 

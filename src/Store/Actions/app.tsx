@@ -67,6 +67,10 @@ const insertOneEbook = (data:any) => ({type: actionTypes.insertOneEbook, payload
 const insertOneEbookSuccess = (data: any) => ({type: actionTypes.insertOneEbookSuccess, payload: data})
 const insertOneEbookFailure = (data: any) => ({type: actionTypes.insertOneEbookFailure, payload: data})
 
+const updateOneEbook = (id:any, data:any) => ({type: actionTypes.updateOneEbook, payload: { id, data }});
+const updateOneEbookSuccess = (data: any) => ({type: actionTypes.updateOneEbookSuccess, payload: data})
+const updateOneEbookFailure = (data: any) => ({type: actionTypes.updateOneEbookFailure, payload: data})
+
 const deleteOneEbook = (id: any) => ({type: actionTypes.deleteOneEbook, payload: id});
 const deleteOneEbookSuccess = (data: any) => ({type: actionTypes.deleteOneEbookSuccess, payload: data})
 const deleteOneEbookFailure = (data: any) => ({type: actionTypes.deleteOneEbookFailure, payload: data})
@@ -95,6 +99,10 @@ const searchChapterSuccess = (data:any) => ({type: actionTypes.searchChapterSucc
 const insertOneChapter = (data: any) => ({ type: actionTypes.insertOneChapter, payload: data});
 const insertOneChapterFailure = (data:any) => ({type: actionTypes.insertOneChapterFailure, payload: data});
 const insertOneChapterSuccess = (data:any) => ({type: actionTypes.insertOneChapterSuccess, payload: data});
+
+const updateOneChapter = (id:any, data:any) => ({type: actionTypes.updateOneChapter, payload: { id, data }});
+const updateOneChapterSuccess = (data: any) => ({type: actionTypes.updateOneChapterSuccess, payload: data})
+const updateOneChapterFailure = (data: any) => ({type: actionTypes.updateOneChapterFailure, payload: data})
 
 const removeOneChapter = (id: any) => ({type: actionTypes.removeOneChapter, payload: id});
 const removeOneChapterSuccess = (data: any) => ({type: actionTypes.removeOneChapterSuccess, payload: data})
@@ -167,6 +175,7 @@ export default {
   findOneEbook, findOneEbookFailure, findOneEbookSuccess,
   findManyEbook, findManyEbookFailure, findManyEbookSuccess,
   insertOneEbook, insertOneEbookSuccess, insertOneEbookFailure,
+  updateOneEbook, updateOneEbookSuccess, updateOneEbookFailure,
   deleteOneEbook, deleteOneEbookSuccess, deleteOneEbookFailure,
   removeOneEbook, removeOneEbookSuccess, removeOneEbookFailure,
   removeManyEbook, removeManyEbookSuccess, removeManyEbookFailure,
@@ -175,6 +184,7 @@ export default {
   findOneChapter, findOneChapterFailure, findOneChapterSuccess,
   searchChapter, searchChapterFailure, searchChapterSuccess,
   insertOneChapter, insertOneChapterSuccess, insertOneChapterFailure,
+  updateOneChapter, updateOneChapterSuccess, updateOneChapterFailure,
   removeOneChapter, removeOneChapterSuccess, removeOneChapterFailure,
   removeManyChapter, removeManyChapterSuccess, removeManyChapterFailure,
 

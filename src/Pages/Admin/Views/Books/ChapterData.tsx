@@ -150,14 +150,39 @@ const RenderForm: React.FC = () => {
     dispatch(Action.app.findManyEbook());
   }, []);
 
+  useEffect(() => {
+    if (typeDialog !== 'FORM_CREATE') {
+      for (const key in infoRowTable) {
+        // if (key === 'images') {
+        //   setValue(key, infoRowTable[key]?.url)   
+        // }
+        setValue(key, infoRowTable[key])
+      }
+    }
+  }, []);
+
   const onSubmit = (data: any, name: any) => {
     if (typeDialog !== 'FORM_CREATE') {
+      for (const key in data) {
+        if (key === 'images') {
+          formData.append(key, data[key][0])   
+        }
+        if(key === 'ebooks'){
+          Array.isArray(data[key])
+          ? data[key].forEach((row: any) => {
+            formData.append(key, row._id.toString());
+            })
+          :
+          formData.append(key, data[key])
+        }
+        formData.append(key, data[key])
+      }
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
           content: `Grant ${name} rights to ${infoRowTable?.name}`,
           description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
-          handleYes: () => dispatch(Action.app.updateOneGenre(infoRowTable?._id, data))
+          handleYes: () => dispatch(Action.app.updateOneChapter(infoRowTable?._id, formData))
         }
       })
     }
@@ -180,15 +205,6 @@ const RenderForm: React.FC = () => {
       console.log('formData', formData);
     }
   };
-
-  useEffect(() => {
-    if (typeDialog !== 'FORM_CREATE') {
-      for (const key in infoRowTable) {
-        setValue(key, infoRowTable[key]);
-        formData.append(key, infoRowTable[key])
-      }
-    }
-  }, []);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>

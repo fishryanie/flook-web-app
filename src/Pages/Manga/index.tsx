@@ -65,6 +65,7 @@ export const selectChapters: Array<Select> = [
 const MangaPage: React.FC = () => {
 
   const ListBook = useSelector((state: RootStateOrAny) => state.BookReducer.listBook)
+  console.log('listBook', ListBook)
   const ListAuthor = useSelector((state: RootStateOrAny) => state.BookReducer.listAuthor)
   const ListGenres = useSelector((state: RootStateOrAny) => state.BookReducer.listGenre)
   const CountBook = useSelector((state: RootStateOrAny) => state.BookReducer.countBook)

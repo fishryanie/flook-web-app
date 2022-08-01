@@ -151,12 +151,34 @@ const RenderForm: React.FC = () => {
 
   const onSubmit = (data: any, name: any) => {
     if (typeDialog !== 'FORM_CREATE') {
+      for (const key in data) {
+        if (key === 'images') {
+          formData.append(key, data[key][0])   
+        }
+        if(key === 'authors'){
+          Array.isArray(data[key])
+          ? data[key].forEach((row: any) => {
+            formData.append(key, row._id.toString());
+            })
+          :
+          formData.append(key, data[key])
+        }
+        if(key === 'genres'){
+          Array.isArray(data[key])
+          ? data[key].forEach((row: any) => {
+            formData.append(key, row._id.toString());
+            })
+          :
+          formData.append(key, data[key])
+        }
+        formData.append(key, data[key])
+      }
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
           content: `Grant ${name} rights to ${infoRowTable?.title}`,
           description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
-          handleYes: () => dispatch(Action.app.updateOneGenre(infoRowTable?._id, data))
+          handleYes: () => dispatch(Action.app.updateOneEbook(infoRowTable?._id, formData))
         }
       })
     }

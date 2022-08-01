@@ -233,6 +233,27 @@ function* InsertOneEbook(action: any) {
   }
 }
 
+function* UpdateOneEbook(action: any) {
+  
+  try {
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.updateOneEbook(action.payload.id, action.payload.data, readCookie)
+    console.log('saga',response)
+    if (response.statusCode === 200) {
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.updateOneEbookSuccess(response))
+      yield put(Action.app.findManyEbook())
+    } else {
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.updateOneEbookFailure(response))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('UpdateOneEbook')
+  }
+}
+
 function* SearchEbook(action: any){
   const readCookie = Cookie.getCookie('token')
   try {
@@ -417,6 +438,27 @@ function* InsertOneChapter(action: any) {
     console.log('Error', error)
   } finally {
     console.log('InsertOneChapter')
+  }
+}
+
+function* UpdateOneChapter(action: any) {
+  
+  try {
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.app.updateOneChapter(action.payload.id, action.payload.data, readCookie)
+    console.log('saga',response)
+    if (response.statusCode === 200) {
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.updateOneChapterSuccess(response))
+      yield put(Action.app.findManyChapter())
+    } else {
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.updateOneChapterFailure(response))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('UpdateOneChapter')
   }
 }
 
@@ -671,6 +713,7 @@ function* RemoveManyComment(action: any){
 export default function* appSaga() {
   yield all([
     takeLatest(actionTypes.insertOneEbook, InsertOneEbook),
+    takeLatest(actionTypes.updateOneEbook, UpdateOneEbook),
     takeLatest(actionTypes.searchEbook, SearchEbook),
     takeLatest(actionTypes.findOneEbook, FindOneEbook),
     takeLatest(actionTypes.findManyEbook, FindManyEbook),
@@ -693,6 +736,7 @@ export default function* appSaga() {
     takeLatest(actionTypes.searchChapter, SearchChapter),
     takeLatest(actionTypes.findOneChapter, FindOneChapter),
     takeLatest(actionTypes.insertOneChapter, InsertOneChapter),
+    takeLatest(actionTypes.updateOneChapter, UpdateOneChapter),
     takeLatest(actionTypes.removeOneChapter, RemoveOneChapter),
     takeLatest(actionTypes.removeManyChapter, RemoveManyChapter),
 
