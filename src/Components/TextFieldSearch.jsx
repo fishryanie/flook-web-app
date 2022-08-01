@@ -70,6 +70,9 @@ export default function TextFieldSearch(props) {
       if (field === 'license'){
         setSelectedCaste([infoRowTable.license])
       }
+      if (field === 'search' || 'allowedAge' || 'chapter' || 'status'){
+        setSelectedCaste([])
+      }
     }
   }, [field]);
   
