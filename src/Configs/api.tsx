@@ -25,6 +25,7 @@ const apiString = {
   deleteManyUsers: `${user}/delete-many-user`,
   removeOneUser: `${user}/remove-one-user`,
   removeManyUsers: `${user}/remove-many-user`,
+  findUserLoggin: `${user}/find-user-loggin`,
 
   // author
   findOneAuthor: `${author}/find-one-author`,

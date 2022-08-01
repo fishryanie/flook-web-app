@@ -168,11 +168,23 @@ const RemoveManyUser = async (data: any, token: any) => {
   return response
 }
 
+const FindUserLoggin = async (data: any, token: any) => {
+  const request = {
+    method: 'GET',
+    api: domain + apiString.findUserLoggin,
+    body: data,
+    token: token,
+  }
+  const response = await requestAPI(request)
+  return response
+}
 
 
 
 export default {
   Login, Register, ForgotPass, ChangePass,
+
+  FindUserLoggin,
 
   FindManyUser, RemoveOneUser, RemoveManyUser, InsertOneUser, UpdateOneUser,
   

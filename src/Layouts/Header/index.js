@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { IconMenu2 } from '@tabler/icons';
 import { Avatar, ButtonBase } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import Logo from '../../Assets/Images/logo.png'
+import Logo from '../../Assets/Images/logoFlook.png'
 import Carousel from "../Carousel"
 import styledComponents from "styled-components"
 import Navigator from "./Components/Navigator"

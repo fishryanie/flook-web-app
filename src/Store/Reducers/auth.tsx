@@ -10,6 +10,7 @@ const stateDefault = {
   arrayUser: [],
   arrayFeatures: [],
   arrayFeatureGroups: [],
+  userLoggin: {},
 }
 
 
@@ -39,7 +40,11 @@ export const AuthReducer = (state = stateDefault, action:any) => {
     case actionTypes.findManyFeatureGroupSuccess: {
       console.log('action.payload', action.payload)
       return {...state, arrayFeatureGroups: [...action.payload]}
-    }  
+    }
+    case actionTypes.findUserLogginSuccess: {
+      console.log('action.payload', action.payload)
+      return {...state, userLoggin: action.payload}
+    }
 
     default: return {...state} 
   }

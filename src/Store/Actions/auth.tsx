@@ -20,6 +20,10 @@ const ChangePassFailure = (data: any) => ({type: actionTypes.changePassFailure, 
 
 //=============================// USER //====================================//
 
+const FindUserLoggin = (data: any) => ({type: actionTypes.findUserLoggin, payload: data})
+const FindUserLogginFailure = (data: any) => ({type: actionTypes.findUserLogginFailure, payload: data})
+const FindUserLogginSuccess = (data: any) => ({type: actionTypes.findUserLogginSuccess, payload: data})
+
 const FindManyUser = (token:string) => ({type: actionTypes.findManyUser, payload: token})
 const FindManyUserFailure = (data: any) => ({type: actionTypes.findManyUserFailure, payload: data})
 const FindManyUserSuccess = (data: any) => ({type: actionTypes.findManyUserSuccess, payload: data})
@@ -77,6 +81,8 @@ export default {
   Register, RegisterSuccess, RegisterFailure,
   ForgotPass, ForgotPassSuccess, ForgotPassFailure,
   ChangePass, ChangePassSuccess, ChangePassFailure,
+
+  FindUserLoggin, FindUserLogginFailure, FindUserLogginSuccess,
 
   FindManyUser, FindManyUserSuccess, FindManyUserFailure,
   DeleteOneUser, DeleteOneUserSuccess, DeleteOneUserFailure,

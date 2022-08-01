@@ -6,6 +6,7 @@ import Cookie from '../../hooks/Cookie';
 import Services from '../../Services'
 import Action from '../Actions'
 import { toast } from "react-toastify";
+import localStorage from "redux-persist/es/storage";
 
 
 
@@ -16,7 +17,7 @@ function* Login(action: any) {
     if (response.statusCode === 200) {
       yield Cookie.removeCookie('token');
       // set cookie
-      yield Cookie.setCookie('token', response.data.accessToken)
+      yield Cookie.setCookie('token', response.data.accessToken);
       yield toast.success(response.message, toastConfig )
       yield put(Action.auth.LoginSuccess(response))
       yield delay(2000)
@@ -287,6 +288,24 @@ function* FindManyFeatureGroup(action: any){
   }
 }
 
+function* FindUserLoggin(action: any){
+  try {
+    const readCookie = Cookie.getCookie('token')
+    const response: responseGenerator = yield Services.auth.FindUserLoggin(action.payload, readCookie)
+    if (response.statusCode === 200) {
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.auth.FindUserLogginSuccess(response.data))
+    }else{
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.auth.FindUserLogginFailure(response.message))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('ChangePass')
+  }
+}
+
 
 export default function* authSaga() {
   yield all([
@@ -294,6 +313,8 @@ export default function* authSaga() {
     takeLatest(actionTypes.register, Register),
     takeLatest(actionTypes.forgotPass, ForgotPass),
     takeLatest(actionTypes.changePass, ChangePass),
+
+    takeLatest(actionTypes.findUserLoggin, FindUserLoggin),
 
     takeLatest(actionTypes.findManyUser, FindManyUser),
     takeLatest(actionTypes.insertOneUser, InsertOneUser),

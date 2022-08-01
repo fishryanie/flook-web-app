@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { styled } from '@mui/material/styles';
@@ -40,6 +40,7 @@ import UpgradePlanCard from './UpgradePlanCard';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+import Action from '../../../Store/Actions';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -73,7 +74,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const ProfileSection = (props) => {
-	const { showAt } = props
+  const { showAt } = props
   const theme = useTheme();
   const customization = useSelector((state) => state.customizationReducer);
   const navigate = useNavigate();
@@ -119,13 +120,23 @@ const ProfileSection = (props) => {
     prevOpen.current = open;
   }, [open]);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(Action.auth.FindUserLoggin())
+  }, []);
+
+  const userLoggin = useSelector((state) => state.AuthReducer.userLoggin)
+  console.log('userLogin', userLoggin);
+
   return (
     <>
       {showAt === 'APP' ? (
         // <ButtonBase sx={{ borderRadius: '5px', overflow: 'hidden' }}>
         <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
           <Avatar
-            src={'https://scr.vn/wp-content/uploads/2020/08/H%C3%ACnh-g%C3%A1i-%C4%91%E1%BA%B9p-t%C3%B3c-d%C3%A0i-ng%E1%BA%A7u.jpg'}
+            // src={'https://scr.vn/wp-content/uploads/2020/08/H%C3%ACnh-g%C3%A1i-%C4%91%E1%BA%B9p-t%C3%B3c-d%C3%A0i-ng%E1%BA%A7u.jpg'}
+            src={userLoggin?.images?.avatar?.url}
             sx={{
               ...theme.typography.commonAvatar,
               ...theme.typography.mediumAvatar,
@@ -139,8 +150,8 @@ const ProfileSection = (props) => {
             aria-controls={open ? 'menu-list-grow' : undefined}
             aria-haspopup="true"
             color="inherit"
-						onClick={handleToggle}
-            // variant="rounded"
+            onClick={handleToggle}
+          // variant="rounded"
           />
         </StyledBadge>
       ) : (
@@ -167,7 +178,8 @@ const ProfileSection = (props) => {
           }}
           icon={
             <Avatar
-              src={'https://scr.vn/wp-content/uploads/2020/08/H%C3%ACnh-g%C3%A1i-%C4%91%E1%BA%B9p-t%C3%B3c-d%C3%A0i-ng%E1%BA%A7u.jpg'}
+              // src={'https://scr.vn/wp-content/uploads/2020/08/H%C3%ACnh-g%C3%A1i-%C4%91%E1%BA%B9p-t%C3%B3c-d%C3%A0i-ng%E1%BA%A7u.jpg'}
+              src={userLoggin?.images?.avatar?.url}
               sx={{
                 ...theme.typography.mediumAvatar,
                 margin: '8px 0 8px 8px !important',
@@ -189,7 +201,7 @@ const ProfileSection = (props) => {
         />
       )}
       <Popper
-      sx={{zIndex: 999}}
+        sx={{ zIndex: 999 }}
         placement="bottom-end"
         open={open}
         anchorEl={anchorRef.current}
@@ -215,12 +227,30 @@ const ProfileSection = (props) => {
                   <Box sx={{ p: 2 }}>
                     <Stack>
                       <Stack direction="row" spacing={0.5} alignItems="center">
-                        <Typography variant="h4">Good Morning,</Typography>
-                        <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          Johne Doe
-                        </Typography>
+                        <Typography variant="h4">Hello,</Typography>
+                        {
+                          (!userLoggin)
+                            ?
+                            <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
+                              Guest
+                            </Typography>
+                            :
+                            <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
+                              {userLoggin?.displayName}
+                            </Typography>
+                        }
                       </Stack>
-                      <Typography variant="subtitle2">Project Admin</Typography>
+                      {
+                        (!userLoggin)
+                          ?
+                          <Typography variant="subtitle2">...</Typography>
+                          :
+                          userLoggin?.roles?.map((item, index) => {
+                            return(
+                              <Typography variant="subtitle2" key={index}>{item?.name}</Typography>
+                            )
+                          })
+                      }
                     </Stack>
                     <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
@@ -292,7 +322,7 @@ const ProfileSection = (props) => {
                           },
                         }}
                       >
-                        
+
                         <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                           selected={selectedIndex === 0}
@@ -337,7 +367,7 @@ const ProfileSection = (props) => {
                           </ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
                         </ListItemButton>
-                     
+
                       </List>
                     </Box>
                   </PerfectScrollbar>
