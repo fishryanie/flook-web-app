@@ -1,24 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
 import Action from '../../Store/Actions';
-import Selector from '../../Store/Selector';
 import namePage from '../../Constants/NamePage';
+import { AppReducer } from '../../Store/Reducers/app';
 
 
 const DetailPage: React.FC = () => {
-
   const params = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const id = params.id;
-  console.log("id", id)
+  const dataEbook = useSelector((state: RootStateOrAny) => state.AppReducer.dataEbook);
+  console.log("🚀 ~ file: index.tsx ~ line 17 ~ dataEbook", dataEbook)
 
-  const CountChapter = useSelector((state: RootStateOrAny) => state.BookReducer.countChapter)
+  const id = params.id;
+  
+  const CountChapter = useSelector((state: RootStateOrAny) => state.BookReducer.countChapter);
+  const countChap = CountChapter % 12 === 0 ? parseInt((CountChapter/12).toString()) : parseInt((CountChapter/12).toString()) + 1;
 
   const [data, setData] = useState({
     id: id,
@@ -40,8 +41,6 @@ const DetailPage: React.FC = () => {
     }
   }, [dispatch, data]);
 
-  console.log('listChapter', listChapter);
-
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)
     setData({ ...data, page: value })
@@ -59,7 +58,7 @@ const DetailPage: React.FC = () => {
               <div className="widget-sidebar">
                 <div className="poster-manga">
                   <a href="" className="poster">
-                    <img src={dataOneManga?.images?.background?.url} alt="photo" />
+                    <img src={dataEbook?.images?.background?.url} alt="photo" />
                     <div className="icon_img_poster">
                       <i className="bx bx-play" />
                     </div>
@@ -69,13 +68,13 @@ const DetailPage: React.FC = () => {
                   <ul>
                     <li>
                       <p>
-                        Tên : <span> {dataOneManga?.title} </span>
+                        Tên : <span> {dataEbook?.title} </span>
                       </p>
                     </li>
                     <li>
                       <p>
                         Tác Giả :
-                        {dataOneManga?.authors?.map((item: any, index: number) => {
+                        {dataEbook?.authors?.map((item: any, index: number) => {
                           return (
                             <span key={index}> {item.name}, </span>
                           )
@@ -85,7 +84,7 @@ const DetailPage: React.FC = () => {
                     <li>
                       <p>
                         Thể Loại :
-                        {dataOneManga?.genres?.map((item: any, index: number) => {
+                        {dataEbook?.genres?.map((item: any, index: number) => {
                           return (
                             <span key={index}> {item.name}, </span>
                           )
@@ -94,7 +93,7 @@ const DetailPage: React.FC = () => {
                     </li>
                     <li>
                       <p>
-                        Allowed-Age : <span> {dataOneManga?.allowedAge} </span>
+                        Allowed-Age : <span> {dataEbook?.allowedAge} </span>
                       </p>
                     </li>
                     <li>
@@ -104,7 +103,7 @@ const DetailPage: React.FC = () => {
                     </li>
                     <li>
                       <p>
-                        Chapters : <span> #{dataOneManga?.chapter?.length} </span>
+                        Chapters : <span> #{dataEbook?.chapter?.length} </span>
                       </p>
                     </li>
                   </ul>
@@ -170,10 +169,10 @@ const DetailPage: React.FC = () => {
               {/* DETAIL CONTENT */}
               <section className="detail__content">
                 <header className="header__detail__content">
-                  <h1>{dataOneManga?.title}</h1>
+                  <h1>{dataEbook?.title}</h1>
                   <p>
                     Manga Status <span>:
-                      <span> {dataOneManga?.status} </span>
+                      <span> {dataEbook?.status} </span>
                     </span>
                   </p>
                   <div className="rating__star">
@@ -186,7 +185,7 @@ const DetailPage: React.FC = () => {
                   <div className="media-statistic">
                     <div className="fakebox__chapers__container">
                       <h4>
-                        <span>{dataOneManga?.chapter?.length}/?</span>
+                        <span>{dataEbook?.chapter?.length}/?</span>
                         <br />
                         <p>CHAPTERS</p>
                         <i className="fa-solid fa-bars-staggered" />
@@ -198,7 +197,7 @@ const DetailPage: React.FC = () => {
                         <i className="fa-solid fa-star-half-stroke" />
                       </h4>
                       <h4>
-                        <span> {dataOneManga?.view} </span>
+                        <span> {dataEbook?.views} </span>
                         <br />
                         <p>VIEWS</p>
                         <i className="fa-solid fa-eye" />
@@ -210,7 +209,7 @@ const DetailPage: React.FC = () => {
                 <article className="content-text">
                   <h2>THE STORY LINE</h2>
                   <p>
-                    {dataOneManga?.description}
+                    {dataEbook?.description}
                   </p>
                 </article>
                 {/* BUTTONS */}
@@ -284,7 +283,7 @@ const DetailPage: React.FC = () => {
                   <Pagination size="large" variant="outlined" shape="rounded"
                     showFirstButton
                     showLastButton
-                    count={CountChapter % 5 === 0 ? parseInt((CountChapter / 5).toString()) : (parseInt((CountChapter / 5).toString()) + 1)}
+                    count ={countChap}
                     page={page} onChange={handleChangePage}
                   />
                 </Stack>

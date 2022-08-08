@@ -37,12 +37,10 @@ export const AuthReducer = (state = stateDefault, action:any) => {
     case actionTypes.findManyFeatureSuccess: {
       return {...state, arrayFeature: [...action.payload]}
     }
-    case actionTypes.findManyFeatureGroupSuccess: {
-      console.log('action.payload', action.payload)
+    case actionTypes.findOneFeatureGroupSuccess: {
       return {...state, arrayFeatureGroups: [...action.payload]}
     }
-    case actionTypes.findUserLogginSuccess: {
-      console.log('action.payload', action.payload)
+    case actionTypes.findOneUserSuccess: {
       return {...state, userLoggin: action.payload}
     }
 

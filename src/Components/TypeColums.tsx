@@ -61,12 +61,14 @@ const columAction = (type: string, table: string) => ({
   type: 'actions',
   getActions: (params: GridRowParams) => [
     <GridActionsCellItem label="isActive" sx={{ m: 0, p: 0 }} icon={type === 'eye'
-      ? <VisibilityIcon onClick={showInfoRow(params.row)} />
-      : <Stack direction="row" spacing={1} alignItems="center">
-        <AntSwitch defaultChecked={params.row.isActive ? true : false} inputProps={{ 'aria-label': 'ant design' }} />
-      </Stack>
+      ? <VisibilityIcon  onClick={showInfoRow(params.row)}/>
+      : type === 'isActive'
+        ? <Stack direction="row" spacing={1} alignItems="center">
+          <AntSwitch defaultChecked={params.row.isActive ? true : false} inputProps={{ 'aria-label': 'ant design' }} />
+        </Stack>
+        : <React.Fragment/>
     } />,
-    <GridActionsCellItem label="Update" sx={{ m: 0, p: 0 }} icon={<SettingsOutlinedIcon sx={{ m: 0, p: 0 }} />} />,
+    <GridActionsCellItem label="Update" sx={{ m: 0, p: 0 }} icon={<SettingsOutlinedIcon sx={{ m: 0, p: 0 }} />} onClick={showInfoRow(params.row)} />,
     <GridActionsCellItem label="Delete" sx={{ m: 0, p: 0 }} icon={<DeleteOutlineOutlinedIcon sx={{ m: 0, p: 0 }} />} onClick={handleDelete(params.row, table)} />,
   ],
 })
@@ -86,7 +88,7 @@ export const columnsUsers: any = [
   { width: 170, editable: false, field: "phoneNumber", headerName: "Phone Number" },
   { width: 220, editable: false, field: "roles", headerName: "Roles", renderCell: (params: any) => params.row.roles.map((item: any) => item.name).join(", ") },
   // { width: 150, editable: false, field: "deleted", headerName: "Deleted" },
-  { ...columAction('isactive', 'users') }
+  { ...columAction('isActive', 'users') }
 ]
 
 export const columnRole: any = [
@@ -108,14 +110,14 @@ export const columnsEbooks: any = [
   { width: 120, editable: false, field: "view", headerName: "Lượt đọc" },
   { width: 120, editable: false, field: "vip", headerName: "Vip" },
   // { width: 120, editable: false, field: "deleted", headerName: "Trạng thái xóa" },
-  { ...columAction('eye', 'ebooks') }
+  { ...columAction('', 'ebooks') }
 ]
 
 export const columnsGenres: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
   // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
   { width: 200, editable: false, field: "name", headerName: "Tên loại" },
-  { ...columAction('eye', 'genres') }
+  { ...columAction('', 'genres') }
 ]
 
 export const columnsAuthors: any = [
@@ -123,7 +125,7 @@ export const columnsAuthors: any = [
   { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params?.row?.images?.avatar?.url === '' ? <IconPhoto /> : <Avatar src={params?.row?.images?.avatar?.url} alt='images' /> },
   { width: 200, editable: false, field: "name", headerName: "Tên" },
   { width: 200, editable: false, field: "license", headerName: "License", renderCell: (params: any) => (params?.row?.license) === '' ? 'Null' : params?.row?.license?.displayName },
-  { ...columAction('eye', 'authors') }
+  { ...columAction('', 'authors') }
 ]
 
 export const columnsChapters: any = [
@@ -135,7 +137,7 @@ export const columnsChapters: any = [
   { width: 150, editable: false, field: "status", headerName: "Trạng thái" },
   { width: 150, editable: false, field: "numLikes", headerName: "Lượt thích", renderCell: (params: any) => params.row?.numLikes?.map((item: any) => item?.displayName).join(", ") },
 
-  { ...columAction('eye', 'chapters') }
+  { ...columAction('', 'chapters') }
 ]
 
 // ========================== Info review ====================================>>>
@@ -145,22 +147,22 @@ export const columnsReviews: any = [
   // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
   { width: 150, editable: false, field: "users", headerName: "Người dùng", renderCell: (params: any) => params.row.users?.displayName },
   { width: 250, editable: true, field: "ebooks", headerName: "Truyện", renderCell: (params: any) => params.row.ebooks?.title },
-  { width: 200, editable: false, field: "rating", headerName: "Đánh giá", renderCell: (params: any) => params.row.rating === '' ? 0 : <Rating name="read-only" value={params.row.rating} readOnly />},
+  { width: 200, editable: false, field: "rating", headerName: "Đánh giá", renderCell: (params: any) => params.row.rating === '' ? 0 : <Rating name="read-only" value={params.row.rating} readOnly /> },
   { width: 400, editable: false, field: "content", headerName: "Nội dung" },
 
-  { ...columAction('eye', 'reviews') }
+  { ...columAction('', 'reviews') }
 ]
 
 export const columnsComments: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
   // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
-  { width: 200, editable: false, field: "userId", headerName: "Người dùng", renderCell: (params: any) => params?.row?.userId?.username},
+  { width: 200, editable: false, field: "userId", headerName: "Người dùng", renderCell: (params: any) => params?.row?.userId?.username },
   // { width: 200, editable: true, field: "bookId", headerName: "Truyện", renderCell: (params: any) => params.row.bookId?.map((item: any) => item.title).join(", ") },
   { width: 250, editable: false, field: "content", headerName: "Nội dung" },
   // { width: 150, editable: false, field: "reviewId", headerName: "Review", renderCell: (params: any) => params?.row?.reviewId?.content},
   // { width: 150, editable: false, field: "chapterId", headerName: "Chapter", renderCell: (params: any) => params?.row?.chapterId?.name },
 
-  { ...columAction('eye', 'comments') }
+  { ...columAction('', 'comments') }
 ]
 
 // ========================== Info other ====================================>>>

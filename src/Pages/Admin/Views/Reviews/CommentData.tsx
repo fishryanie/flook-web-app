@@ -152,15 +152,12 @@ const RenderForm: React.FC = () => {
     }
   }, []);
 
-  console.log('inforowtable', infoRowTable);
-
   const onSubmit = (data: any, name: any) => {
     if (typeDialog !== 'FORM_CREATE') {
       const updateData = {
         content: data.content,
         userId: Array.isArray(data.userId) ? data.userId.map((item: any) => item._id.toString()) : data.userId,
       }
-      console.log('updateData', updateData)
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
@@ -175,7 +172,6 @@ const RenderForm: React.FC = () => {
         content: data.content,
         userId: data.userId.map((item: any) => item._id.toString()),
       }
-      console.log('data', newData);
       dispatch(Action.app.insertOneComment(newData))
     }
   };
@@ -321,7 +317,6 @@ const CommentData: React.FC = () => {
   useEffect(() => {
     dispatch(Action.app.findManyComment());
   }, []);
-  console.log('arrayComment', arrayComment)
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       <WrapperDiaLog Component={DialogComment} />

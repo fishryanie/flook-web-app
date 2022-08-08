@@ -49,7 +49,6 @@ const ForgotPass = async (id: any, data: forgot) => {
 }
 
 const ChangePass = async (data: any, token: string) => {
-  console.log("service", data)
   const request = {
     method: 'PUT',
     api: domain + apiString.changePassword,
@@ -93,10 +92,21 @@ const FindManyFeature = async (data: any, token: any) => {
   return response;
 }
 
-const FindManyFeatureGroup = async (data: any, token: any) => {
+const DecentralizationFeature = async (setFeature: any, data: any, id: any, token: any) => {
+  const request = {
+    method: 'PUT',
+    api: domain + apiString.decentralization + `?setFeature=${setFeature}`,
+    body: {data: data, userId: id},
+    token: token,
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
+const FindOneFeatureGroup = async (data: any, token: any) => {
   const request = {
     method: 'GET',
-    api: domain + apiString.findManyFeatureGroup,
+    api: domain + apiString.findOneFeatureGroup,
     body: data,
     token: token,
   };
@@ -115,10 +125,32 @@ const InsertOneUser = async (data: any, token: any) => {
   return response;
 }
 
-const UpdateOneUser = async (data: any, token: any) => {
+const UpdateOneUser = async (id: any, data: any, token: any) => {
+  const request = {
+    method: 'PUT',
+    api: domain + apiString.updateOneUser + `?id=${id}`,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
+const InsertOneRole = async (data: any, token: any) => {
   const request = {
     method: 'POST',
-    api: domain + apiString.updateOneUser,
+    api: domain + apiString.insertOneRole,
+    body: data,
+    token: token
+  };
+  const response = await requestAPI(request);
+  return response;
+}
+
+const UpdateOneRole = async (id: any, data: any, token: any) => {
+  const request = {
+    method: 'PUT',
+    api: domain + apiString.updateOneRole + `?id=${id}`,
     body: data,
     token: token
   };
@@ -168,10 +200,10 @@ const RemoveManyUser = async (data: any, token: any) => {
   return response
 }
 
-const FindUserLoggin = async (data: any, token: any) => {
+const FindOneUser = async (data: any, token: any) => {
   const request = {
     method: 'GET',
-    api: domain + apiString.findUserLoggin,
+    api: domain + apiString.findOneUser,
     body: data,
     token: token,
   }
@@ -184,14 +216,14 @@ const FindUserLoggin = async (data: any, token: any) => {
 export default {
   Login, Register, ForgotPass, ChangePass,
 
-  FindUserLoggin,
+  FindOneUser,
 
   FindManyUser, RemoveOneUser, RemoveManyUser, InsertOneUser, UpdateOneUser,
   
-  FindManyRole, RemoveOneRole, RemoveManyRole,
+  FindManyRole, RemoveOneRole, RemoveManyRole, InsertOneRole, UpdateOneRole,
 
-  FindManyFeature, 
+  FindManyFeature, DecentralizationFeature,
   
-  FindManyFeatureGroup,
+  FindOneFeatureGroup,
   
 }

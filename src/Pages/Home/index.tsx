@@ -1,39 +1,50 @@
 import Subscribe from './Components/Subscribe'
 import SliderItem from '../../Components/SliderCustom'
 import { dataCarouselDemo } from '../../Functions/settingsSlider'
-import Selector from '../../Store/Selector'
 import Action from '../../Store/Actions'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const HomePage: React.FC = () => {
 
-  const [ data, setData ] = useState({
-    page: 1,
-    allowedAge: ['All'],
-    chapters: ['All'],
-    search: ['All'],
-    status: ['All'],
-    authors: ['All'],
-    genres: ['All'],
-    sort: 0,
-  })
+  const data = { page: 1, sort: 'view' };
+  const data1 = { page: 1, sort: 'view', newDay: true };
 
   const dispatch = useDispatch();
 
-  const listBook = useSelector((state: RootStateOrAny) => state.BookReducer.listBook)
-  console.log(listBook)
+  const topBook = useSelector((state: RootStateOrAny) => state.BookReducer.listBook)
+  const newBook = useSelector((state: RootStateOrAny) => state.BookReducer.listNewBook)
+  const subBook = useSelector((state: RootStateOrAny) => state.BookReducer.listBookSubscribers)
+  const hisBook = useSelector((state: RootStateOrAny) => state.BookReducer.listBookHistory)
 
   useEffect(() => {
     dispatch(Action.app.searchEbook(data));
-  }, [dispatch, data]);
+    dispatch(Action.app.searchNewEbook(data1));
+    dispatch(Action.app.findEbookSubscribers());
+    dispatch(Action.app.findEbookHistory());
+  }, [dispatch]);
 
 
   return (
     <section>
-      { listBook.length > 3 && <SliderItem data={listBook} title='top manga'/> }
-      <Subscribe/>
-      <SliderItem data={dataCarouselDemo} title='manga'/>
+      {/* <SliderItem data={dataCarouselDemo} title='manga' /> */}
+      {topBook.length > 3 && <SliderItem data={topBook} title='top manga' />}
+      {
+        hisBook.length > 3
+        &&
+        <SliderItem data={hisBook} title='lịch sử đọc' />
+      }
+      <Subscribe />
+      {
+        newBook.length > 3
+        &&
+        <SliderItem data={newBook} title='truyện mới' />
+      }
+      {
+        subBook.length > 3
+        &&
+        <SliderItem data={subBook} title='theo dõi' />
+      }
     </section>
   )
 }

@@ -45,7 +45,7 @@ const FormRegister: React.FC = props => {
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12}>
-          <InputCustom control={control} errors={errors.email} field="email" label="Email" />
+          <InputCustom control={control} errors={errors.email} field="email" label="Nhập email" />
         </Grid>
       </Grid>
       {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
@@ -71,7 +71,7 @@ const FormRegister: React.FC = props => {
           variant="contained"
           color="secondary"
         >
-          Submit
+          Gửi
         </Button>
       </Box>
     </form>

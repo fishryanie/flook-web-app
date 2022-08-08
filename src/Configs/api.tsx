@@ -9,7 +9,7 @@ const comment = '/api/comment-management'
 const feature = '/api/feature-management'
 const featureGroup = '/api/feature-group-management'
 
-export const domain:string = "http://localhost:8000";
+export const domain:string = "https://flook-app.herokuapp.com"; //"http://localhost:8000";
 
 const apiString = {
   login: `${user}/login`,
@@ -62,6 +62,8 @@ const apiString = {
 
   // ebook
   searchEbook: `${ebook}/search-ebook`,
+  findEbookSubscribe: `${ebook}/find-many-by-user`,
+  findEbookHistory: `${ebook}/find-many-by-user`,
   findOneEbook: `${ebook}/find-one-ebook`,
   findManyEbook: `${ebook}/find-many-ebook`,
   insertOneEbook: `${ebook}/insert-one-ebook`,
@@ -116,6 +118,7 @@ const apiString = {
   deleteManyFeature: `${feature}/delete-many-feature`,
   removeOneFeature: `${feature}/remove-one-feature`,
   removeManyFeature: `${feature}/remove-many-feature`,
+  decentralization: `${feature}/decentralization`,
 
   // featuresGroup
   findOneFeatureGroup: `${featureGroup}/find-one-feature-group`,

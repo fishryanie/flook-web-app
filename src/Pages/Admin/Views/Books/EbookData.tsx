@@ -149,7 +149,7 @@ const RenderForm: React.FC = () => {
     }
   }, []);
 
-  const onSubmit = (data: any, name: any) => {
+  const onSubmit = (data: any) => {
     if (typeDialog !== 'FORM_CREATE') {
       for (const key in data) {
         if (key === 'images') {
@@ -176,7 +176,7 @@ const RenderForm: React.FC = () => {
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
-          content: `Grant ${name} rights to ${infoRowTable?.title}`,
+          content: `Grant ${data?.title} rights to ${infoRowTable?.title}`,
           description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
           handleYes: () => dispatch(Action.app.updateOneEbook(infoRowTable?._id, formData))
         }
@@ -208,8 +208,6 @@ const RenderForm: React.FC = () => {
       dispatch(Action.app.insertOneEbook(formData))
     }
   };
-
-  console.log('inforowtable', infoRowTable);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -409,7 +407,6 @@ const EbookData: React.FC = () => {
   useEffect(() => {
     dispatch(Action.app.findManyEbook());
   }, []);
-  console.log('arrayUser', arrayEbook)
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       <WrapperDiaLog Component={DialogEbook} />

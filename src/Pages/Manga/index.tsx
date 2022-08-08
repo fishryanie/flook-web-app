@@ -3,7 +3,6 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useForm, Controller } from "react-hook-form";
 //Store
 import Action from '../../Store/Actions'
-import Selector from '../../Store/Selector'
 //Mui
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -25,6 +24,8 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 //Components
 import CardImage from '../../Components/CardImage';
 import TextFieldSearch from '../../Components/TextFieldSearch';
+import { toast } from 'react-toastify';
+import { toastConfig } from '../../Functions/toast';
 
 
 
@@ -65,7 +66,6 @@ export const selectChapters: Array<Select> = [
 const MangaPage: React.FC = () => {
 
   const ListBook = useSelector((state: RootStateOrAny) => state.BookReducer.listBook)
-  console.log('listBook', ListBook)
   const ListAuthor = useSelector((state: RootStateOrAny) => state.BookReducer.listAuthor)
   const ListGenres = useSelector((state: RootStateOrAny) => state.BookReducer.listGenre)
   const CountBook = useSelector((state: RootStateOrAny) => state.BookReducer.countBook)
@@ -78,13 +78,7 @@ const MangaPage: React.FC = () => {
   const [ page, setPage ] = useState(1)
   const [ data, setData ] = useState({
     page: page,
-    allowedAge: ['All'],
-    chapters: ['All'],
-    search: ['All'],
-    status: ['All'],
-    authors: ['All'],
-    genres: ['All'],
-    sort: 0
+    sort: 'view'
   })
 
   const { control, register, setValue, reset, handleSubmit } = useForm({defaultValues: data})
@@ -102,7 +96,6 @@ const MangaPage: React.FC = () => {
   const onSubmit = (data:any) => {
     data.page = 1
     data.sort = 'view'
-    console.log(data);
     setData({...data, data})
     dispatch(Action.app.searchEbook(data))
   }
@@ -126,7 +119,7 @@ const MangaPage: React.FC = () => {
   return (
     <section className='manga-page'>
       {/* alphabet-sorting */}
-      <ul className={`reset-block alphabet-sorting ${animate}`}>
+      <ul className={`reset-block alphabet-sorting ${animate}`} onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}>
         <li><a href="#">ALL</a></li>
         <li><a href="#">#</a></li>
         <li><a href="#">A</a></li>
@@ -168,10 +161,10 @@ const MangaPage: React.FC = () => {
                       render={({ field }) => (  
                         <RadioGroup row aria-labelledby="sort-label" {...field}>
                           <Breadcrumbs aria-label="breadcrumb">
-                            <FormControlLabel control={<Radio size="small" />} value="sort-by-dasc" label="SORT BY A-Z" />
-                            <FormControlLabel control={<Radio size="small" />} value="sort-by-rating" label="SORT BY RATING" />
-                            <FormControlLabel control={<Radio size="small" />} value="sort-by-newest" label="SORT BY NEWEST MANGA" />
-                            <FormControlLabel control={<Radio size="small" />} value="sort-by-views" label="SORT BY VIEW" />
+                            <FormControlLabel control={<Radio size="small" />} value="sort-by-dasc" label="XẾP TỪ A-Z" />
+                            <FormControlLabel control={<Radio size="small" />} value="sort-by-rating" label="XẾP THEO ĐIỂM" />
+                            <FormControlLabel control={<Radio size="small" />} value="sort-by-newest" label="XẾP THEO NGÀY RA MẮT" />
+                            <FormControlLabel control={<Radio size="small" />} value="sort-by-views" label="XẾP THEO LƯỢT XEM" />
                           </Breadcrumbs>
                         </RadioGroup>
                       )}
@@ -180,7 +173,7 @@ const MangaPage: React.FC = () => {
                 </Grid>
                 <Grid item xs={10} sm={10} md={3} sx={{textAlign: 'center'}}>
                   <Box className='manga-menu-btn' onClick={handleClickMenu}>
-                    <Typography color='#616161' variant='h4'>ADVANCED SEARCH</Typography>
+                    <Typography color='#616161' variant='h4'>TÌM KIẾM NÂNG CAO</Typography>
                     {openMenu ? <KeyboardArrowDownIcon/> : <NavigateNextIcon/>}
                   </Box> 
                 </Grid>
@@ -199,17 +192,17 @@ const MangaPage: React.FC = () => {
         {/* Dropdown fillter */}
         <Box className='manga-menu-dropdown' sx={openMenuStyle}>
           <Grid className='container' container sx={{pt:5, pb:5}}>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='search' label="Search" placeholder="Search" options={selectAllowedAge}/></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='authors' label="Author" placeholder="Author" options={ListAuthor}/></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='genres' label="Genre" placeholder="Genre" options={ListGenres} /></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='allowedAge' label="Allowed Age" placeholder="Allowed Age" options={selectAllowedAge} /></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='chapters' label="Chapters" placeholder="Chapters" options={selectChapters} /></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='status' label="Status" placeholder="Status" options={selectStatus} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='search' label="Tìm kiếm" placeholder="Tìm kiếm" options={selectAllowedAge}/></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='authors' label="Tác Giả" placeholder="Tác Giả" options={ListAuthor}/></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='genres' label="Thể Loại" placeholder="Thể Loại" options={ListGenres} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='allowedAge' label="Độ Tuổi" placeholder="Độ Tuổi" options={selectAllowedAge} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='chapters' label="Tập" placeholder="Tập" options={selectChapters} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='status' label="Trạng Thái" placeholder="Trạng Thái" options={selectStatus} /></Grid>
           </Grid>
           <Box className="manga-btn-search">
             <span>
-              <button><i className="fa-solid fa-arrow-rotate-left"></i>Reset</button>
-              <button type="submit"><i className="fa-solid fa-magnifying-glass"></i>Search</button>
+              <button><i className="fa-solid fa-arrow-rotate-left"></i>Xóa</button>
+              <button type="submit"><i className="fa-solid fa-magnifying-glass"></i>Tìm Kiếm</button>
             </span>
           </Box>
         </Box>

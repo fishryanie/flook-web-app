@@ -70,7 +70,6 @@ const removeManyGenre = async (data: any, token: any) => {
 //===================================|| Author ||===============================//
 
 const findManyAuthor = async (token: any) => {
-  console.log('sevice')
   const request = {
     method: 'GET',
     api: domain + apiString.findManyAuthor,
@@ -135,23 +134,40 @@ const removeManyAuthor = async (data: any, token: any) => {
 
 //===================================|| Books ||================================//
 
-const searchEbook = async (data: any, token: any) => {
-  console.log('sevice')
+const searchEbook = async (data: any) => {
   const request = {
     method: 'POST',
     api: domain + apiString.searchEbook + `?page=${data.page}&sort=${data.sort}`,
     body: data,
-    token: token
   }
   const response = await requestAPI(request)
   return response
 }
 
-export const findOneEbook = async (id: string, token: any) => {
+export const findEbookSubscribers = async (token: any) => {
+  const request = {
+    method: 'GET',
+    api: domain + apiString.findEbookSubscribe + `?type=subscribe`,
+    token: token,
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
+export const findEbookHistory = async (token: any) => {
+  const request = {
+    method: 'GET',
+    api: domain + apiString.findEbookHistory + `?type=readed`,
+    token: token,
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
+export const findOneEbook = async (id: string) => {
   const request = {
     method: 'GET',
     api: domain + apiString.findOneEbook + `?id=${id}`,
-    token: token,
   }
   const response = await requestAPI(request)
   return response
@@ -210,7 +226,6 @@ const removeOneEbook = async (id: any, token: any) => {
 }
 
 const removeManyEbook = async (data: any, token: any) => {
-  console.log('service', data)
   const request = {
     method: 'DELETE',
     api: domain + apiString.removeManyEbook,
@@ -247,7 +262,6 @@ const updateOneChapter = async (id: any, data: any, token: any) => {
 }
 
 const findManyChapter = async (token: any) => {
-  console.log('sevice')
   const request = {
     method: 'GET',
     api: domain + apiString.findManyChapter,
@@ -257,23 +271,20 @@ const findManyChapter = async (token: any) => {
   return response
 }
 
-export const findOneChapter = async (id: string, token: any) => {
+export const findOneChapter = async (id: string) => {
   const request = {
     method: 'GET',
     api: domain + apiString.findOneChapter + `?id=${id}`,
-    token: token,
   }
   const response = await requestAPI(request)
   return response
 }
 
-const searchChapter = async (data: any, token: any) => {
-  console.log('sevice')
+const searchChapter = async (data: any) => {
   const request = {
     method: 'POST',
     api: domain + apiString.searchChapter + `?id=${data.id}&page=${data.page}&sort=${data.sort}`,
     body: data,
-    token: token
   }
   const response = await requestAPI(request)
   return response
@@ -303,7 +314,6 @@ const removeManyChapter = async (data: any, token: any) => {
 //==================================|| Comment ||===============================//
 
 const findManyComment = async (token: any) => {
-  console.log('sevice')
   const request = {
     method: 'GET',
     api: domain + apiString.findManyComment,
@@ -359,7 +369,6 @@ const removeManyComment = async (data: any, token: any) => {
 //==================================|| Review ||===============================//
 
 const findManyReview = async (token: any) => {
-  console.log('sevice')
   const request = {
     method: 'GET',
     api: domain + apiString.findManyReview,
@@ -413,7 +422,7 @@ const removeManyReview = async (data: any, token: any) => {
 }
 
 export default {
-  searchEbook, findOneEbook, findManyEbook, insertOneEbook, updateOneEbook, deleteEbook, removeOneEbook, removeManyEbook,
+  searchEbook, findEbookSubscribers, findEbookHistory, findOneEbook, findManyEbook, insertOneEbook, updateOneEbook, deleteEbook, removeOneEbook, removeManyEbook,
 
   findManyGenre, insertOneGenre, updateOneGenre, deleteGenre, removeOneGenre, removeManyGenre,
 

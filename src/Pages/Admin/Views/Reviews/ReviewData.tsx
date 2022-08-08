@@ -175,8 +175,6 @@ const RenderForm: React.FC = (props) => {
     }
   }, []);
 
-  console.log('inforowtable', infoRowTable);
-
   const onSubmit = (data: any, name: any) => {
     if (typeDialog !== 'FORM_CREATE') {
       const updateData = {
@@ -201,7 +199,6 @@ const RenderForm: React.FC = (props) => {
         rating: rating,
         ebooks: data.ebooks.map((item: any) => item._id.toString())
       }
-      console.log('data', newData);
       dispatch(Action.app.insertOneReview(newData))
     }
   };
@@ -377,7 +374,6 @@ const ReviewData: React.FC = () => {
   useEffect(() => {
     dispatch(Action.app.findManyReview());
   }, []);
-  console.log('arrayReview', arrayReview)
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       <WrapperDiaLog Component={DialogReview} />

@@ -15,6 +15,7 @@ const initialState = {
   openCart: false,
   isSubmitting: false,
   infoRowTable: {},
+  dataEbook: {},
   typeDialog: '{}',
 };
 
@@ -49,8 +50,10 @@ export const AppReducer = (state = initialState, action: any) => {
       return {...state, isSubmitting: action.payload}
     }
     case 'infoRowTable': {
-      console.log('infoRowTable reducer', action.payload);
       return {...state, infoRowTable: action.payload}
+    }
+    case 'dataEbook': {
+      return {...state, dataEbook: action.payload}
     }
     default: return {...state}
   }

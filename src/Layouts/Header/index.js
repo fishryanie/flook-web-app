@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
-import { IconMenu2 } from '@tabler/icons';
-import { Avatar, ButtonBase } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import Logo from '../../Assets/Images/logoFlook.png'
+import Logo from '../../Assets/Images/Footer/logo.png'
 import Carousel from "../Carousel"
 import styledComponents from "styled-components"
 import Navigator from "./Components/Navigator"
@@ -12,20 +9,19 @@ import ProfileSection from "./ProfileSection";
 import namePage from "../../Constants/NamePage";
 import WrapperDiaLog from '../../Components/WrapperDiaLog'
 import AuthDiaLog from '../Auth'
+import { toastConfig } from "../../Functions/toast";
+import { toast } from "react-toastify";
 
-const Header = props => {
+const Header = (props) => {
+
   const { carousel } = props
   const [ scroll, setScroll ] = useState ('')
   const [ openNav, setOpenNav ]= useState('')
   const [ animate, setAnimaie ] = useState('')
-
-  const theme = useTheme();
   
   const HomeHeader = styledComponents.section`
     &::after { height: ${carousel ? '200px' : '0px'}}
   `
-
-
 
   useEffect(() => {
     window.addEventListener('scroll',() => {
@@ -41,11 +37,11 @@ const Header = props => {
         <main className="container">
           <form className="form-ui search-box">
             <i className='bx bx-search-alt-2'></i>
-            <input type="text" placeholder="Write Search Keyword Here" />
+            <input type="text" placeholder="Vui lòng nhập từ khóa" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}/>
           </form>
           <Link className="logo" to={namePage.home}><img src={Logo} alt=''/></Link>
           <section className="action-btns">
-            <ButtonBase sx={{ borderRadius: '5px', overflow: 'hidden' }}>
+            {/* <ButtonBase sx={{ borderRadius: '5px', overflow: 'hidden' }}>
               <Avatar
                 onClick={()=> alert('menu')}
                 color="inherit"
@@ -64,7 +60,7 @@ const Header = props => {
               >
                 <IconMenu2 stroke={1.5} size="1.3rem" />
               </Avatar>
-            </ButtonBase>
+            </ButtonBase> */}
             <NotificationSection/>
             <ProfileSection showAt='APP'/>
           </section>

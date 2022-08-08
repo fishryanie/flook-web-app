@@ -12,6 +12,8 @@ import Stack from '@mui/material/Stack';
 
 import Google from '../../Assets/Icons/social-google.svg';
 import FaceBook from '../../Assets/Icons/icons8-facebook.svg';
+import { toast } from 'react-toastify';
+import { toastConfig } from '../../Functions/toast';
 // Components
 
 interface AuthWrapperProps {
@@ -27,7 +29,8 @@ const AuthWrapper: React.FC<AuthWrapperProps> = props => {
   const customization = useSelector((state: RootStateOrAny) => state.customizationReducer);
 
   const googleHandler = async () => {
-    console.error('Login');
+    // console.error('Login');
+    toast.warning('Chức năng đang cập nhật!', toastConfig)
   };
 
   return (
@@ -72,7 +75,7 @@ const AuthWrapper: React.FC<AuthWrapperProps> = props => {
               fullWidth
               onClick={googleHandler}
               size="medium"
-              // variant="outlined"
+              variant="outlined"
               sx={{
                 // mb:1,
                 p:1,
@@ -115,7 +118,7 @@ const AuthWrapper: React.FC<AuthWrapperProps> = props => {
                   borderRadius: `${customization.borderRadius}px`,
                 }}
               >
-                OR
+                HOẶC
               </Button>
               <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
             </Box>

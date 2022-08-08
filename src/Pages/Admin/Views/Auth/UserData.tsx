@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { Fragment, useEffect, useState } from 'react';
-import { LoginSchema } from '../../../../Functions/Validator';
+import React, { Fragment, useEffect, useState } from 'react';
 import { columnsUsers } from '../../../../Components/TypeColums';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
@@ -12,7 +11,6 @@ import Grid from '@mui/material/Grid';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
 import TabContext from '@mui/lab/TabContext';
@@ -33,7 +31,6 @@ import TextFieldSearch from '../../../../Components/TextFieldSearch';
 import WrapperDiaLog from '../../../../Components/WrapperDiaLog';
 import InputCustom from '../../../../Components/TextFieldCustom';
 import TableCustom from '../../../../Components/TableCustom';
-import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
 import UpLoadImage from '../../../../Components/UpLoadImage';
@@ -135,45 +132,59 @@ const RenderForm: React.FC = () => {
   const handleReset = () => setActiveStep(0);
 
 
-  const handleToggle = (name: string) => () => {
-    dispatch({type: actionTypes.openAccetp, payload: {
-      title: 'Just Checking...',
-      content: `Grant ${name} rights to ${infoRowTable?.userName}`,
-      description: `Are you sure you want to edit ${infoRowTable?.userName}'s permissions?`,
-      handleYes: () => dispatch({type: 'EDIT_USER'})
-    }})
-  }
-
-  const onSubmit = (data: any) => {
-    for (const key in data) {
-      if (key === 'images') {
-        formData.append(key, data[key][0])   
-      }
-      if(key === 'roles'){
-        Array.isArray(data[key])
-        ? data[key].forEach((row: any) => {
-          formData.append(key, row._id.toString());
-          })
-        :
-        formData.append(key, data[key])
-      }
-      formData.append(key, data[key])
-    }
-    console.log('formData', formData.getAll('roles'));
-    dispatch(Action.auth.InsertOneUser(formData))
-  };
-
-
   useEffect(() => {
     if (typeDialog !== 'FORM_CREATE') {
       for (const key in infoRowTable) {
         if (key === 'images') {
-          formData.append(key, infoRowTable[key].avatar)   
+          setValue(key, infoRowTable[key]?.background?.url)
         }
-        formData.append(key, infoRowTable[key])
+        setValue(key, infoRowTable[key])
       }
     }
   }, []);
+
+  const onSubmit = (data: any) => {
+    if (typeDialog !== 'FORM_CREATE') {
+      for (const key in data) {
+        if (key === 'images') {
+          formData.append(key, data[key][0])
+        }
+        if (key === 'roles') {
+          Array.isArray(data[key])
+            ? data[key].forEach((row: any) => {
+              formData.append(key, row._id.toString());
+            })
+            :
+            formData.append(key, data[key])
+        }
+        formData.append(key, data[key])
+      }
+      dispatch({
+        type: actionTypes.openAccetp, payload: {
+          title: 'Just Checking...',
+          content: `Grant ${data?.username} rights to ${infoRowTable?.username}`,
+          description: `Are you sure you want to edit ${infoRowTable?.username}'s permissions?`,
+          handleYes: () => dispatch(Action.auth.UpdateOneUser(infoRowTable._id, formData))
+        }
+      })
+    } else {
+      for (const key in data) {
+        if (key === 'images') {
+          formData.append(key, data[key][0])
+        }
+        if (key === 'roles') {
+          Array.isArray(data[key])
+            ? data[key].forEach((row: any) => {
+              formData.append(key, row._id.toString());
+            })
+            :
+            formData.append(key, data[key])
+        }
+        formData.append(key, data[key])
+      }
+      dispatch(Action.auth.InsertOneUser(formData))
+    }
+  };
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -194,12 +205,16 @@ const RenderForm: React.FC = () => {
               <Grid item xs={12} sm={12}>
                 <InputCustom control={control} errors={errors.email} field="email" label="Email" />
               </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.password} field="password" label="Password" />
-              </Grid>
-              <Grid item sx={{mt:4}} xs={12} sm={12}>
+              {
+                (typeDialog !== 'FORM_CREATE') ? <React.Fragment />
+                  :
+                  <Grid item xs={12} sm={12}>
+                    <InputCustom control={control} errors={errors.password} field="password" label="Password" />
+                  </Grid>
+              }
+              <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
                 <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
-                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
               </Grid>
             </Grid>
             <Box></Box>
@@ -240,9 +255,9 @@ const RenderForm: React.FC = () => {
                   </RadioGroup>
                 </FormControl>
               </Grid>
-              <Grid item sx={{mt:4}} xs={12} sm={12}>
+              <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
                 <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
-                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
               </Grid>
             </Grid>
           </StepContent>
@@ -255,9 +270,9 @@ const RenderForm: React.FC = () => {
               <Grid item xs={12} sm={12}>
                 <TextFieldSearch register={register} setValue={setValue} options={arrayRole} field="roles" label="roles" placeholder="Role" />
               </Grid>
-              <Grid item sx={{mt:4}} xs={12} sm={12}>
+              <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
                 <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
-                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
               </Grid>
             </Grid>
           </StepContent>
@@ -266,20 +281,20 @@ const RenderForm: React.FC = () => {
         <Step>
           <StepLabel>Choose Picture</StepLabel>
           <StepContent>
-            <UpLoadImage register={register} setValue={setValue} field='images'/>
-            <Grid item sx={{mt:4}} xs={12} sm={12}>
+            <UpLoadImage register={register} setValue={setValue} field='images' />
+            <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
               <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
-              <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ml: 2 }}>Back</Button>
+              <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
             </Grid>
           </StepContent>
         </Step>
-        {activeStep === 4 && 
+        {activeStep === 4 &&
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Typography>All steps completed - you&apos;re finished</Typography>
             <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Submit</Button>
           </Paper>
         }
-        </Stepper>
+      </Stepper>
     </form>
   );
 };
@@ -371,23 +386,23 @@ const DialogUser: React.FC = () => {
 
 const UserData: React.FC = () => {
 
-  const arrayUser = Selector.auth.DataManyUser();
+  const arrayUser = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayUser)
 
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(Action.auth.FindManyUser(''));
-    dispatch(Action.auth.FindManyRole(''));
+    dispatch(Action.auth.FindManyRole());
   }, []);
 
   return (
-    <Box sx={{width: '100%', height: '100%'}}>
-      <WrapperDiaLog Component={DialogUser}/>
-      <TableCustom 
-        title="User Data" 
-        array={arrayUser} 
-        columns={columnsUsers} 
+    <Box sx={{ width: '100%', height: '100%' }}>
+      <WrapperDiaLog Component={DialogUser} />
+      <TableCustom
+        title="User Data"
+        array={arrayUser}
+        columns={columnsUsers}
       />
-   
+
     </Box>
   );
 };

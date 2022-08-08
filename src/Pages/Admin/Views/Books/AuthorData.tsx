@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
-import { LoginSchema } from '../../../../Functions/Validator';
 import { columnsAuthors } from '../../../../Components/TypeColums';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
@@ -12,30 +11,23 @@ import Grid from '@mui/material/Grid';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
 import TabContext from '@mui/lab/TabContext';
-import FormLabel from '@mui/material/FormLabel';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControl from '@mui/material/FormControl';
 import StepContent from '@mui/material/StepContent';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import LinearProgress from '@mui/material/LinearProgress';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import TextFieldSearch from '../../../../Components/TextFieldSearch';
 import WrapperDiaLog from '../../../../Components/WrapperDiaLog';
 import InputCustom from '../../../../Components/TextFieldCustom';
 import TableCustom from '../../../../Components/TableCustom';
-import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
-import UpLoadImage from '../../../../Components/UpLoadImage';
 import SendIcon from '@mui/icons-material/Send';
 
 const BpIcon = styled('span')(({ theme }) => ({
@@ -135,17 +127,6 @@ const RenderForm: React.FC = () => {
     setOpen(open === index ? null : index)
   };
 
-  const handleToggle = (name: string) => () => {
-    dispatch({
-      type: actionTypes.openAccetp, payload: {
-        title: 'Just Checking...',
-        content: `Grant ${name} rights to ${infoRowTable?.title}`,
-        description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
-        handleYes: () => dispatch({ type: 'EDIT_EBOOK' })
-      }
-    })
-  }
-
   useEffect(() => {
     dispatch(Action.auth.FindManyUser(''));
   }, []);
@@ -158,7 +139,7 @@ const RenderForm: React.FC = () => {
     }
   }, []);
 
-  const onSubmit = (data: any, name: any) => {
+  const onSubmit = (data: any) => {
     if (typeDialog !== 'FORM_CREATE') {
       const updateData = {
         name: data.name,
@@ -167,7 +148,7 @@ const RenderForm: React.FC = () => {
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
-          content: `Grant ${name} rights to ${infoRowTable?.name}`,
+          content: `Grant ${data?.name} rights to ${infoRowTable?.name}`,
           description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
           handleYes: () => dispatch(Action.app.updateOneAuthor(infoRowTable?._id, updateData))
         }
@@ -178,12 +159,9 @@ const RenderForm: React.FC = () => {
           name: data.name,
           license: data.license.map((item: any) => item._id.toString())
         }
-        console.log('data', newData);
         dispatch(Action.app.insertOneAuthor(newData))
     }
   };
-
-  console.log('inforowtable', infoRowTable);
 
   return (
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
@@ -321,7 +299,6 @@ const AuthorData: React.FC = () => {
   useEffect(() => {
     dispatch(Action.app.findManyAuthor());
   }, []);
-  console.log('arrayAuhtor', arrayAuthor)
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       <WrapperDiaLog Component={DialogAuthor} />

@@ -1,4 +1,4 @@
-import { put, all, takeLatest } from "redux-saga/effects";
+import { put, all, takeLatest, delay } from "redux-saga/effects";
 import { responseGenerator } from './index'
 import { toastConfig } from '../../Functions/toast'
 import actionTypes from "../Actions/constants";
@@ -13,11 +13,12 @@ function* InsertOneGenre(action: any) {
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.insertOneGenre(action.payload, readCookie)
-    console.log('saga',response)
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.insertOneGenreSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyGenre())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.insertOneGenreFailure(response))
@@ -36,7 +37,9 @@ function* UpdateOneGenre(action: any) {
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.updateOneGenreSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyGenre())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.updateOneGenreFailure(response))
@@ -52,7 +55,6 @@ function* FindManyGenre(){
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyGenre(readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyGenreSuccess(response.data))
@@ -71,7 +73,6 @@ function* RemoveOneGenre(action: any){
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeOneGenre(action.payload, readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeOneGenreSuccess(response))
@@ -89,11 +90,8 @@ function* RemoveOneGenre(action: any){
 
 function* RemoveManyGenre(action: any){
   try {
-    const data = action.payload
-    console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeManyGenre(action.payload, readCookie);
-    console.log('response comic', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeManyGenreSuccess(response))
@@ -111,14 +109,15 @@ function* RemoveManyGenre(action: any){
 
 // AUTHOR
 function* InsertOneAuthor(action: any) {
-  console.log('saga', action.payload)
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.insertOneAuthor(action.payload, readCookie)
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.insertOneAuthorSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyAuthor())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.insertOneAuthorFailure(response))
@@ -137,7 +136,9 @@ function* UpdateOneAuthor(action: any) {
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.updateOneAuthorSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyAuthor())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.updateOneAuthorFailure(response))
@@ -153,7 +154,6 @@ function* FindManyAuthor(){
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyAuthor(readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyAuthorSuccess(response.data))
@@ -170,11 +170,8 @@ function* FindManyAuthor(){
 
 function* RemoveOneAuthor(action: any){
   try {
-    // const data = action.payload
-    // console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeOneAuthor(action.payload, readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeOneAuthorSuccess(response))
@@ -192,11 +189,8 @@ function* RemoveOneAuthor(action: any){
 
 function* RemoveManyAuthor(action: any){
   try {
-    const data = action.payload
-    console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeManyAuthor(action.payload, readCookie);
-    console.log('response comic', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeManyAuthorSuccess(response))
@@ -217,11 +211,12 @@ function* InsertOneEbook(action: any) {
   const readCookie = Cookie.getCookie('token')
   try {
     const response: responseGenerator = yield Services.app.insertOneEbook(action.payload, readCookie)
-    console.log('saga',response)
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.insertOneEbookSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyEbook())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.insertOneEbookFailure(response))
@@ -238,11 +233,12 @@ function* UpdateOneEbook(action: any) {
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.updateOneEbook(action.payload.id, action.payload.data, readCookie)
-    console.log('saga',response)
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.updateOneEbookSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyEbook())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.updateOneEbookFailure(response))
@@ -255,12 +251,8 @@ function* UpdateOneEbook(action: any) {
 }
 
 function* SearchEbook(action: any){
-  const readCookie = Cookie.getCookie('token')
   try {
-    const data = action.payload
-    console.log(data)
-    const response: responseGenerator = yield Services.app.searchEbook(action.payload, readCookie);
-    console.log('response comic', response)
+    const response: responseGenerator = yield Services.app.searchEbook(action.payload);
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.searchEbookSuccess(response))
@@ -275,12 +267,63 @@ function* SearchEbook(action: any){
   }
 }
 
-function* FindOneEbook(action: any){
-  const id = action.payload
+function* SearchNewEbook(action: any){
+  try {
+    const response: responseGenerator = yield Services.app.searchEbook(action.payload);
+    if(response.statusCode === 200){
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.searchNewEbookSuccess(response))
+    }else {
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.searchNewEbookFailure(response))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
+  }
+}
+
+function* SearchEbookSubscribers(action: any){
   const readCookie = Cookie.getCookie('token')
   try {
-    const response: responseGenerator = yield Services.app.findOneEbook(id, readCookie);
-    console.log('response', response)
+    const response: responseGenerator = yield Services.app.findEbookSubscribers(readCookie);
+    if(response.statusCode === 200){
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findEbookSubscribersSuccess(response))
+    }else {
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findEbookSubscribersFailure(response))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
+  }
+}
+
+function* SearchEbookHistory(action: any){
+  const readCookie = Cookie.getCookie('token')
+  try {
+    const response: responseGenerator = yield Services.app.findEbookHistory(readCookie);
+    if(response.statusCode === 200){
+      yield toast.success(response.message, toastConfig )
+      yield put(Action.app.findEbookHistorySuccess(response))
+    }else {
+      yield toast.error(response.message, toastConfig )
+      yield put(Action.app.findEbookHistoryFailure(response))
+    }
+  } catch (error) {
+    console.log(error)
+  } finally {
+    console.log('saga')
+  }
+}
+
+function* FindOneEbook(action: any){
+  const id = action.payload
+  try {
+    const response: responseGenerator = yield Services.app.findOneEbook(id);
     if (response?.statusCode === 200 || response?.statusCode === 201) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.findOneEbookSuccess(response.data))
@@ -297,11 +340,8 @@ function* FindOneEbook(action: any){
 
 function* FindManyEbook(action: any){
   try {
-    // const data = action.payload
-    // console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyEbook(readCookie);
-    console.log('response comic', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyEbookSuccess(response))
@@ -318,11 +358,8 @@ function* FindManyEbook(action: any){
 
 function* RemoveOneEbook(action: any){
   try {
-    // const data = action.payload
-    // console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeOneEbook(action.payload, readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeOneEbookSuccess(response))
@@ -340,11 +377,8 @@ function* RemoveOneEbook(action: any){
 
 function* RemoveManyEbook(action: any){
   try {
-    const data = action.payload
-    console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeManyEbook(action.payload, readCookie);
-    console.log('response comic', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeManyEbookSuccess(response))
@@ -365,7 +399,6 @@ function* FindManyChapter(){
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyChapter(readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyChapterSuccess(response.data))
@@ -381,12 +414,9 @@ function* FindManyChapter(){
 }
 
 function* SearchChapter(action: any){
-  const data = action.payload
-  const readCookie = Cookie.getCookie('token')
 
   try {
-    const response: responseGenerator = yield Services.app.searchChapter(action.payload, readCookie);
-    console.log('response', response)
+    const response: responseGenerator = yield Services.app.searchChapter(action.payload);
     if (response?.statusCode === 200 || response?.statusCode === 201) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.searchChapterSuccess(response))
@@ -403,10 +433,8 @@ function* SearchChapter(action: any){
 
 function* FindOneChapter(action: any){
   const id = action.payload
-  const readCookie = Cookie.getCookie('token')
   try {
-    const response: responseGenerator = yield Services.app.findOneChapter(id, readCookie);
-    console.log('response', response)
+    const response: responseGenerator = yield Services.app.findOneChapter(id);
     if (response?.statusCode === 200 || response?.statusCode === 201) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.findOneChapterSuccess(response))
@@ -425,11 +453,12 @@ function* InsertOneChapter(action: any) {
   const readCookie = Cookie.getCookie('token')
   try {
     const response: responseGenerator = yield Services.app.insertOneChapter(action.payload, readCookie)
-    console.log('saga',response)
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.insertOneChapterSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyChapter())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.insertOneChapterFailure(response))
@@ -446,11 +475,12 @@ function* UpdateOneChapter(action: any) {
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.updateOneChapter(action.payload.id, action.payload.data, readCookie)
-    console.log('saga',response)
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.updateOneChapterSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyChapter())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.updateOneChapterFailure(response))
@@ -464,11 +494,8 @@ function* UpdateOneChapter(action: any) {
 
 function* RemoveOneChapter(action: any){
   try {
-    // const data = action.payload
-    // console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeOneChapter(action.payload, readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeOneChapterSuccess(response))
@@ -486,11 +513,8 @@ function* RemoveOneChapter(action: any){
 
 function* RemoveManyChapter(action: any){
   try {
-    const data = action.payload
-    console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeManyChapter(action.payload, readCookie);
-    console.log('response comic', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeManyChapterSuccess(response))
@@ -511,7 +535,6 @@ function* FindManyReview(){
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyReview(readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyReviewSuccess(response.data))
@@ -533,7 +556,9 @@ function* InsertOneReview(action: any) {
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.insertOneReviewSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyReview())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.insertOneReviewFailure(response))
@@ -552,7 +577,9 @@ function* UpdateOneReview(action: any) {
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.updateOneReviewSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyReview())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.updateOneReviewFailure(response))
@@ -566,11 +593,8 @@ function* UpdateOneReview(action: any) {
 
 function* RemoveOneReview(action: any){
   try {
-    // const data = action.payload
-    // console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeOneReview(action.payload, readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeOneReviewSuccess(response))
@@ -588,11 +612,8 @@ function* RemoveOneReview(action: any){
 
 function* RemoveManyReview(action: any){
   try {
-    const data = action.payload
-    console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeManyReview(action.payload, readCookie);
-    console.log('response comic', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeManyReviewSuccess(response))
@@ -613,7 +634,6 @@ function* FindManyComment(){
   try {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyComment(readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyCommentSuccess(response.data))
@@ -635,7 +655,9 @@ function* InsertOneComment(action: any) {
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.insertOneCommentSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyComment())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.insertOneCommentFailure(response))
@@ -654,7 +676,9 @@ function* UpdateOneComment(action: any) {
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.updateOneCommentSuccess(response))
+      yield delay(2000)
       yield put(Action.app.findManyComment())
+      yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.updateOneCommentFailure(response))
@@ -668,11 +692,8 @@ function* UpdateOneComment(action: any) {
 
 function* RemoveOneComment(action: any){
   try {
-    // const data = action.payload
-    // console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeOneComment(action.payload, readCookie);
-    console.log('response', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeOneCommentSuccess(response))
@@ -690,11 +711,8 @@ function* RemoveOneComment(action: any){
 
 function* RemoveManyComment(action: any){
   try {
-    const data = action.payload
-    console.log(data)
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.removeManyComment(action.payload, readCookie);
-    console.log('response comic', response)
     if(response.statusCode === 200){
       yield toast.success(response.message, toastConfig )
       yield put(Action.app.removeManyCommentSuccess(response))
@@ -715,6 +733,9 @@ export default function* appSaga() {
     takeLatest(actionTypes.insertOneEbook, InsertOneEbook),
     takeLatest(actionTypes.updateOneEbook, UpdateOneEbook),
     takeLatest(actionTypes.searchEbook, SearchEbook),
+    takeLatest(actionTypes.searchNewEbook, SearchNewEbook),
+    takeLatest(actionTypes.searchEbookSubscribers, SearchEbookSubscribers),
+    takeLatest(actionTypes.searchEbookHistory, SearchEbookHistory),
     takeLatest(actionTypes.findOneEbook, FindOneEbook),
     takeLatest(actionTypes.findManyEbook, FindManyEbook),
     takeLatest(actionTypes.removeOneEbook, RemoveOneEbook),

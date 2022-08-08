@@ -55,6 +55,18 @@ const searchEbook = (data:any) => ({type: actionTypes.searchEbook, payload: data
 const searchEbookFailure = (data:any) => ({type: actionTypes.searchEbookFailure, payload: data});
 const searchEbookSuccess = (data:any) => ({type: actionTypes.searchEbookSuccess, payload: data});
 
+const searchNewEbook = (data:any) => ({type: actionTypes.searchNewEbook, payload: data})
+const searchNewEbookFailure = (data:any) => ({type: actionTypes.searchNewEbookFailure, payload: data});
+const searchNewEbookSuccess = (data:any) => ({type: actionTypes.searchNewEbookSuccess, payload: data});
+
+const findEbookSubscribers = () => ({type: actionTypes.searchEbookSubscribers})
+const findEbookSubscribersFailure = (data:any) => ({type: actionTypes.searchEbookSubscribersFailure, payload: data});
+const findEbookSubscribersSuccess = (data:any) => ({type: actionTypes.searchEbookSubscribersSuccess, payload: data});
+
+const findEbookHistory = () => ({type: actionTypes.searchEbookHistory})
+const findEbookHistoryFailure = (data:any) => ({type: actionTypes.searchEbookHistoryFailure, payload: data});
+const findEbookHistorySuccess = (data:any) => ({type: actionTypes.searchEbookHistorySuccess, payload: data});
+
 const findOneEbook = (id:any) => ({type: actionTypes.findOneEbook, payload: id})
 const findOneEbookFailure = (data:any) => ({type: actionTypes.findOneEbookFailure, payload: data});
 const findOneEbookSuccess = (data:any) => ({type: actionTypes.findOneEbookSuccess, payload: data});
@@ -172,6 +184,9 @@ export default {
   removeManyAuthor, removeManyAuthorSuccess, removeManyAuthorFailure,
 
   searchEbook, searchEbookFailure, searchEbookSuccess,
+  searchNewEbook, searchNewEbookSuccess, searchNewEbookFailure,
+  findEbookSubscribers, findEbookSubscribersSuccess, findEbookSubscribersFailure,
+  findEbookHistory, findEbookHistorySuccess, findEbookHistoryFailure,
   findOneEbook, findOneEbookFailure, findOneEbookSuccess,
   findManyEbook, findManyEbookFailure, findManyEbookSuccess,
   insertOneEbook, insertOneEbookSuccess, insertOneEbookFailure,

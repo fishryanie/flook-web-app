@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
-import { LoginSchema } from '../../../../Functions/Validator';
 import { columnsChapters } from '../../../../Components/TypeColums';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
@@ -12,30 +11,23 @@ import Grid from '@mui/material/Grid';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
 import TabContext from '@mui/lab/TabContext';
-import FormLabel from '@mui/material/FormLabel';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControl from '@mui/material/FormControl';
 import StepContent from '@mui/material/StepContent';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import LinearProgress from '@mui/material/LinearProgress';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import CircularProgress from '@mui/material/CircularProgress';
 
 import TextFieldSearch from '../../../../Components/TextFieldSearch';
 import WrapperDiaLog from '../../../../Components/WrapperDiaLog';
 import InputCustom from '../../../../Components/TextFieldCustom';
 import TableCustom from '../../../../Components/TableCustom';
-import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
-import { BookReducer } from '../../../../Store/Reducers/book';
 import UpLoadImage from '../../../../Components/UpLoadImage';
 import SendIcon from '@mui/icons-material/Send';
 
@@ -131,19 +123,6 @@ const RenderForm: React.FC = () => {
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
   const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
 
-  const handleToggle = (name: string) => () => {
-    dispatch({
-      type: actionTypes.openAccetp, payload: {
-        title: 'Just Checking...',
-        content: `Grant ${name} rights to ${infoRowTable?.name}`,
-        description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
-        handleYes: () => dispatch({ type: 'EDIT_CHAPTER' })
-      }
-    })
-  }
-
-  console.log('inforowtable', infoRowTable);
-
   const arrayEbook = useSelector((state: RootStateOrAny) => state.BookReducer.listAllBook);
 
   useEffect(() => {
@@ -161,7 +140,7 @@ const RenderForm: React.FC = () => {
     }
   }, []);
 
-  const onSubmit = (data: any, name: any) => {
+  const onSubmit = (data: any) => {
     if (typeDialog !== 'FORM_CREATE') {
       for (const key in data) {
         if (key === 'images') {
@@ -180,7 +159,7 @@ const RenderForm: React.FC = () => {
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
-          content: `Grant ${name} rights to ${infoRowTable?.name}`,
+          content: `Grant ${data?.name} rights to ${infoRowTable?.name}`,
           description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
           handleYes: () => dispatch(Action.app.updateOneChapter(infoRowTable?._id, formData))
         }
@@ -202,7 +181,6 @@ const RenderForm: React.FC = () => {
         formData.append(key, data[key])
       }
       dispatch(Action.app.insertOneChapter(formData))
-      console.log('formData', formData);
     }
   };
 
@@ -358,7 +336,6 @@ const ChapterData: React.FC = () => {
   useEffect(() => {
     dispatch(Action.app.findManyChapter());
   }, []);
-  console.log('arrayChapter', arrayChapter)
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       <WrapperDiaLog Component={DialogChapter} />

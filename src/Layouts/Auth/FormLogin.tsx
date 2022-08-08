@@ -56,15 +56,15 @@ const FormLogin: React.FC = () => {
         </Grid>
       </Grid>
       <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-        <FormControlLabel label="Remember me" control={<Checkbox checked={checked} onChange={(event: any) => setChecked(event.target.checked)} name="checked" color="primary" />} />
-        <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-          Forgot Password?
-        </Typography>
+        <FormControlLabel label="Nhớ mật khẩu" control={<Checkbox checked={checked} onChange={(event: any) => setChecked(event.target.checked)} name="checked" color="primary" />} />
+        {/* <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+          Quên mật khẩu?
+        </Typography> */}
       </Stack>
 
       <Box sx={{ mt: 2 }}>
         <Button size="large" type="submit" color="secondary" variant="contained" fullWidth disableElevation>
-          Submit
+        Gửi
         </Button>
       </Box>
     </form>

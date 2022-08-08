@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,12 +11,8 @@ import Badge from '@mui/material/Badge';
 import {
   Avatar,
   Box,
-  Card,
-  CardContent,
   Chip,
   ClickAwayListener,
-  Divider,
-  Grid,
   InputAdornment,
   List,
   ListItemButton,
@@ -26,7 +22,6 @@ import {
   Paper,
   Popper,
   Stack,
-  Switch,
   Typography,
 } from '@mui/material';
 
@@ -36,11 +31,14 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from '../../../Components/cards/MainCard';
 import Transitions from '../../../Components/extended/Transitions';
-import UpgradePlanCard from './UpgradePlanCard';
+// import UpgradePlanCard from './UpgradePlanCard';
 
 // assets
-import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
+import { IconLogout, IconSearch, IconSettings, IconDeviceAnalytics } from '@tabler/icons';
 import Action from '../../../Store/Actions';
+import namePage from '../../../Constants/NamePage'
+import { toast } from 'react-toastify';
+import { toastConfig } from '../../../Functions/toast';
 
 // ==============================|| PROFILE MENU ||============================== //
 
@@ -79,18 +77,25 @@ const ProfileSection = (props) => {
   const customization = useSelector((state) => state.customizationReducer);
   const navigate = useNavigate();
 
-  const [sdm, setSdm] = useState(true);
+  // const [sdm, setSdm] = useState(true);
   const [value, setValue] = useState('');
-  const [notification, setNotification] = useState(false);
+  // const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
   const anchorRef = useRef(null);
+
+  const dispatch = useDispatch();
+
   const handleLogout = async () => {
-    console.log('Logout');
-  };
+    dispatch(Action.auth.Logout())
+  }
+
+  const handleToAdmin = async () => {
+    navigate(namePage.dashboard)
+  }
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -99,14 +104,14 @@ const ProfileSection = (props) => {
     setOpen(false);
   };
 
-  const handleListItemClick = (event, index, route = '') => {
-    setSelectedIndex(index);
-    handleClose(event);
+  // const handleListItemClick = (event, index, route = '') => {
+  //   setSelectedIndex(index);
+  //   handleClose(event);
 
-    if (route && route !== '') {
-      navigate(route);
-    }
-  };
+  //   if (route && route !== '') {
+  //     navigate(route);
+  //   }
+  // };
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -120,14 +125,11 @@ const ProfileSection = (props) => {
     prevOpen.current = open;
   }, [open]);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
-    dispatch(Action.auth.FindUserLoggin())
+    dispatch(Action.auth.FindOneUser())
   }, []);
 
   const userLoggin = useSelector((state) => state.AuthReducer.userLoggin)
-  console.log('userLogin', userLoggin);
 
   return (
     <>
@@ -229,7 +231,7 @@ const ProfileSection = (props) => {
                       <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography variant="h4">Hello,</Typography>
                         {
-                          (!userLoggin)
+                          (Object.entries(userLoggin).length === 0)
                             ?
                             <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
                               Guest
@@ -257,7 +259,8 @@ const ProfileSection = (props) => {
                       id="input-search-profile"
                       value={value}
                       onChange={(e) => setValue(e.target.value)}
-                      placeholder="Search profile options"
+                      onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}
+                      placeholder="Tìm kiếm tùy chọn hồ sơ!"
                       startAdornment={
                         <InputAdornment position="start">
                           <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />
@@ -268,11 +271,11 @@ const ProfileSection = (props) => {
                         'aria-label': 'weight',
                       }}
                     />
-                    <Divider />
+                    {/* <Divider /> */}
                   </Box>
                   <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
                     <Box sx={{ p: 2 }}>
-                      <UpgradePlanCard />
+                      {/* <UpgradePlanCard />
                       <Divider />
                       <Card
                         sx={{
@@ -305,7 +308,7 @@ const ProfileSection = (props) => {
                           </Grid>
                         </CardContent>
                       </Card>
-                      <Divider />
+                      <Divider /> */}
                       <List
                         component="nav"
                         sx={{
@@ -326,14 +329,15 @@ const ProfileSection = (props) => {
                         <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                           selected={selectedIndex === 0}
-                          onClick={(event) => handleListItemClick(event, 0, '/user/account-profile/profile1')}
+                          // onClick={(event) => handleListItemClick(event, 0, '/user/account-profile/profile1')}
+                          onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}
                         >
                           <ListItemIcon>
                             <IconSettings stroke={1.5} size="1.3rem" />
                           </ListItemIcon>
-                          <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
+                          <ListItemText primary={<Typography variant="body2">Cài đặt tài khoản</Typography>} />
                         </ListItemButton>
-                        <ListItemButton
+                        {/* <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                           selected={selectedIndex === 1}
                           onClick={(event) => handleListItemClick(event, 1, '/user/social-profile/posts')}
@@ -360,14 +364,40 @@ const ProfileSection = (props) => {
                               </Grid>
                             }
                           />
-                        </ListItemButton>
-                        <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} selected={selectedIndex === 4} onClick={handleLogout}>
-                          <ListItemIcon>
-                            <IconLogout stroke={1.5} size="1.3rem" />
-                          </ListItemIcon>
-                          <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
-                        </ListItemButton>
+                        </ListItemButton> */}
+                        {
+                          (window.location.pathname === namePage.dashboard || (Object.entries(userLoggin).length === 0))
+                            ?
+                            <React.Fragment />
+                            : (userLoggin?.roles?.filter((item) => { return item.name === 'Admin' || item.name === 'Moderator' }).length !== 0 && (Object.entries(userLoggin).length !== 0))
+                              ?
+                              <>
+                                <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} selected={selectedIndex === 1} onClick={() => handleToAdmin()}>
+                                  <ListItemIcon>
+                                    <IconDeviceAnalytics stroke={1.5} size="1.3rem" />
+                                  </ListItemIcon>
+                                  <ListItemText primary={<Typography variant="body2">Đến trang Admin</Typography>} />
+                                </ListItemButton>
+                                <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} selected={selectedIndex === 2} onClick={handleLogout}>
+                                  <ListItemIcon>
+                                    <IconLogout stroke={1.5} size="1.3rem" />
+                                  </ListItemIcon>
+                                  <ListItemText primary={<Typography variant="body2">Đăng xuất</Typography>} />
+                                </ListItemButton>
+                              </>
+                              : (Object.entries(userLoggin).length === 0)
+                                ? <React.Fragment />
+                                :
+                                <>
+                                  <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} selected={selectedIndex === 2} onClick={handleLogout}>
+                                    <ListItemIcon>
+                                      <IconLogout stroke={1.5} size="1.3rem" />
+                                    </ListItemIcon>
+                                    <ListItemText primary={<Typography variant="body2">Đăng xuất</Typography>} />
+                                  </ListItemButton>
+                                </>
 
+                        }
                       </List>
                     </Box>
                   </PerfectScrollbar>

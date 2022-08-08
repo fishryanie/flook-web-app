@@ -43,13 +43,13 @@ const FormChangePass: React.FC = () => {
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12}>
-          <InputCustom control={control} errors={errors.password} field="password" label="Password" />
+          <InputCustom control={control} errors={errors.password} field="password" label="Mật khẩu hiện tại" />
         </Grid>
         <Grid item xs={12} sm={12}>
-          <InputCustom control={control} errors={errors.password_New} field="password_New" label="New Password" />
+          <InputCustom control={control} errors={errors.password_New} field="password_New" label="Mật khẩu mới" />
         </Grid>
         <Grid item xs={12} sm={12}>
-          <InputCustom control={control} errors={errors.password_NewComfirm} field="password_NewComfirm" label="Confirm Password" />
+          <InputCustom control={control} errors={errors.password_NewComfirm} field="password_NewComfirm" label="Xác nhận mật khẩu" />
         </Grid>
       </Grid>
       {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
@@ -75,7 +75,7 @@ const FormChangePass: React.FC = () => {
           variant="contained"
           color="secondary"
         >
-          Submit
+          Gửi
         </Button>
       </Box>
     </form>

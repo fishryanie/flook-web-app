@@ -19,7 +19,7 @@ const store = createStore(
   pReducer, composeWithDevTools(applyMiddleware(sagaMiddleware))
 )
 const persistor = persistStore(store);
-console.log('persistor', store.getState())
+// console.log('persistor', store.getState())
 
 sagaMiddleware.run(RootSaga)
 export { store, persistor }

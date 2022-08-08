@@ -91,12 +91,12 @@ export default function DropProfile() {
             <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
           </ListItemButton>
 
-          <ListItemButton sx={{ borderRadius: `10px` }}>
+          {/* <ListItemButton sx={{ borderRadius: `10px` }}>
             <ListItemIcon>
               <IconLogout stroke={1.5} size="1.3rem" />
             </ListItemIcon>
             <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
-          </ListItemButton>
+          </ListItemButton> */}
         </Box>
 
 

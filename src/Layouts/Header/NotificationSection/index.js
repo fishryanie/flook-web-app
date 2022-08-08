@@ -15,6 +15,8 @@ import NotificationList from './NotificationList';
 
 // assets
 import { IconBell } from '@tabler/icons';
+import { toast } from 'react-toastify';
+import { toastConfig } from '../../../Functions/toast';
 
 // notification status options
 const status = [
@@ -101,7 +103,8 @@ const NotificationSection = () => {
             ref={anchorRef}
             aria-controls={open ? 'menu-list-grow' : undefined}
             aria-haspopup="true"
-            onClick={handleToggle}
+            // onClick={handleToggle}
+            onClick = {() => toast.warning('Chức năng đang cập nhật!', toastConfig)}
             color="inherit"
           >
             <IconBell stroke={1.5} size="1.3rem" />

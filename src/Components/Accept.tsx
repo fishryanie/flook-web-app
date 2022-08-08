@@ -14,7 +14,6 @@ const Accept: React.FC = () => {
   }
   const handleYes = () => {
     accept.handleYes()
-    console.log('handleYes')
     setOpen('')
     dispatch({type: actionTypes.closeAccetp})
   }

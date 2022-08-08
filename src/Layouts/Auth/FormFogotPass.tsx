@@ -45,23 +45,9 @@ const FormFogotPass: React.FC = () => {
     <form noValidate onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={1}>
         <Grid item xs={12} sm={12}>
-          <InputCustom control={control} errors={errors.email} field="email" label="Email" />
+          <InputCustom control={control} errors={errors.email} field="email" label="Nhập email đăng ký của bạn" />
         </Grid>
       </Grid>
-      {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-        <FormControlLabel label="Remember me" control={
-          <Checkbox
-            checked={checked}
-            onChange={(event: any) => setChecked(event.target.checked)}
-            name="checked"
-            color="primary"
-          />}
-        />
-        <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-          Forgot Password?
-        </Typography>
-      </Stack> */}
-
       <Box sx={{ mt: 2 }}>
         <Button
           disableElevation
@@ -71,7 +57,7 @@ const FormFogotPass: React.FC = () => {
           variant="contained"
           color="secondary"
         >
-          Submit
+          Gửi
         </Button>
       </Box>
     </form>

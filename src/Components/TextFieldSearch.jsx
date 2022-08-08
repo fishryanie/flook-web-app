@@ -41,8 +41,6 @@ export default function TextFieldSearch(props) {
   const { field, label, placeholder, options, register, setValue, className } = props;
   const [selectedCaste, setSelectedCaste] = useState([]);
 
-  console.log('selectedCaste', selectedCaste)
-
   const infoRowTable = useSelector((state) => state.AppReducer.infoRowTable)
   const typeDialog = useSelector((state) => state.AppReducer.typeDialog)
 

@@ -81,7 +81,6 @@ const Toolbar: React.FC<toolbarProps> = (props) => {
   }
   const handleDeleteMany = () => {
     let description = '', listDelete: Array<{ _id: string }> = []
-    console.log('listDelete', listDelete)
     selectionRow.forEach((row: any) => {
       listDelete.push(row._id.toString())
 

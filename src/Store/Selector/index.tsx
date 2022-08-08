@@ -1,7 +1,7 @@
-import app from "./app";
-import auth from './auth'
+// import app from "./app";
+// import auth from './auth'
 
 const Selector = {
-  auth, app,
+  // auth, app,
 }
 export default Selector

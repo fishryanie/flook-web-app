@@ -16,10 +16,10 @@ import CardImage from './CardImage';
       <div className='carousel-slider-item'>
         <div className='slider-title'>
           <h2 className='area-title'>{title}</h2>
-          <Link className='slider-seemore' to={namePage?.manga}>See more</Link>
+          <Link className='slider-seemore' to={namePage?.manga}>Xem thêm</Link>
         </div>
         <Slider {...settings}>
-          {data?.map((item, index) => <CardImage index={index} item={item}/>)}
+          {data?.map((item, index) => <CardImage key={index} item={item}/>)}
         </Slider>
       </div>
     </section>

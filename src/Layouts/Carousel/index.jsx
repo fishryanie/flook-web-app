@@ -4,7 +4,7 @@ import { dataCarouselDemo } from "../../Functions/settingsSlider";
 const Carousel = () => {
   return (
     <section className="main-carousel">
-      <h2 className="vertical-title">F e a t u r e d</h2>
+      {/* <h2 className="vertical-title">F e a t u r e d</h2> */}
       <Slider {...settingsSlider}>
         {dataCarouselDemo.map((item, index) => (
         <div className='image' key={index}>

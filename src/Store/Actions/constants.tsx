@@ -29,6 +29,10 @@ const actionTypes = {
   loginFailure: "LOGIN_FAILURE",
   loginSuccess: "LOGIN_SUCCESS",
 
+  logout: "LOGOUT",
+  logoutFailure: "LOGOUT_FAILURE",
+  logoutSuccess: "LOGOUT_SUCCESS",
+
   register: "REGISTER",
   registerFailure: "REGISTER_FAILURE",
   registerSuccess: "REGISTER_SUCCESS",
@@ -51,9 +55,9 @@ const actionTypes = {
   putLikeMovieFail: "PUT_LIKE_MOVIE_FAIL",
   putLikeMovieSuccess: "PUT_LIKE_MOVIE_SUCCESS",
 
-  findUserLoggin: "FIND_USER_LOGGIN",
-  findUserLogginFailure: "FIND_USER_LOGGIN_FAILURE",
-  findUserLogginSuccess: "FIND_USER_LOGGIN_SUCCESS",
+  findOneUser: "FIND_ONE_USER",
+  findOneUserFailure: "FIND_ONE_USER_FAILURE",
+  findOneUserSuccess: "FIND_ONE_USER_SUCCESS",
 
   findManyRole: 'FIND_MANY_ROLE',
   findManyRoleFailure: 'FIND_MANY_ROLE_FAILURE',
@@ -67,9 +71,21 @@ const actionTypes = {
   findManyFeatureFailure: "FIND_MANY_FEATURE_FAILURE",
   findManyFeatureSuccess: "FIND_MANY_FEATURE_SUCCESS",
 
+  decentralizationFeature: "DECENTRALIZATION_FEATURE",
+  decentralizationFeatureFailure: "DECENTRALIZATION_FEATURE_FAILURE",
+  decentralizationFeatureSuccess: "DECENTRALIZATION_FEATURE_SUCCESS",
+
+  findOneFeature: "FIND_ONE_FEATURE",
+  findOneFeatureFailure: "FIND_ONE_FEATURE_FAILURE",
+  findOneFeatureSuccess: "FIND_ONE_FEATURE_SUCCESS",
+
   findManyFeatureGroup: "FIND_MANY_FEATURE_GROUP",
   findManyFeatureGroupFailure: "FIND_MANY_FEATURE_GROUP_FAILURE",
   findManyFeatureGroupSuccess: "FIND_MANY_FEATURE_GROUP_SUCCESS",
+
+  findOneFeatureGroup: "FIND_ONE_FEATURE_GROUP",
+  findOneFeatureGroupFailure: "FIND_ONE_FEATURE_GROUP_FAILURE",
+  findOneFeatureGroupSuccess: "FIND_ONE_FEATURE_GROUP_SUCCESS",
 
   deleteOneRole: 'DELETE_ONE_ROLE',
   deleteOneRoleFailure: 'DELETE_ONE_ROLE_FAILURE',
@@ -82,6 +98,10 @@ const actionTypes = {
   removeManyRole: 'REMOVE_MANY_ROLE',
   removeManyRoleFailure: 'REMOVE_MANY_ROLE_FAILURE',
   removeManyRoleSuccess: 'REMOVE_MANY_ROLE_SUCCESS',
+
+  insertOneRole: 'INSERT_ONE_ROLE',
+  insertOneRoleFailure: 'INSERT_ONE_ROLE_FAILURE',
+  insertOneRoleSuccess: 'INSERT_ONE_ROLE_SUCCESS',
 
   updateOneRole: 'UPDATE_ONE_ROLE',
   updateOneRoleFailure: 'UPDATE_ONE_ROLE_FAILURE',
@@ -142,6 +162,18 @@ const actionTypes = {
   searchEbook: 'SEARCH_EBOOK',
   searchEbookFailure: 'SEARCH_EBOOK_FAILURE',
   searchEbookSuccess: 'SEARCH_EBOOK_SUCCESS',
+
+  searchNewEbook: 'SEARCH_NEW_EBOOK',
+  searchNewEbookFailure: 'SEARCH_NEW_EBOOK_FAILURE',
+  searchNewEbookSuccess: 'SEARCH_NEW_EBOOK_SUCCESS',
+
+  searchEbookSubscribers: 'SEARCH_EBOOK_SUBSCRIBERS',
+  searchEbookSubscribersFailure: 'SEARCH_EBOOK_SUBSCRIBERS_FAILURE',
+  searchEbookSubscribersSuccess: 'SEARCH_EBOOK_SUBSCRIBERS_SUCCESS',
+
+  searchEbookHistory: 'SEARCH_EBOOK_HISTORY',
+  searchEbookHistoryFailure: 'SEARCH_EBOOK_HISTORY_FAILURE',
+  searchEbookHistorySuccess: 'SEARCH_EBOOK_HISTORY_SUCCESS',
 
   findOneEbook: "FIND_ONE_EBOOK",
   findOneEbookFailure: "FIND_ONE_EBOOK_FAILURE",
@@ -307,4 +339,4 @@ const actionTypes = {
   dislikeCommentSuccsess: "DISLIKE_COMMENT_SUCCESS",
 };
 
-export default actionTypes
+export default actionTypes;

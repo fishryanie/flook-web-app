@@ -16,7 +16,7 @@ export default function UpLoadImage(props) {
       return;
     }
     setSelectedFile(e.target.files[0]);
-    console.log('🚀 ~ file: UpLoadImage.jsx ~ line 15 ~ UpLoadImage ~ e.target.files[0]', e.target.files[0]);
+    // console.log('🚀 ~ file: UpLoadImage.jsx ~ line 15 ~ UpLoadImage ~ e.target.files[0]', e.target.files[0]);
   };
 
   const closeFile = (e) => {
@@ -40,7 +40,6 @@ export default function UpLoadImage(props) {
     }
 
     const objectUrl = URL.createObjectURL(selectedFile);
-    console.log('objectUrl', objectUrl);
     document.querySelector('.button_outer').classList.add('file_uploading');
     setPreview(objectUrl);
     setTimeout(function () {

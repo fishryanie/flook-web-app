@@ -9,12 +9,10 @@ const ChapterPage: React.FC = () => {
   let params = useParams()
 
   const id = params.id;
-  console.log(id)
 
   const dispatch = useDispatch();
 
   const dataOneChapter = useSelector((state: RootStateOrAny) => state.BookReducer.oneChapter)
-  console.log(dataOneChapter);
 
   useEffect(() => {
     dispatch(Action.app.findOneChapter(id))

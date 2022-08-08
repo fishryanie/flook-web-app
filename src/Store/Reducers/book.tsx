@@ -1,9 +1,12 @@
 import actionTypes from "../Actions/constants";
 
-interface initialState{
+interface initialStateModel {
   listGenre: Array<string>;
   listAuthor: Array<string>;
   listBook: Array<string>;
+  listBookSubscribers: Array<string>;
+  listBookHistory: Array<string>;
+  listNewBook: Array<string>;
   listAllBook: Array<string>;
   listAllChapter: Array<string>;
   listChapter: Array<string>;
@@ -14,9 +17,13 @@ interface initialState{
   oneChapter: object;
   countBook: number;
   countChapter: number;
-}
-const initialState: initialState = {
+};
+
+const initialState: initialStateModel = {
   listBook: [],
+  listBookSubscribers: [],
+  listBookHistory: [],
+  listNewBook: [],
   listAllBook: [],
   listGenre: [],
   listAuthor: [],
@@ -36,8 +43,26 @@ export const BookReducer = (state = initialState, action: any) => {
     case actionTypes.searchEbookSuccess: {
       return {
         ...state, 
-        countBook: action.payload.count,
+        countBook: action.payload.length,
         listBook: [...action.payload.data], 
+      }
+    }
+    case actionTypes.searchNewEbookSuccess: {
+      return {
+        ...state, 
+        listNewBook: [...action.payload.data], 
+      }
+    }
+    case actionTypes.searchEbookSubscribersSuccess: {
+      return {
+        ...state, 
+        listBookSubscribers: [...action.payload.data], 
+      }
+    }
+    case actionTypes.searchEbookHistorySuccess: {
+      return {
+        ...state, 
+        listBookHistory: [...action.payload.data], 
       }
     }
     case actionTypes.insertOneEbookSuccess: {

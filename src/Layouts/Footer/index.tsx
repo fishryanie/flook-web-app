@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
           <div className="row">
             {/* Puplare Anime */}
             <div className="col">
-              <h3>Puplare Anime</h3>
+              <h3>TRUYỆN PHỔ BIẾN</h3>
               <ul className="puplare-list">
                 <li className="small-media">
                   <a href="anime-details.html" className="image">
@@ -22,9 +22,9 @@ const Footer: React.FC = () => {
                     <a href="anime-details.html">
                       <h3>Berserk 2021</h3>
                     </a>
-                    <h4>Launch Date : 2021</h4>
+                    <h4>Ngày ra mắt: 18/2/2022</h4>
                     <a href="anime-stream.html" className="more-btn">
-                      Watch Now
+                      Xem ngay
                     </a>
                   </div>
                 </li>
@@ -36,9 +36,9 @@ const Footer: React.FC = () => {
                     <a href="anime-details.html">
                       <h3>Fullmetal Alchemist</h3>
                     </a>
-                    <h4>Launch Date : 2021</h4>
+                    <h4>Ngày ra mắt: 01/04/2022</h4>
                     <a href="anime-stream.html" className="more-btn">
-                      Watch Now
+                      Xem ngay
                     </a>
                   </div>
                 </li>
@@ -50,9 +50,9 @@ const Footer: React.FC = () => {
                     <a href="anime-details.html">
                       <h3>Death Note</h3>
                     </a>
-                    <h4>Launch Date : 2021</h4>
+                    <h4>Ngày ra mắt: 26/03/2022</h4>
                     <a href="anime-stream.html" className="more-btn">
-                      Watch Now
+                      Xem ngay
                     </a>
                   </div>
                 </li>
@@ -60,7 +60,7 @@ const Footer: React.FC = () => {
             </div>
             {/* Puplare Manga */}
             <div className="col">
-              <h3>Puplare Manga</h3>
+              <h3>TRUYỆN HOT</h3>
               <ul className="puplare-list">
                 <li className="small-media">
                   <a href="manga-details.html" className="image">
@@ -70,9 +70,9 @@ const Footer: React.FC = () => {
                     <a href="manga-details.html">
                       <h3>D.Gray-Man 2016</h3>
                     </a>
-                    <h4>Launch Date : 2021</h4>
+                    <h4>Ngày ra mắt: 05/06/2022</h4>
                     <a href="manga-stream.html" className="more-btn">
-                      Watch Now
+                      Xem ngay
                     </a>
                   </div>
                 </li>
@@ -84,9 +84,9 @@ const Footer: React.FC = () => {
                     <a href="manga-details.html">
                       <h3>Bleach</h3>
                     </a>
-                    <h4>Launch Date : 2021</h4>
+                    <h4>Ngày ra mắt: 08/03/2022</h4>
                     <a href="manga-stream.html" className="more-btn">
-                      Watch Now
+                      Xem ngay
                     </a>
                   </div>
                 </li>
@@ -98,9 +98,9 @@ const Footer: React.FC = () => {
                     <a href="manga-details.html">
                       <h3>Shingeki no Kyojin</h3>
                     </a>
-                    <h4>Launch Date : 2021</h4>
+                    <h4>Ngày ra mắt: 14/02/2022</h4>
                     <a href="manga-stream.html" className="more-btn">
-                      Watch Now
+                      Xem ngay
                     </a>
                   </div>
                 </li>
@@ -108,7 +108,7 @@ const Footer: React.FC = () => {
             </div>
             {/* Puplare Movies */}
             <div className="col">
-              <h3>Puplare Movies</h3>
+              <h3>LỊCH SỬ ĐỌC</h3>
               <ul className="puplare-list">
                 <li className="small-media">
                   <a href="anime-details.html" className="image">
@@ -118,9 +118,9 @@ const Footer: React.FC = () => {
                     <a href="anime-details.html">
                       <h3>One Piece Film Gold</h3>
                     </a>
-                    <h4>Launch Date : 2021</h4>
+                    <h4>Ngày ra mắt: 01/04/2022</h4>
                     <a href="anime-stream.html" className="more-btn">
-                      Watch Now
+                      Xem ngay
                     </a>
                   </div>
                 </li>
@@ -132,9 +132,9 @@ const Footer: React.FC = () => {
                     <a href="anime-details.html">
                       <h3>Trinity Seven Movie</h3>
                     </a>
-                    <h4>Launch Date : 2021</h4>
+                    <h4>Ngày ra mắt: 01/06/2022</h4>
                     <a href="anime-stream.html" className="more-btn">
-                      Watch Now
+                      Xem ngay
                     </a>
                   </div>
                 </li>
@@ -146,9 +146,9 @@ const Footer: React.FC = () => {
                     <a href="anime-details.html">
                       <h3>Garo Divine Flame</h3>
                     </a>
-                    <h4>Launch Date : 2021</h4>
+                    <h4>Ngày ra mắt: 30/04/2022</h4>
                     <a href="anime-stream.html" className="more-btn">
-                      Watch Now
+                      Xem ngay
                     </a>
                   </div>
                 </li>
@@ -156,7 +156,7 @@ const Footer: React.FC = () => {
             </div>
             {/* Anime of the Day */}
             <div className="col">
-              <h3>Anime Of The Day</h3>
+              <h3>TIÊU ĐIỂM TUẦN</h3>
               <a href="#" className="banner">
                 <img src="https://znews-photo.zingcdn.me/w660/Uploaded/oplukaa/2022_05_01/Demon_Slayer_top.jpg" alt="" />
               </a>
@@ -177,7 +177,7 @@ const Footer: React.FC = () => {
       {/* Copyrights */}
       <section className="copyrights">
         <div className="container">
-          <p>all copyrights reserved for Animtora | Online Anime and Manga Community</p>
+          <p>@PHÁT TRIỂN BỞI FLOOK CORPORATION</p>
           <a href="#" className="tooltip" data-title="Designed by Phoenix Themes">
             <img src={Logo} alt="Phoenix Themes" />
           </a>
