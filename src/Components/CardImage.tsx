@@ -26,7 +26,7 @@ export interface CardImageProps {
       },
     };
     avgScore: any;
-    createdAt: any;
+    createAt: any;
   };
 }
 
@@ -52,7 +52,7 @@ const CardImage: React.FC<CardImageProps> = props => {
           </div>
           <div className="card-title">{item?.title.length > 20 ? item?.title.slice(0, 20) + '...' : item?.title}</div>
           <div className="card-rating"><Rating name="read-only" value={item?.avgScore} readOnly precision={0.25}/></div>
-          <div className="card-day">{moment(item?.createdAt).format('dddd')}</div>
+          <div className="card-day">{moment(item?.createAt).format('dddd')}</div>
           <div className="card-description"> {item?.description} </div>
           <div className="link"  onClick={saveDataEbook(item._id, item)}>Xem thêm</div>
         </div>

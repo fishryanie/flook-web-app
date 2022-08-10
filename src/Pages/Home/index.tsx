@@ -1,14 +1,20 @@
 import Subscribe from './Components/Subscribe'
 import SliderItem from '../../Components/SliderCustom'
-import { dataCarouselDemo } from '../../Functions/settingsSlider'
 import Action from '../../Store/Actions'
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 const HomePage: React.FC = () => {
 
-  const data = { page: 1, sort: 'view' };
-  const data1 = { page: 1, sort: 'view', newDay: true };
+  const dataTop = { 
+    page: 1, 
+    sort: 'view', 
+  };
+  const dataNew = { 
+    page: 1, 
+    sort: 'view', 
+    newDay: true,
+  };
 
   const dispatch = useDispatch();
 
@@ -18,8 +24,8 @@ const HomePage: React.FC = () => {
   const hisBook = useSelector((state: RootStateOrAny) => state.BookReducer.listBookHistory)
 
   useEffect(() => {
-    dispatch(Action.app.searchEbook(data));
-    dispatch(Action.app.searchNewEbook(data1));
+    dispatch(Action.app.searchEbook(dataTop));
+    dispatch(Action.app.searchNewEbook(dataNew));
     dispatch(Action.app.findEbookSubscribers());
     dispatch(Action.app.findEbookHistory());
   }, [dispatch]);

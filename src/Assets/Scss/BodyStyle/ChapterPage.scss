@@ -236,9 +236,14 @@
       }
     }
     .manga_inner{
+      border-top: 1px solid black;
+      border-bottom: 1px solid black;
       img{
         width: 950px;
         height: 1500px;
+        border-left: 1px solid black;
+        border-right: 1px solid black;
+        margin-bottom: -10px;
       }
     }
   }
