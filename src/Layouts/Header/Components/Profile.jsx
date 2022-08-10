@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react'
+import {useState, useRef, useEffect} from 'react'
 import Card from '@mui/material/Card';
 import Dialog from '@mui/material/Dialog';
 import CardContent from '@mui/material/CardContent';
@@ -17,7 +17,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FirebaseLogin from '../../../Pages/Auth/SignIn';
 import { MaterialUISwitch } from "../../../Assets/Theme/AppStyle";
-import { IconLogout, IconSettings, IconUser } from '@tabler/icons';
+import { IconSettings, IconUser } from '@tabler/icons';
 
 
 

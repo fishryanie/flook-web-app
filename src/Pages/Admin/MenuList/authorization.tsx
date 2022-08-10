@@ -1,23 +1,23 @@
-import { IconDatabase, IconMathFunction, IconUsers } from '@tabler/icons';
+import { IconToggleLeft, IconUsers } from '@tabler/icons';
 
 const types = { item: 'item', group: 'group', collapse: 'collapse' }
 
 
 const authorization = {
   id: 'id-authorization',
-  title: 'Authorization',
+  title: 'Phân quyền',
   // caption: 'Phân quyền',
   type: types.group,
   children: [
     {
       id: 'id-feature',
-      title: 'Feature',
+      title: 'Quyền',
       type: types.item, 
-      icon: IconMathFunction,
+      icon: IconToggleLeft,
     },
     {
       id: 'id-account',
-      title: 'Account',
+      title: 'Tài Khoản',
       type: types.item, 
       icon: IconUsers,
     },

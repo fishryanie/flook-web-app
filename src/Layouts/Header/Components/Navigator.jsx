@@ -13,7 +13,6 @@ const Navigator = (props) => {
   const dispatch = useDispatch();
 
   const ShowDialogAuth = () => {
-    // navigate('/home/authentication');
     dispatch({ type: actionTypes.openDialog });
   };
 

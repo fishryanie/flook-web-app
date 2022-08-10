@@ -1,6 +1,6 @@
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { columnsUsers } from '../../../../Components/TypeColums';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
@@ -14,17 +14,12 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
 import TabContext from '@mui/lab/TabContext';
-import FormLabel from '@mui/material/FormLabel';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import StepContent from '@mui/material/StepContent';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import LinearProgress from '@mui/material/LinearProgress';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import CircularProgress from '@mui/material/CircularProgress';
 import SendIcon from '@mui/icons-material/Send';
 
 import TextFieldSearch from '../../../../Components/TextFieldSearch';
@@ -69,19 +64,6 @@ const BpCheckedIcon = styled(BpIcon)({
     backgroundColor: '#106ba3',
   },
 });
-
-const selectRoles = [
-  { id: 1, name: 'users' },
-  { id: 2, name: 'authors' },
-  { id: 3, name: 'voice actor' },
-  { id: 4, name: 'collaborators' },
-  { id: 5, name: 'root admin' },
-  { id: 6, name: 'data admin' },
-  { id: 7, name: 'app admin' },
-  { id: 8, name: 'service admin' },
-];
-
-
 
 function BpRadio(props: RadioProps) {
   return (
@@ -131,7 +113,6 @@ const RenderForm: React.FC = () => {
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
-
   useEffect(() => {
     if (typeDialog !== 'FORM_CREATE') {
       for (const key in infoRowTable) {
@@ -157,6 +138,9 @@ const RenderForm: React.FC = () => {
             :
             formData.append(key, data[key])
         }
+        if (key === 'isActive') {
+          formData.append(key, data[key]);
+        }
         formData.append(key, data[key])
       }
       dispatch({
@@ -180,6 +164,9 @@ const RenderForm: React.FC = () => {
             :
             formData.append(key, data[key])
         }
+        if (key === 'isActive') {
+          formData.append(key, data[key]);
+        }
         formData.append(key, data[key])
       }
       dispatch(Action.auth.InsertOneUser(formData))
@@ -194,13 +181,13 @@ const RenderForm: React.FC = () => {
           <StepContent>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.displayName} field="displayName" label="DisplayName" />
+                <InputCustom control={control} errors={errors.displayName} field="displayName" label="Tên hiện thị" />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.phoneNumber} field="phoneNumber" label="phoneNumber" />
+                <InputCustom control={control} errors={errors.phoneNumber} field="phoneNumber" label="Số điện thoại" />
               </Grid>
               <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.username} field="username" label="UserName" />
+                <InputCustom control={control} errors={errors.username} field="username" label="Tên đăng nhập" />
               </Grid>
               <Grid item xs={12} sm={12}>
                 <InputCustom control={control} errors={errors.email} field="email" label="Email" />
@@ -209,12 +196,12 @@ const RenderForm: React.FC = () => {
                 (typeDialog !== 'FORM_CREATE') ? <React.Fragment />
                   :
                   <Grid item xs={12} sm={12}>
-                    <InputCustom control={control} errors={errors.password} field="password" label="Password" />
+                    <InputCustom control={control} errors={errors.password} field="password" label="Mật khẩu" />
                   </Grid>
               }
               <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
-                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
-                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Trở về</Button>
               </Grid>
             </Grid>
             <Box></Box>
@@ -222,135 +209,66 @@ const RenderForm: React.FC = () => {
         </Step>
 
         <Step>
-          <StepLabel>Choose other</StepLabel>
+          <StepLabel>Set Active</StepLabel>
           <StepContent>
             <Grid container spacing={1}>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">Vip</FormLabel>
-                  <RadioGroup row defaultValue="false" aria-labelledby="demo-customized-radios" name="customized-radios">
-                    <FormControlLabel value="false" control={<BpRadio />} label="No vip" />
-                    <FormControlLabel value="vip1" control={<BpRadio />} label="Vip 1" />
-                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 2" />
-                    <FormControlLabel value="vip2" control={<BpRadio />} label="Vip 3" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">Gender</FormLabel>
-                  <RadioGroup row defaultValue="female" aria-labelledby="demo-customized-radios" name="customized-radios" sx={{ display: 'flex' }}>
-                    <FormControlLabel value="female" control={<BpRadio />} label="Female" />
-                    <FormControlLabel value="male" control={<BpRadio />} label="Male" />
-                    <FormControlLabel value="other" control={<BpRadio />} label="Other" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <FormControl>
-                  <FormLabel id="demo-customized-radios">IsActive</FormLabel>
-                  <RadioGroup row defaultValue="true" aria-labelledby="demo-customized-radios" name="customized-radios">
-                    <FormControlLabel value="true" control={<BpRadio />} label="Active" />
-                    <FormControlLabel value="false" control={<BpRadio />} label="No active" />
-                  </RadioGroup>
-                </FormControl>
-              </Grid>
+              <FormControl>
+                <Controller
+                  control={control}
+                  name="isActive"
+                  render={({ field }) => (
+                    <RadioGroup {...field}
+                      row
+                      aria-labelledby="isActive-label"
+                      name="controlled-radio-buttons-group"
+                    >
+                      <FormControlLabel control={<Radio size="small" />} value="true" label="Active" />
+                      <FormControlLabel control={<Radio size="small" />} value="false" label="No Active" />
+                    </RadioGroup>
+                  )}
+                />
+              </FormControl>
               <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
-                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
-                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Trở về</Button>
               </Grid>
             </Grid>
           </StepContent>
         </Step>
 
         <Step>
-          <StepLabel>Choose role</StepLabel>
+          <StepLabel>Vai trò</StepLabel>
           <StepContent>
             <Grid container spacing={1}>
               <Grid item xs={12} sm={12}>
                 <TextFieldSearch register={register} setValue={setValue} options={arrayRole} field="roles" label="roles" placeholder="Role" />
               </Grid>
               <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
-                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
-                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Trở về</Button>
               </Grid>
             </Grid>
           </StepContent>
         </Step>
 
         <Step>
-          <StepLabel>Choose Picture</StepLabel>
+          <StepLabel>Chọn ảnh</StepLabel>
           <StepContent>
             <UpLoadImage register={register} setValue={setValue} field='images' />
             <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
-              <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
-              <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+              <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
+              <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Trở về</Button>
             </Grid>
           </StepContent>
         </Step>
         {activeStep === 4 &&
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Submit</Button>
+            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Gửi</Button>
           </Paper>
         }
       </Stepper>
     </form>
-  );
-};
-
-const InportFile: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-
-  const Input = styled('input')({ display: 'none' });
-  const handleImport = () => {
-    setLoading(true);
-  };
-  return (
-    <Fragment>
-      {loading && <LinearProgress color="secondary" sx={{ transform: 'translateY(-5px)' }} />}
-
-      <DialogContent>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Typography>Select File</Typography>
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <label htmlFor="contained-button-file">
-              <Input accept="image/*" id="contained-button-file" multiple type="file" />
-              <Button fullWidth component="span" variant="outlined">
-                Upload
-              </Button>
-            </label>
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <Typography>Select Input File Type</Typography>
-          </Grid>
-          <Grid className="card-box" item xs={12} sm={6}>
-            <label className="card">
-              <input className="radio-card" name="plan" type="radio" defaultChecked />
-              <span className="plan-details">
-                <span className="plan-type">Json</span>
-              </span>
-            </label>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="card">
-              <input name="plan" className="radio-card" type="radio" />
-              <span className="plan-details" aria-hidden="true">
-                <span className="plan-type">CSV</span>
-              </span>
-            </label>
-          </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <button className="handle-next-button" onClick={handleImport}>
-          <span className="handle-next-button__title">Import</span>
-          <span className="handle-next-button__icon">{loading ? <CircularProgress color="success" sx={{ p: 1 }} /> : <i className="bx bx-send"></i>}</span>
-        </button>
-      </DialogActions>
-    </Fragment>
   );
 };
 
@@ -364,20 +282,12 @@ const DialogUser: React.FC = () => {
       <TabContext value={tab}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Manual Input" value="1" />
-
-            <Tab label="Import file" value="2" sx={{ border: 'none' }} />
-
-            <Tab label="Insert document" value="3" />
+            <Tab label="Thêm mới" value="1" />
           </TabList>
         </Box>
         <TabPanel value="1" sx={{ p: 0 }}>
           <RenderForm />
         </TabPanel>
-        <TabPanel value="2" sx={{ p: 0 }}>
-          <InportFile />
-        </TabPanel>
-        <TabPanel value="3">Item Two</TabPanel>
       </TabContext>
     </Box>
   );
@@ -398,7 +308,7 @@ const UserData: React.FC = () => {
     <Box sx={{ width: '100%', height: '100%' }}>
       <WrapperDiaLog Component={DialogUser} />
       <TableCustom
-        title="User Data"
+        title="Người Dùng"
         array={arrayUser}
         columns={columnsUsers}
       />

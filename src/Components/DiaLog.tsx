@@ -19,11 +19,6 @@ const WrapperDiaLog: React.FC<WrapperDiaLogProps> = props => {
 
   const dispatch = useDispatch()
 
-  // const handleClickOpen = (scrollType: DialogProps['scroll']) => () => {
-  //   setOpen(true);
-  //   setScroll(scrollType);
-  // };
-
   const handleClose = () => {
     dispatch({type: actionTypes.closeDialog})
   };

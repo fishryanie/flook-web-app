@@ -1,8 +1,9 @@
 import { useEffect } from "react";
 import { RootStateOrAny, useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import { toastConfig } from "../../Functions/toast";
 import Action from '../../Store/Actions';
-import Selector from '../../Store/Selector';
 
 const ChapterPage: React.FC = () => {
 
@@ -12,7 +13,9 @@ const ChapterPage: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const dataOneChapter = useSelector((state: RootStateOrAny) => state.BookReducer.oneChapter)
+  const oneChapter = useSelector((state: RootStateOrAny) => state.BookReducer.oneChapter)
+
+  const dataOneChapter = oneChapter[0];
 
   useEffect(() => {
     dispatch(Action.app.findOneChapter(id))
@@ -24,9 +27,9 @@ const ChapterPage: React.FC = () => {
         <section className="page_head">
           <h1 className="text-center py-2"> {dataOneChapter?.ebooks?.title} </h1>
           <div className="page_control text-center d-flex m-auto">
-            <a href="" className="page_link_left ">Previous</a>
-            <span className="w-100 h-100 d-flex justify-content-center align-items-center">Chapter : {dataOneChapter?.name} </span>
-            <a href="" className="page_link_right ">Next</a>
+            <a href="#" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="page_link_left ">Tập trước</a>
+            <span className="w-100 h-100 d-flex justify-content-center align-items-center">{dataOneChapter?.name} </span>
+            <a href="#" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="page_link_right ">Tập tiếp</a>
           </div>
         </section>
         <section className="page_content">
@@ -38,7 +41,7 @@ const ChapterPage: React.FC = () => {
                     <i className="fa-solid fa-expand" />
                   </div>
                   <div className="btn_text">
-                    <a href="" className="btn-flip link_screen" data-back="Screen" data-front="Full Screen Reader" />
+                    <a href="#" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="btn-flip link_screen" data-back="Screen" data-front="Full Screen Reader" />
                   </div>
                 </div>
                 <div className="btn_list_item d-flex">
@@ -46,16 +49,16 @@ const ChapterPage: React.FC = () => {
                     <i className="fa-solid fa-arrow-down" />
                   </div>
                   <div className="btn_text">
-                    <a href="" className="btn-flip link_download" data-back="Download Now" data-front="Download Chapter" />
+                    <a href="#" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="btn-flip link_download" data-back="Download Now" data-front="Download Chapter" />
                   </div>
                 </div>
                 <div className="dropdown_">
                   <div className="icon_dropdown" />
                   <div className="dropdown_select d-flex h-100 w-100 justify-content-center align-items-center">
-                    <span className="ms-2">Select Chapter</span>
+                    <span onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="ms-2">Select Chapter</span>
                     <i className='bx bxs-chevron-down' ></i>
                   </div>
-                  <div className="dropdown_list">
+                  {/* <div className="dropdown_list">
                     <div className="dropdown_list-item">
                       <div className="input_search d-flex align-items-center ">
                         <i className="ti-search text-dark px-2 " />
@@ -73,14 +76,14 @@ const ChapterPage: React.FC = () => {
                       <a href="">9</a>
                       <a href="">10</a>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="btn_list_item d-flex">
                   <div className="icon bg_facebook">
                     <i className="fa-brands fa-facebook-f" />
                   </div>
                   <div className="btn_text">
-                    <a href="" className="btn-flip link_facebook" data-back="Share on Facebook" data-front="Facebook" />
+                    <a href="#" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="btn-flip link_facebook" data-back="Share on Facebook" data-front="Facebook" />
                   </div>
                 </div>
                 <div className="btn_list_item d-flex">
@@ -88,7 +91,7 @@ const ChapterPage: React.FC = () => {
                     <i className="fa-brands fa-twitter" />
                   </div>
                   <div className="btn_text">
-                    <a href="" className="btn-flip link_twitter" data-back="Share on Twitter" data-front="Twitter" />
+                    <a href="#" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="btn-flip link_twitter" data-back="Share on Twitter" data-front="Twitter" />
                   </div>
                 </div>
                 <div className="btn_list_item d-flex">
@@ -96,13 +99,13 @@ const ChapterPage: React.FC = () => {
                     <i className="fa-brands fa-whatsapp" />
                   </div>
                   <div className="btn_text">
-                    <a href="" className="btn-flip link_whatsapp" data-back="Share on WhatsApp" data-front="WhatsApp" />
+                    <a href="#" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="btn-flip link_whatsapp" data-back="Share on WhatsApp" data-front="WhatsApp" />
                   </div>
                 </div>
               </div>
             </div>
             <div className="right_sidebar_content w-75">
-              <div className="reader_nav d-flex justify-content-between align-items-center">
+              {/* <div className="reader_nav d-flex justify-content-between align-items-center">
                 <div>
                   <a className="ms-3 d-flex align-items-center" href="">
                     <i className='bx bx-chevron-left' ></i>
@@ -114,7 +117,7 @@ const ChapterPage: React.FC = () => {
                   <span>Next Page</span>
                   <i className='bx bx-chevron-right' />
                 </a>
-              </div>
+              </div> */}
               {dataOneChapter?.images?.map((item: any, index: number) => {
                 return (
                   <div key={index} className="manga_inner">
@@ -122,7 +125,7 @@ const ChapterPage: React.FC = () => {
                   </div>
                 )
               })}
-              <div className="reader_nav d-flex justify-content-between align-items-center">
+              {/* <div className="reader_nav d-flex justify-content-between align-items-center">
                 <a className="ms-3 d-flex align-items-center" href="">
                   <i className='bx bx-chevron-left' ></i>
                   <span>Previous Page</span>
@@ -132,7 +135,7 @@ const ChapterPage: React.FC = () => {
                   <span>Next Page</span>
                   <i className='bx bx-chevron-right' />
                 </a>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

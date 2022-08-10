@@ -5,7 +5,9 @@ import Stack from '@mui/material/Stack';
 import Pagination from '@mui/material/Pagination';
 import Action from '../../Store/Actions';
 import namePage from '../../Constants/NamePage';
-import { AppReducer } from '../../Store/Reducers/app';
+import { Rating } from '@mui/material';
+import { toast } from 'react-toastify';
+import { toastConfig } from '../../Functions/toast';
 
 
 const DetailPage: React.FC = () => {
@@ -14,31 +16,23 @@ const DetailPage: React.FC = () => {
   const navigate = useNavigate();
 
   const dataEbook = useSelector((state: RootStateOrAny) => state.AppReducer.dataEbook);
-  console.log("🚀 ~ file: index.tsx ~ line 17 ~ dataEbook", dataEbook)
 
   const id = params.id;
-  
-  const CountChapter = useSelector((state: RootStateOrAny) => state.BookReducer.countChapter);
-  const countChap = CountChapter % 12 === 0 ? parseInt((CountChapter/12).toString()) : parseInt((CountChapter/12).toString()) + 1;
+
+  const CountChapter = dataEbook?.sumPage;
+  const countChap = CountChapter % 12 === 0 ? parseInt((CountChapter / 12).toString()) : parseInt((CountChapter / 12).toString()) + 1;
 
   const [data, setData] = useState({
     id: id,
     page: 1,
-    sort: 'name'
+    orderby: 1,
   })
   const [page, setPage] = useState(1)
 
-  const dataOneManga = useSelector((state: RootStateOrAny) => state.BookReducer.oneBook)
   const listChapter = useSelector((state: RootStateOrAny) => state.BookReducer.listChapter)
-  
+
   useEffect(() => {
-    if (dataOneManga === '') {
-      dispatch(Action.app.findOneEbook(id))
-      dispatch(Action.app.searchChapter(data))
-    } else {
-      dispatch(Action.app.findOneEbook(id))
-      dispatch(Action.app.searchChapter(data))
-    }
+    dispatch(Action.app.searchChapter(data))
   }, [dispatch, data]);
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -46,7 +40,7 @@ const DetailPage: React.FC = () => {
     setData({ ...data, page: value })
   };
 
-  const handleClick = (item: any) => () => navigate(`${namePage.chapter}/${item?.ebooks?.title}/${item.name}/${item._id}`)
+  const handleClick = (item: any) => () => navigate(`${namePage.chapter}/${dataEbook?.title}/chapter-${item.name}/${item._id}`)
 
   return (
     <section className="detail-page">
@@ -57,7 +51,7 @@ const DetailPage: React.FC = () => {
             <div className="page-content">
               <div className="widget-sidebar">
                 <div className="poster-manga">
-                  <a href="" className="poster">
+                  <a className="poster">
                     <img src={dataEbook?.images?.background?.url} alt="photo" />
                     <div className="icon_img_poster">
                       <i className="bx bx-play" />
@@ -93,17 +87,17 @@ const DetailPage: React.FC = () => {
                     </li>
                     <li>
                       <p>
-                        Allowed-Age : <span> {dataEbook?.allowedAge} </span>
+                        Độ Tuổi : <span> {dataEbook?.allowedAge} </span>
                       </p>
                     </li>
                     <li>
                       <p>
-                        Manga Rank : <span>#768</span>
+                        Độ Hot : <span>#{dataEbook?.sumHot}</span>
                       </p>
                     </li>
                     <li>
                       <p>
-                        Chapters : <span> #{dataEbook?.chapter?.length} </span>
+                        Chapters : <span> #{dataEbook?.sumPage} </span>
                       </p>
                     </li>
                   </ul>
@@ -111,15 +105,15 @@ const DetailPage: React.FC = () => {
                 <h1 className="area-title">RELATED ANIME</h1>
                 {/* POSTER MANGA */}
                 <div className="poster-manga">
-                  <a href="manga-naruto">
+                  <a>
                     <img src="https://animehay.club//upload/poster/3517.jpg" alt="Manga Naruto" />
                   </a>
-                  <a href="#" className="rating">
+                  <a className="rating">
                     <p>RATING</p>
                     <span>9.0</span>
                   </a>
                   <div className="icon">
-                    <a href="" className="icon-link">
+                    <a className="icon-link">
                       <i className="icon-play fa-solid fa-play" />
                     </a>
                   </div>
@@ -128,7 +122,8 @@ const DetailPage: React.FC = () => {
                     <hr />
                     <p>MANGA</p>
                   </div>
-                  <a href="https://phenixthemes.com/frontdemo/animtora/anime-details.html" className="media-block" />
+                  <a className="media-block" />
+                  {/* href="https://phenixthemes.com/frontdemo/animtora/anime-details.html" */}
                 </div>
                 {/* SOCIAL  */}
                 <div className="btn-group">
@@ -137,7 +132,7 @@ const DetailPage: React.FC = () => {
                       <i className="icon__social icon_facebook fa-brands fa-facebook-f" />
                     </div>
                     <div className="link-share link-share__bgfb">
-                      <a href="" className="btn-flip" data-back="Share on Facebook" data-front="Facebook" />
+                      <a onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="btn-flip" data-back="Share on Facebook" data-front="Facebook" />
                     </div>
                   </div>
                   <div className="list-item twitter">
@@ -145,7 +140,7 @@ const DetailPage: React.FC = () => {
                       <i className="icon__social icon_twitter fa-brands fa-twitter" />
                     </div>
                     <div className="link-share link-share__twitter">
-                      <a href="" className="btn-flip" data-back="Share on Twitter" data-front="Twitter" />
+                      <a onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="btn-flip" data-back="Share on Twitter" data-front="Twitter" />
                     </div>
                   </div>
                   <div className="list-item whatsapp">
@@ -153,7 +148,7 @@ const DetailPage: React.FC = () => {
                       <i className="icon__social icon_whatsapp fa-brands fa-whatsapp" />
                     </div>
                     <div className="link-share link-share__whatsapp">
-                      <a href="" className="btn-flip" data-back="Share on Whatsapp" data-front="Whatsapp" />
+                      <a onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="btn-flip" data-back="Share on Whatsapp" data-front="Whatsapp" />
                     </div>
                   </div>
                   <div className="list-item instagram">
@@ -161,7 +156,7 @@ const DetailPage: React.FC = () => {
                       <i className="icon__social icon_instagram fa-brands fa-instagram" />
                     </div>
                     <div className="link-share link-share__instagram">
-                      <a href="" className="btn-flip" data-back="Share on Instagram" data-front="Instagram" />
+                      <a onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)} className="btn-flip" data-back="Share on Instagram" data-front="Instagram" />
                     </div>
                   </div>
                 </div>
@@ -171,27 +166,23 @@ const DetailPage: React.FC = () => {
                 <header className="header__detail__content">
                   <h1>{dataEbook?.title}</h1>
                   <p>
-                    Manga Status <span>:
+                    Trạng Thái Truyện: <span>
                       <span> {dataEbook?.status} </span>
                     </span>
                   </p>
                   <div className="rating__star">
-                    <i className="icon_rating__star active fa-solid fa-star" />
-                    <i className="icon_rating__star active fa-solid fa-star" />
-                    <i className="icon_rating__star active fa-solid fa-star" />
-                    <i className="icon_rating__star active fa-solid fa-star" />
-                    <i className="icon_rating__star fa-solid fa-star" />
+                    <Rating name="read-only" value={dataEbook?.avgScore} readOnly precision={0.25}/>
                   </div>
                   <div className="media-statistic">
                     <div className="fakebox__chapers__container">
                       <h4>
-                        <span>{dataEbook?.chapter?.length}/?</span>
+                        <span>{dataEbook?.sumPage}</span>
                         <br />
                         <p>CHAPTERS</p>
                         <i className="fa-solid fa-bars-staggered" />
                       </h4>
                       <h4>
-                        <span>50</span>
+                        <span>{dataEbook?.avgScore}</span>
                         <br />
                         <p>VOTING</p>
                         <i className="fa-solid fa-star-half-stroke" />
@@ -215,31 +206,31 @@ const DetailPage: React.FC = () => {
                 {/* BUTTONS */}
                 <div className="container__btns">
                   <div className="btn__item btn__item__favorite">
-                    <a className="btn__item__link" href="">
+                    <a className="btn__item__link" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}>
                       <i className="btn__item__icon fa-solid fa-heart" />
                       <p>Add To Fevorite</p>
                     </a>
                   </div>
                   <div className="btn__item btn__item__watch">
-                    <a className="btn__item__link" href="">
+                    <a className="btn__item__link" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}>
                       <i className="btn__item__icon fa-solid fa-clock" />
                       <p>Watch Later</p>
                     </a>
                   </div>
                   <div className="btn__item btn__item__watched">
-                    <a className="btn__item__link" href="">
+                    <a className="btn__item__link" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}>
                       <i className="btn__item__icon fa-solid fa-bars" />
                       <p>Watched</p>
                     </a>
                   </div>
                   <div className="btn__item btn__item__wishlist">
-                    <a className="btn__item__link" href="">
+                    <a className="btn__item__link" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}>
                       <i className="btn__item__icon fa-solid fa-list-check" />
                       <p>Wish list</p>
                     </a>
                   </div>
                   <div className="btn__item btn__item__subscribe">
-                    <a className="btn__item__link" href="">
+                    <a className="btn__item__link" onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}>
                       <i className="btn__item__icon fa-solid fa-bell" />
                       <p>Subscribe</p>
                     </a>
@@ -256,7 +247,7 @@ const DetailPage: React.FC = () => {
                           <li key={index}>
                             <div className="chapter__link" onClick={handleClick(item)}>
                               <div className="chapter__item">
-                                <h3>{item.name} </h3>
+                                <h3> Chapter {item.name} </h3>
                                 <p>Chapter Title Goes Here</p>
                               </div>
                             </div>
@@ -283,8 +274,9 @@ const DetailPage: React.FC = () => {
                   <Pagination size="large" variant="outlined" shape="rounded"
                     showFirstButton
                     showLastButton
-                    count ={countChap}
-                    page={page} onChange={handleChangePage}
+                    count={countChap}
+                    page={page}
+                    onChange={handleChangePage}
                   />
                 </Stack>
                 <section className="tags">

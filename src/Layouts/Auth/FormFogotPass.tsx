@@ -1,25 +1,15 @@
-import { useState } from 'react'
-import { Formik } from 'formik';
-import { FogotPasswordSchema } from '../../Functions/Validator';
+import { useState } from 'react';
 import Action from '../../Store/Actions'
 import useScriptRef from '../../hooks/useScriptRef';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Typography from '@mui/material/Typography';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { SubmitForm } from '../../Functions/GlobalFunc'
 
 import InputCustom from '../../Components/TextFieldCustom';
 import { useDispatch } from 'react-redux';
 import { useForm } from 'react-hook-form';
 
 const FormFogotPass: React.FC = () => {
-  const scriptedRef = useScriptRef();
-  const [checked, setChecked] = useState(true);
-
   const dispatch = useDispatch();
 
   const {

@@ -1,7 +1,5 @@
 import axios from 'axios'
 import Action from '../Store/Actions';
-import useScriptRef from '../hooks/useScriptRef';
-import { toast } from 'react-toastify';
 
 export const SubmitForm = (dispatch, scriptedRef, type) => {
   return async (values, { setErrors , setStatus, setSubmitting }) => { 
@@ -16,7 +14,6 @@ export const SubmitForm = (dispatch, scriptedRef, type) => {
         }
         setSubmitting(false);
         setStatus({ success: true });
-        // console.log('values', values)
       }
     } catch (err) {
       console.error(err);
@@ -57,9 +54,7 @@ export const requestAPI = async (request, header = {}) => {
   }
   
   try {
-    // console.log('config', configs);
     let response = await axios(configs);
-    // console.log('response utils', response);
     const data = response.data;
     const message = response.data.message
     const codeNumber = response.status ? response.status : 0;

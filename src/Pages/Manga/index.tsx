@@ -34,13 +34,13 @@ interface MangaPageProps {
   type?: string | undefined;
 }
 
-interface Select{
+interface Select {
   id: number,
   name: string,
 }
 
 export const selectStatus: Array<Select> = [
-  { id: 1, name: 'All'},
+  { id: 1, name: 'All' },
   { id: 2, name: 'Is Updating' },
   { id: 3, name: 'Comepleted' },
 ]
@@ -70,51 +70,60 @@ const MangaPage: React.FC = () => {
   const ListGenres = useSelector((state: RootStateOrAny) => state.BookReducer.listGenre)
   const CountBook = useSelector((state: RootStateOrAny) => state.BookReducer.countBook)
 
-  const countComic = CountBook % 12 === 0 ? parseInt((CountBook/12).toString()) : parseInt((CountBook/12).toString()) + 1
-  const [ openMenuStyle, setOpenMenuStyle ] = useState({opacity:0, height:0, visibility:'hidden'})
-  const [ animate, setAnimaie ] = useState('animate__animated animate__zoomIn')
-  const [ openMenu, setOpenMenu ] = useState(false);
-  const [ view, setView ] = useState('list');
-  const [ page, setPage ] = useState(1)
-  const [ data, setData ] = useState({
+  const countComic = CountBook % 12 === 0 ? parseInt((CountBook / 12).toString()) : parseInt((CountBook / 12).toString()) + 1
+  const [openMenuStyle, setOpenMenuStyle] = useState({ opacity: 0, height: 0, visibility: 'hidden' })
+  const [animate, setAnimaie] = useState('animate__animated animate__zoomIn')
+  const [openMenu, setOpenMenu] = useState(false);
+  const [radio, setRadio] = useState('');
+  const [view, setView] = useState('list');
+  const [page, setPage] = useState(1)
+  const [data, setData] = useState({
     page: page,
-    sort: 'view'
+    sort: radio,
+    newDay: false
   })
 
-  const { control, register, setValue, reset, handleSubmit } = useForm({defaultValues: data})
+  const { control, register, setValue, reset, handleSubmit } = useForm({ defaultValues: data })
 
   const dispatch = useDispatch()
-  const handleClickMenu = () => setOpenMenu(!openMenu) 
+  const handleClickMenu = () => setOpenMenu(!openMenu)
 
   const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => { setView(nextView) };
-  
+
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value) 
-    setData({...data, page: value})
+    setPage(value)
+    setData({ ...data, page: value })
   };
 
-  const onSubmit = (data:any) => {
-    data.page = 1
-    data.sort = 'view'
-    setData({...data, data})
+  const handleChangeRadio = (event: React.ChangeEvent<HTMLInputElement>, newRadio: string) => {
+    setRadio(newRadio);
+  };
+
+  const onSubmit = (data: any) => {
+    data.page = page
+    data.sort = radio
+    data.newDay = (radio === "sort-by-newest" ? true : false)
+    setData({ ...data, data })
     dispatch(Action.app.searchEbook(data))
+    console.log("🚀 ~ file: index.tsx ~ line 106 ~ onSubmit ~ data", data)
   }
 
 
-  useEffect(() => { 
-    setOpenMenuStyle({...openMenuStyle,
-      opacity: openMenu ? 1 : 0, 
-      height: openMenu ? 300 : 0, 
+  useEffect(() => {
+    setOpenMenuStyle({
+      ...openMenuStyle,
+      opacity: openMenu ? 1 : 0,
+      height: openMenu ? 300 : 0,
       visibility: openMenu ? 'visible' : 'hidden',
     })
-  },[openMenu])
-  
+  }, [openMenu])
 
-  useEffect(() => { 
+
+  useEffect(() => {
     dispatch(Action.app.searchEbook(data))
     dispatch(Action.app.findManyGenre())
     dispatch(Action.app.findManyAuthor())
-  },[dispatch, data])
+  }, [dispatch, data])
 
   return (
     <section className='manga-page'>
@@ -148,56 +157,62 @@ const MangaPage: React.FC = () => {
         <li><a href="#">Y</a></li>
         <li><a href="#">Z</a></li>
       </ul>
-    <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
 
-      <Box className='manga-menu'>
-        <Box className='container' sx={{pt:4, pb:2}}>
-              <Grid  container spacing={2} sx={{alignSelf:'center', alignItems:'center', alignContent:'center', height:'100%'}}>
-                <Grid item xs={12} sm={12} md={7} >
-                  <FormControl>
-                    <Controller
-                      control={control}
-                      name="sort"
-                      render={({ field }) => (  
-                        <RadioGroup row aria-labelledby="sort-label" {...field}>
-                          <Breadcrumbs aria-label="breadcrumb">
-                            <FormControlLabel control={<Radio size="small" />} value="sort-by-dasc" label="XẾP TỪ A-Z" />
-                            <FormControlLabel control={<Radio size="small" />} value="sort-by-rating" label="XẾP THEO ĐIỂM" />
-                            <FormControlLabel control={<Radio size="small" />} value="sort-by-newest" label="XẾP THEO NGÀY RA MẮT" />
-                            <FormControlLabel control={<Radio size="small" />} value="sort-by-views" label="XẾP THEO LƯỢT XEM" />
-                          </Breadcrumbs>
-                        </RadioGroup>
-                      )}
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={10} sm={10} md={3} sx={{textAlign: 'center'}}>
-                  <Box className='manga-menu-btn' onClick={handleClickMenu}>
-                    <Typography color='#616161' variant='h4'>TÌM KIẾM NÂNG CAO</Typography>
-                    {openMenu ? <KeyboardArrowDownIcon/> : <NavigateNextIcon/>}
-                  </Box> 
-                </Grid>
-                <Grid item xs={2} sm={2} md={2} sx={{textAlign: 'right'}}>
-                  <ToggleButtonGroup size='small' exclusive orientation="horizontal" value={view} onChange={handleChange}>
-                    <ToggleButton value="list" aria-label="list"><ViewListIcon/></ToggleButton>
-                    <ToggleButton value="module" aria-label="module"><ViewModuleIcon/></ToggleButton>
-                  </ToggleButtonGroup>
-                </Grid>
+        <Box className='manga-menu'>
+          <Box className='container' sx={{ pt: 4, pb: 2 }}>
+            <Grid container spacing={2} sx={{ alignSelf: 'center', alignItems: 'center', alignContent: 'center', height: '100%' }}>
+              <Grid item xs={12} sm={12} md={7} >
+                <FormControl>
+                  <Controller
+                    control={control}
+                    name="sort"
+                    render={({ field }) => (
+                      <RadioGroup
+                        row 
+                        aria-labelledby="sort-label" {...field}
+                        name="controlled-radio-buttons-group"
+                        value={radio}
+                        onChange={handleChangeRadio}
+                      >
+                        <Breadcrumbs aria-label="breadcrumb">
+                          <FormControlLabel control={<Radio size="small" />} value="name" label="XẾP TỪ A-Z" />
+                          <FormControlLabel control={<Radio size="small" />} value="score" label="XẾP THEO ĐIỂM" />
+                          <FormControlLabel control={<Radio size="small" />} value="sort-by-newest" label="XẾP THEO NGÀY RA MẮT" />
+                          <FormControlLabel control={<Radio size="small" />} value="view" label="XẾP THEO LƯỢT XEM" />
+                        </Breadcrumbs>
+                      </RadioGroup>
+                    )}
+                  />
+                </FormControl>
               </Grid>
-         
-        </Box> 
-      </Box>
+              <Grid item xs={10} sm={10} md={3} sx={{ textAlign: 'center' }}>
+                <Box className='manga-menu-btn' onClick={handleClickMenu}>
+                  <Typography color='#616161' variant='h4'>TÌM KIẾM NÂNG CAO</Typography>
+                  {openMenu ? <KeyboardArrowDownIcon /> : <NavigateNextIcon />}
+                </Box>
+              </Grid>
+              <Grid item xs={2} sm={2} md={2} sx={{ textAlign: 'right' }}>
+                <ToggleButtonGroup size='small' exclusive orientation="horizontal" value={view} onChange={handleChange}>
+                  <ToggleButton value="list" aria-label="list"><ViewListIcon /></ToggleButton>
+                  <ToggleButton value="module" aria-label="module"><ViewModuleIcon /></ToggleButton>
+                </ToggleButtonGroup>
+              </Grid>
+            </Grid>
+
+          </Box>
+        </Box>
 
 
         {/* Dropdown fillter */}
         <Box className='manga-menu-dropdown' sx={openMenuStyle}>
-          <Grid className='container' container sx={{pt:5, pb:5}}>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='search' label="Tìm kiếm" placeholder="Tìm kiếm" options={selectAllowedAge}/></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='authors' label="Tác Giả" placeholder="Tác Giả" options={ListAuthor}/></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='genres' label="Thể Loại" placeholder="Thể Loại" options={ListGenres} /></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='allowedAge' label="Độ Tuổi" placeholder="Độ Tuổi" options={selectAllowedAge} /></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='chapters' label="Tập" placeholder="Tập" options={selectChapters} /></Grid>
-            <Grid item xs={12} sm={6} md={4} sx={{p:1}}><TextFieldSearch register={register} setValue={setValue} field='status' label="Trạng Thái" placeholder="Trạng Thái" options={selectStatus} /></Grid>
+          <Grid className='container' container sx={{ pt: 5, pb: 5 }}>
+            <Grid item xs={12} sm={6} md={4} sx={{ p: 1 }}><TextFieldSearch register={register} setValue={setValue} field='search' label="Tìm kiếm" placeholder="Tìm kiếm" options={selectAllowedAge} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{ p: 1 }}><TextFieldSearch register={register} setValue={setValue} field='author' label="Tác Giả" placeholder="Tác Giả" options={ListAuthor} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{ p: 1 }}><TextFieldSearch register={register} setValue={setValue} field='genre' label="Thể Loại" placeholder="Thể Loại" options={ListGenres} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{ p: 1 }}><TextFieldSearch register={register} setValue={setValue} field='allowedAge' label="Độ Tuổi" placeholder="Độ Tuổi" options={selectAllowedAge} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{ p: 1 }}><TextFieldSearch register={register} setValue={setValue} field='chapter' label="Tập" placeholder="Tập" options={selectChapters} /></Grid>
+            <Grid item xs={12} sm={6} md={4} sx={{ p: 1 }}><TextFieldSearch register={register} setValue={setValue} field='status' label="Trạng Thái" placeholder="Trạng Thái" options={selectStatus} /></Grid>
           </Grid>
           <Box className="manga-btn-search">
             <span>
@@ -206,33 +221,33 @@ const MangaPage: React.FC = () => {
             </span>
           </Box>
         </Box>
-      </form>
+      </form >
 
 
       {/* ITEM CARD */}
-      <Box sx={{mt:5}}>
+      < Box sx={{ mt: 5 }}>
         <Box className='container'>
-          <Grid  container spacing={1} rowSpacing={4}>
-            {ListBook?.map((item: any, index: number) => { 
+          <Grid container spacing={1} rowSpacing={4}>
+            {ListBook?.map((item: any, index: number) => {
               return (
                 <Grid item xs={6} sm={4} md={3} key={index}>
-                  <CardImage index={index} item={item}/>
+                  <CardImage index={index} item={item} />
                 </Grid>
               )
             })}
           </Grid>
           {/* Pagination */}
           <Stack sx={{ mt: 5, mb: 5 }}>
-            <Pagination  size="large" variant="outlined" shape="rounded" 
-              showFirstButton 
-              showLastButton  
+            <Pagination size="large" variant="outlined" shape="rounded"
+              showFirstButton
+              showLastButton
               count={countComic}
-              page={page} onChange={handleChangePage} 
+              page={page} onChange={handleChangePage}
             />
           </Stack>
         </Box>
-      </Box>  
-    </section>
+      </Box >
+    </section >
   );
 }
 

@@ -77,9 +77,7 @@ const ProfileSection = (props) => {
   const customization = useSelector((state) => state.customizationReducer);
   const navigate = useNavigate();
 
-  // const [sdm, setSdm] = useState(true);
   const [value, setValue] = useState('');
-  // const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const [open, setOpen] = useState(false);
   /**
@@ -104,14 +102,6 @@ const ProfileSection = (props) => {
     setOpen(false);
   };
 
-  // const handleListItemClick = (event, index, route = '') => {
-  //   setSelectedIndex(index);
-  //   handleClose(event);
-
-  //   if (route && route !== '') {
-  //     navigate(route);
-  //   }
-  // };
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -137,7 +127,6 @@ const ProfileSection = (props) => {
         // <ButtonBase sx={{ borderRadius: '5px', overflow: 'hidden' }}>
         <StyledBadge overlap="circular" anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }} variant="dot">
           <Avatar
-            // src={'https://scr.vn/wp-content/uploads/2020/08/H%C3%ACnh-g%C3%A1i-%C4%91%E1%BA%B9p-t%C3%B3c-d%C3%A0i-ng%E1%BA%A7u.jpg'}
             src={userLoggin?.images?.avatar?.url}
             sx={{
               ...theme.typography.commonAvatar,
@@ -180,7 +169,6 @@ const ProfileSection = (props) => {
           }}
           icon={
             <Avatar
-              // src={'https://scr.vn/wp-content/uploads/2020/08/H%C3%ACnh-g%C3%A1i-%C4%91%E1%BA%B9p-t%C3%B3c-d%C3%A0i-ng%E1%BA%A7u.jpg'}
               src={userLoggin?.images?.avatar?.url}
               sx={{
                 ...theme.typography.mediumAvatar,
@@ -242,17 +230,6 @@ const ProfileSection = (props) => {
                             </Typography>
                         }
                       </Stack>
-                      {/* {
-                        (!userLoggin)
-                          ?
-                          <Typography variant="subtitle2">...</Typography>
-                          :
-                          userLoggin?.roles?.map((item, index) => {
-                            return(
-                              <Typography variant="subtitle2" key={index}>{item?.name}</Typography>
-                            )
-                          })
-                      } */}
                     </Stack>
                     <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
@@ -275,40 +252,6 @@ const ProfileSection = (props) => {
                   </Box>
                   <PerfectScrollbar style={{ height: '100%', maxHeight: 'calc(100vh - 250px)', overflowX: 'hidden' }}>
                     <Box sx={{ p: 2 }}>
-                      {/* <UpgradePlanCard />
-                      <Divider />
-                      <Card
-                        sx={{
-                          bgcolor: theme.palette.primary.light,
-                          my: 2,
-                        }}
-                      >
-                        <CardContent>
-                          <Grid container spacing={3} direction="column">
-                            <Grid item>
-                              <Grid item container alignItems="center" justifyContent="space-between">
-                                <Grid item>
-                                  <Typography variant="subtitle1">Start DND Mode</Typography>
-                                </Grid>
-                                <Grid item>
-                                  <Switch color="primary" checked={sdm} onChange={(e) => setSdm(e.target.checked)} name="sdm" size="small" />
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                            <Grid item>
-                              <Grid item container alignItems="center" justifyContent="space-between">
-                                <Grid item>
-                                  <Typography variant="subtitle1">Allow Notifications</Typography>
-                                </Grid>
-                                <Grid item>
-                                  <Switch checked={notification} onChange={(e) => setNotification(e.target.checked)} name="sdm" size="small" />
-                                </Grid>
-                              </Grid>
-                            </Grid>
-                          </Grid>
-                        </CardContent>
-                      </Card>
-                      <Divider /> */}
                       <List
                         component="nav"
                         sx={{
@@ -329,7 +272,6 @@ const ProfileSection = (props) => {
                         <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                           selected={selectedIndex === 0}
-                          // onClick={(event) => handleListItemClick(event, 0, '/user/account-profile/profile1')}
                           onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}
                         >
                           <ListItemIcon>
@@ -337,38 +279,17 @@ const ProfileSection = (props) => {
                           </ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Cài đặt tài khoản</Typography>} />
                         </ListItemButton>
-                        {/* <ListItemButton
-                          sx={{ borderRadius: `${customization.borderRadius}px` }}
-                          selected={selectedIndex === 1}
-                          onClick={(event) => handleListItemClick(event, 1, '/user/social-profile/posts')}
-                        >
-                          <ListItemIcon>
-                            <IconUser stroke={1.5} size="1.3rem" />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={
-                              <Grid container spacing={1} justifyContent="space-between">
-                                <Grid item>
-                                  <Typography variant="body2">Social Profile</Typography>
-                                </Grid>
-                                <Grid item>
-                                  <Chip
-                                    label="02"
-                                    size="small"
-                                    sx={{
-                                      bgcolor: theme.palette.warning.dark,
-                                      color: theme.palette.background.default,
-                                    }}
-                                  />
-                                </Grid>
-                              </Grid>
-                            }
-                          />
-                        </ListItemButton> */}
                         {
-                          (window.location.pathname === namePage.dashboard || (Object.entries(userLoggin).length === 0))
+                          (window.location.pathname.includes('/admin') === true)
                             ?
-                            <React.Fragment />
+                            <>
+                              <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} selected={selectedIndex === 2} onClick={handleLogout}>
+                                <ListItemIcon>
+                                  <IconLogout stroke={1.5} size="1.3rem" />
+                                </ListItemIcon>
+                                <ListItemText primary={<Typography variant="body2">Đăng xuất</Typography>} />
+                              </ListItemButton>
+                            </>
                             : (userLoggin?.roles?.filter((item) => { return item.name === 'Admin' || item.name === 'Moderator' }).length !== 0 && (Object.entries(userLoggin).length !== 0))
                               ?
                               <>

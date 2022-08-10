@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 export default function UpLoadImage(props) {
@@ -16,7 +16,6 @@ export default function UpLoadImage(props) {
       return;
     }
     setSelectedFile(e.target.files[0]);
-    // console.log('🚀 ~ file: UpLoadImage.jsx ~ line 15 ~ UpLoadImage ~ e.target.files[0]', e.target.files[0]);
   };
 
   const closeFile = (e) => {
@@ -58,7 +57,7 @@ export default function UpLoadImage(props) {
           <div className="button_outer" id="box">
             <div className="btn_upload">
               <input type="file" id="upload_file" {...register(field)} onChange={onSelectFile} />
-              Upload Image
+              Chọn ảnh
             </div>
             <div className="processing_bar" />
             <div className="success_box" />

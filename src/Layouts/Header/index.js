@@ -41,26 +41,6 @@ const Header = (props) => {
           </form>
           <Link className="logo" to={namePage.home}><img src={Logo} alt=''/></Link>
           <section className="action-btns">
-            {/* <ButtonBase sx={{ borderRadius: '5px', overflow: 'hidden' }}>
-              <Avatar
-                onClick={()=> alert('menu')}
-                color="inherit"
-                variant="rounded"
-                sx={{
-                  ...theme.typography.commonAvatar,
-                  ...theme.typography.mediumAvatar,
-                  transition: 'all .2s ease-in-out',
-                  background: theme.palette.secondary.light,
-                  color: theme.palette.secondary.dark,
-                  '&:hover': {
-                    background: theme.palette.secondary.dark,
-                    color: theme.palette.secondary.light,
-                  },
-                }}
-              >
-                <IconMenu2 stroke={1.5} size="1.3rem" />
-              </Avatar>
-            </ButtonBase> */}
             <NotificationSection/>
             <ProfileSection showAt='APP'/>
           </section>

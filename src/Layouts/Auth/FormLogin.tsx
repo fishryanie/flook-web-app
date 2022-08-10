@@ -1,14 +1,10 @@
-import { Formik } from 'formik';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { LoginSchema } from '../../Functions/Validator';
-import { SubmitForm } from '../../Functions/GlobalFunc';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Checkbox from '@mui/material/Checkbox';
-import Typography from '@mui/material/Typography';
 import useScriptRef from '../../hooks/useScriptRef';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
@@ -19,10 +15,6 @@ import Action from '../../Store/Actions';
 const FormLogin: React.FC = () => {
   const [checked, setChecked] = useState(true);
 
-  const scriptedRef = useScriptRef();
-
-  const initialValues = { userName: '', password: '', submit: null };
-
   const dispatch = useDispatch();
 
   const {
@@ -31,6 +23,7 @@ const FormLogin: React.FC = () => {
     setValue,
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm({
     // resolver: yupResolver(LoginSchema),
@@ -43,6 +36,15 @@ const FormLogin: React.FC = () => {
     dispatch(Action.auth.Login(data))
     console.log('values', data);
   };
+
+  useEffect(() => {
+    setError("username", {
+      types: {
+        required: "This is required",
+        minLength: "This is minLength"
+      }
+    });
+  }, [setError])
 
   return (
 
@@ -57,9 +59,6 @@ const FormLogin: React.FC = () => {
       </Grid>
       <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
         <FormControlLabel label="Nhớ mật khẩu" control={<Checkbox checked={checked} onChange={(event: any) => setChecked(event.target.checked)} name="checked" color="primary" />} />
-        {/* <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-          Quên mật khẩu?
-        </Typography> */}
       </Stack>
 
       <Box sx={{ mt: 2 }}>

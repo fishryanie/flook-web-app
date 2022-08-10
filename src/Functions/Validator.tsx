@@ -1,15 +1,14 @@
 import * as Yup from 'yup';
-import Selector from '../Store/Selector'
 
 
 export const LoginSchema = Yup.object().shape({
-  userName: Yup.string()
-    .required('UserName is required')
+  username: Yup.string()
+    .required('Tên đăng nhập không được để trống!')
     .max(32, 'a')
     .min(8, 'b'),
 
   password: Yup.string()
-    .required('Password is required')
+    .required('Mật khẩu không được để trống!')
     .max(32, 'a')
     .min(8, 'b'),
 

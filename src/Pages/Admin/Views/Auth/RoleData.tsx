@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import { Fragment, useEffect, useState } from 'react';
-import { LoginSchema } from '../../../../Functions/Validator';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
 import Box from '@mui/material/Box';
@@ -11,29 +10,15 @@ import Grid from '@mui/material/Grid';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
 import TabContext from '@mui/lab/TabContext';
-import FormLabel from '@mui/material/FormLabel';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControl from '@mui/material/FormControl';
 import StepContent from '@mui/material/StepContent';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import LinearProgress from '@mui/material/LinearProgress';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import CircularProgress from '@mui/material/CircularProgress';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-import TextFieldSearch from '../../../../Components/TextFieldSearch';
 import WrapperDiaLog from '../../../../Components/WrapperDiaLog';
 import InputCustom from '../../../../Components/TextFieldCustom';
 import TableCustom from '../../../../Components/TableCustom';
-import Selector from '../../../../Store/Selector';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
 import ListSubheader from '@mui/material/ListSubheader';
@@ -43,7 +28,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Collapse from '@mui/material/Collapse';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
 import SendIcon from '@mui/icons-material/Send';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
@@ -86,17 +70,6 @@ const BpCheckedIcon = styled(BpIcon)({
     backgroundColor: '#106ba3',
   },
 });
-
-const selectRoles = [
-  { id: 1, name: 'users' },
-  { id: 2, name: 'authors' },
-  { id: 3, name: 'voice actor' },
-  { id: 4, name: 'collaborators' },
-  { id: 5, name: 'root admin' },
-  { id: 6, name: 'data admin' },
-  { id: 7, name: 'app admin' },
-  { id: 8, name: 'service admin' },
-];
 
 function BpRadio(props: RadioProps) {
   return (
@@ -180,8 +153,8 @@ const RenderForm: React.FC = () => {
                 <InputCustom control={control} errors={errors.description} field="description" label="Mô tả" />
               </Grid>
               <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
-                <Button color="secondary" variant="outlined" onClick={handleNext}>Continue</Button>
-                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Back</Button>
+                <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
+                <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Trở về</Button>
               </Grid>
             </Grid>
             <Box></Box>
@@ -190,66 +163,11 @@ const RenderForm: React.FC = () => {
         {activeStep === 1 &&
           <Paper square elevation={0} sx={{ p: 3 }}>
             <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Submit</Button>
+            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Gửi</Button>
           </Paper>
         }
       </Stepper>
     </form>
-  );
-};
-
-const InportFile: React.FC = () => {
-  const [loading, setLoading] = useState(false);
-
-  const Input = styled('input')({ display: 'none' });
-  const handleImport = () => {
-    setLoading(true);
-  };
-  return (
-    <Fragment>
-      {loading && <LinearProgress color="secondary" sx={{ transform: 'translateY(-5px)' }} />}
-
-      <DialogContent>
-        <Grid container spacing={1}>
-          <Grid item xs={12} sm={12}>
-            <Typography>Select File</Typography>
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <label htmlFor="contained-button-file">
-              <Input accept="image/*" id="contained-button-file" multiple type="file" />
-              <Button fullWidth component="span" variant="outlined">
-                Upload
-              </Button>
-            </label>
-          </Grid>
-          <Grid item xs={12} sm={12}>
-            <Typography>Select Input File Type</Typography>
-          </Grid>
-          <Grid className="card-box" item xs={12} sm={6}>
-            <label className="card">
-              <input className="radio-card" name="plan" type="radio" defaultChecked />
-              <span className="plan-details">
-                <span className="plan-type">Json</span>
-              </span>
-            </label>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="card">
-              <input name="plan" className="radio-card" type="radio" />
-              <span className="plan-details" aria-hidden="true">
-                <span className="plan-type">CSV</span>
-              </span>
-            </label>
-          </Grid>
-        </Grid>
-      </DialogContent>
-      <DialogActions>
-        <button className="handle-next-button" onClick={handleImport}>
-          <span className="handle-next-button__title">Import</span>
-          <span className="handle-next-button__icon">{loading ? <CircularProgress color="success" sx={{ p: 1 }} /> : <i className="bx bx-send"></i>}</span>
-        </button>
-      </DialogActions>
-    </Fragment>
   );
 };
 
@@ -344,10 +262,8 @@ const DialogRole: React.FC = () => {
       <TabContext value={tab}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Decentralization" value="0" />
-            <Tab label="Manual Input" value="1" />
-            <Tab label="Import file" value="2" />
-            <Tab label="Insert document" value="3" />
+            <Tab label="Phân quyền" value="0" />
+            <Tab label="Thêm mới" value="1" />
           </TabList>
         </Box>
         <TabPanel value="0" sx={{ p: 0 }}>
@@ -356,10 +272,6 @@ const DialogRole: React.FC = () => {
         <TabPanel value="1" sx={{ p: 0 }}>
           <RenderForm />
         </TabPanel>
-        <TabPanel value="2" sx={{ p: 0 }}>
-          <InportFile />
-        </TabPanel>
-        <TabPanel value="3">Item Two</TabPanel>
       </TabContext>
     </Box>
   );
@@ -378,7 +290,7 @@ function RoleData() {
   return (
     <Box sx={{ width: '100%', height: '100%' }}>
       <WrapperDiaLog Component={DialogRole} />
-      <TableCustom title="Role Data" array={arrayRole} columns={columnRole} />
+      <TableCustom title="Vai Trò" array={arrayRole} columns={columnRole} />
     </Box>
   );
 }

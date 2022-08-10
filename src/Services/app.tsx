@@ -137,7 +137,7 @@ const removeManyAuthor = async (data: any, token: any) => {
 const searchEbook = async (data: any) => {
   const request = {
     method: 'POST',
-    api: domain + apiString.searchEbook + `?page=${data.page}&sort=${data.sort}`,
+    api: domain + apiString.searchEbook + `?page=${data.page}&sort=${data.sort}&orderby=${data.orderby}`,
     body: data,
   }
   const response = await requestAPI(request)
@@ -274,7 +274,7 @@ const findManyChapter = async (token: any) => {
 export const findOneChapter = async (id: string) => {
   const request = {
     method: 'GET',
-    api: domain + apiString.findOneChapter + `?id=${id}`,
+    api: domain + apiString.findOneChapter + `?chapId=${id}`,
   }
   const response = await requestAPI(request)
   return response
@@ -282,8 +282,8 @@ export const findOneChapter = async (id: string) => {
 
 const searchChapter = async (data: any) => {
   const request = {
-    method: 'POST',
-    api: domain + apiString.searchChapter + `?id=${data.id}&page=${data.page}&sort=${data.sort}`,
+    method: 'GET',
+    api: domain + apiString.searchChapter + `?ebookId=${data.id}&page=${data.page}&orderby=${data.orderby}`,
     body: data,
   }
   const response = await requestAPI(request)

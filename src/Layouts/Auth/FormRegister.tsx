@@ -6,20 +6,12 @@ import useScriptRef from '../../hooks/useScriptRef';
 import Action from '../../Store/Actions'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import Checkbox from '@mui/material/Checkbox';
-import Typography from '@mui/material/Typography';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { SubmitForm } from '../../Functions/GlobalFunc'
 
 import InputCustom from '../../Components/TextFieldCustom';
 import { useForm } from 'react-hook-form';
 
-const initialValues = { userName: '', password: '', phoneNumber: '',email: '', passwordComfirm: '', submit: null }
 const FormRegister: React.FC = props => {
-  const [ checked, setChecked ] = useState(true);
-  const scriptedRef = useScriptRef();
   const dispatch = useDispatch()
   
   const {
@@ -48,20 +40,6 @@ const FormRegister: React.FC = props => {
           <InputCustom control={control} errors={errors.email} field="email" label="Nhập email" />
         </Grid>
       </Grid>
-      {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-        <FormControlLabel label="Remember me" control={
-          <Checkbox
-            checked={checked}
-            onChange={(event: any) => setChecked(event.target.checked)}
-            name="checked"
-            color="primary"
-          />}
-        />
-        <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-          Forgot Password?
-        </Typography>
-      </Stack> */}
-
       <Box sx={{ mt: 2 }}>
         <Button
           disableElevation

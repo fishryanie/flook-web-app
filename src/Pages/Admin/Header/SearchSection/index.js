@@ -13,6 +13,8 @@ import Transitions from '../../../../Components/extended/Transitions';
 // assets
 import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
 import { shouldForwardProp } from '@mui/system';
+import { toast } from 'react-toastify';
+import { toastConfig } from '../../../../Functions/toast';
 
 // styles
 const PopperStyle = styled(Popper, { shouldForwardProp })(({ theme }) => ({
@@ -165,7 +167,8 @@ const SearchSection = () => {
                     id="input-search-header"
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
-                    placeholder="Search"
+                    placeholder="Tìm kiếm"
+                    onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}
                     startAdornment={
                         <InputAdornment position="start">
                             <IconSearch stroke={1.5} size="1rem" color={theme.palette.grey[500]} />

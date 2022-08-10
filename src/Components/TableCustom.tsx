@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import {
@@ -24,7 +24,8 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { StyledGridOverlay } from '../Assets/Theme/AppStyle';
 import actionTypes from '../Store/Actions/constants'
 import Action from '../Store/Actions';
-import { store } from '../Store/store';
+import { toast } from 'react-toastify';
+import { toastConfig } from '../Functions/toast';
 
 
 interface TableProps {
@@ -85,13 +86,13 @@ const Toolbar: React.FC<toolbarProps> = (props) => {
       listDelete.push(row._id.toString())
 
       switch (title) {
-        case 'User Data':
+        case 'Người Dùng':
           return description += row.displayName + ', '
 
-        case 'Ebook Data':
+        case 'Truyện Tranh':
           return description += row.title + ', '
 
-        case 'Role Data' || 'Genre Data' || 'Author Data' || 'Chapter Data':
+        case 'Vai Trò' || 'Thể Loại' || 'Tác Giả' || 'Chapter':
           return description += row.name + ', '
 
         case 'Review Data' || 'Comment Data':
@@ -108,22 +109,22 @@ const Toolbar: React.FC<toolbarProps> = (props) => {
 
         handleYes: () => {
           switch (title) {
-            case 'User Data':
+            case 'Người Dùng':
               return dispatch(Action.auth.RemoveManyUser(listDelete))
 
-            case 'Role Data':
+            case 'Vai Trò':
               return dispatch(Action.auth.RemoveManyRole(listDelete))
 
-            case 'Ebook Data':
+            case 'Truyện Tranh':
               return dispatch(Action.app.removeManyEbook(listDelete))
 
-            case 'Author Data':
+            case 'Tác Giả':
               return dispatch(Action.app.removeManyAuthor(listDelete))
 
-            case 'Genre Data':
+            case 'Thể Loại':
               return dispatch(Action.app.removeManyGenre(listDelete))
 
-            case 'Chapter Data':
+            case 'Chapter':
               return dispatch(Action.app.removeManyChapter(listDelete))
 
             case 'Review Data':
@@ -138,14 +139,8 @@ const Toolbar: React.FC<toolbarProps> = (props) => {
 
       }
     })
-    // title === 'role data' && dispatch({ type: 'DELETE_DELETE_MANY_ROLE', payload: listDelete })
-    // title === 'user data' && dispatch({ type: 'DELETE_DELETE_MANY_USER', payload: listDelete })
-    // title === 'ebook data' && dispatch(Action.app.deletedManyManga(listDelete))
-    // title === 'author data' && dispatch({ type: 'DELETE_DELETE_MANY_AUTHOR', payload: listDelete })
-    // title === 'genre data' && dispatch({ type: 'DELETE_DELETE_MANY_GENRE', payload: listDelete })
-
-
   }
+
   return (
     <GridToolbarContainer sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <Box sx={{ m: 1 }}>
@@ -201,23 +196,28 @@ const Toolbar: React.FC<toolbarProps> = (props) => {
           transformOrigin={{ horizontal: 'right', vertical: 'top' }}
           anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
         >
-          <MenuItem onClick={handleDialog}>
-            <ListItemIcon>
-              <AddIcon fontSize="small" />
-            </ListItemIcon>
-            Add {title}
-          </MenuItem>
+          {
+            (title === "Review Data" || title === "Comment Data")
+              ? <React.Fragment />
+              :
+              <MenuItem onClick={handleDialog}>
+                <ListItemIcon>
+                  <AddIcon fontSize="small" />
+                </ListItemIcon>
+                Thêm {title}
+              </MenuItem>
+          }
           <MenuItem onClick={handleDeleteMany}>
             <ListItemIcon>
               <DeleteOutlineIcon fontSize="small" />
             </ListItemIcon>
-            Delete many
+            Xóa nhiều
           </MenuItem>
-          <MenuItem>
+          <MenuItem onClick={() => toast.warning('Chức năng đang cập nhật!', toastConfig)}>
             <ListItemIcon>
               <MoreHorizIcon fontSize="small" />
             </ListItemIcon>
-            More
+            Thêm
           </MenuItem>
         </Menu>
       </Box>
@@ -243,7 +243,7 @@ const NoRowsOverlay: React.FC = () => {
           </g>
         </g>
       </svg>
-      <Box sx={{ mt: 1 }}>No Rows</Box>
+      <Box sx={{ mt: 1 }}>Không có dữ liệu</Box>
     </StyledGridOverlay>
   );
 }

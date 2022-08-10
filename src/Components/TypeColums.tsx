@@ -1,5 +1,4 @@
 import * as React from 'react';
-import moment from "moment";
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
@@ -8,7 +7,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { GridActionsCellItem, GridRowId, GridRowParams, GridColumns } from '@mui/x-data-grid-pro';
 import { AntSwitch } from '../Assets/Theme/AppStyle';
 import { IconPhoto } from '@tabler/icons';
-import { useDispatch } from "react-redux";
 import { store } from '../Store/store';
 import Rating from '@mui/material/Rating';
 import actionTypes from '../Store/Actions/constants';
@@ -51,7 +49,6 @@ const handleDelete = (row: any, table: string) => () => {
 const showInfoRow = (row: GridRowParams) => () => {
   store.dispatch({ type: 'infoRowTable', payload: row })
   store.dispatch({ type: actionTypes.openDialog })
-  // store.dispatch({})
 };
 
 const columAction = (type: string, table: string) => ({
@@ -64,11 +61,11 @@ const columAction = (type: string, table: string) => ({
       ? <VisibilityIcon  onClick={showInfoRow(params.row)}/>
       : type === 'isActive'
         ? <Stack direction="row" spacing={1} alignItems="center">
-          <AntSwitch defaultChecked={params.row.isActive ? true : false} inputProps={{ 'aria-label': 'ant design' }} />
+          <AntSwitch defaultChecked={params.row.isActive ? true : false} disabled inputProps={{ 'aria-label': 'ant design' }} />
         </Stack>
         : <React.Fragment/>
     } />,
-    <GridActionsCellItem label="Update" sx={{ m: 0, p: 0 }} icon={<SettingsOutlinedIcon sx={{ m: 0, p: 0 }} />} onClick={showInfoRow(params.row)} />,
+    <GridActionsCellItem label="Update" sx={{ m: 0, p: 0 }} icon={type === 'null' ? <React.Fragment/> : <SettingsOutlinedIcon sx={{ m: 0, p: 0 }} />} onClick={showInfoRow(params.row)} />,
     <GridActionsCellItem label="Delete" sx={{ m: 0, p: 0 }} icon={<DeleteOutlineOutlinedIcon sx={{ m: 0, p: 0 }} />} onClick={handleDelete(params.row, table)} />,
   ],
 })
@@ -82,40 +79,37 @@ export const columnsUsers: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
   { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params?.row?.images?.avatar?.url === '' ? <IconPhoto /> : <Avatar src={params?.row?.images?.avatar?.url} alt='images user' /> },
   { width: 200, editable: false, field: "email", headerName: "Email" },
-  { width: 170, editable: true, field: "displayName", headerName: "DisplayName" },
-  { width: 150, editable: false, field: "username", headerName: "UserName" },
+  { width: 170, editable: true, field: "displayName", headerName: "Tên hiện thị" },
+  { width: 150, editable: false, field: "username", headerName: "Tên đăng nhập" },
   { width: 150, editable: false, hide: true, field: "password", headerName: "Mật khẩu" },
-  { width: 170, editable: false, field: "phoneNumber", headerName: "Phone Number" },
-  { width: 220, editable: false, field: "roles", headerName: "Roles", renderCell: (params: any) => params.row.roles.map((item: any) => item.name).join(", ") },
-  // { width: 150, editable: false, field: "deleted", headerName: "Deleted" },
+  { width: 170, editable: false, field: "phoneNumber", headerName: "Số điện thoại" },
+  { width: 220, editable: false, field: "roles", headerName: "Vai trò", renderCell: (params: any) => params.row.roles.map((item: any) => item.name).join(", ") },
   { ...columAction('isActive', 'users') }
 ]
 
 export const columnRole: any = [
   { width: 100, editable: false, hide: true, field: 'id', headerName: 'Stt' },
-  { width: 120, editable: false, field: 'name', headerName: 'Name' },
-  { width: 400, editable: false, field: 'description', headerName: 'Description' },
-  { ...columAction('eye', 'roles') },
+  { width: 120, editable: false, field: 'name', headerName: 'Tên' },
+  { width: 400, editable: false, field: 'description', headerName: 'Mô tả' },
+  { ...columAction('', 'roles') },
 ];
 
 export const columnsEbooks: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
   { width: 100, editable: true, field: "images", headerName: "Background", renderCell: (params: any) => params?.row?.images?.background?.url === '' ? <IconPhoto /> : <Avatar src={params?.row?.images?.background?.url} alt='images manga' /> },
-  { width: 220, editable: false, field: "title", headerName: "Title" },
+  { width: 220, editable: false, field: "title", headerName: "Tên truyện" },
   { width: 250, editable: true, field: "authors", headerName: "Tác giả", renderCell: (params: any) => params?.row?.authors?.map((item: any) => item.name).join(", ") },
   { width: 250, editable: false, field: "genres", headerName: "Thể loại", renderCell: (params: any) => params?.row?.genres?.map((item: any) => item.name).join(", ") },
   { width: 150, editable: false, field: "status", headerName: "Trạng thái" },
   { width: 350, editable: false, field: "description", headerName: "Giới thiệu" },
   { width: 120, editable: false, field: "numChapters", headerName: "Số chapter" },
-  { width: 120, editable: false, field: "view", headerName: "Lượt đọc" },
+  { width: 120, editable: false, field: "views", headerName: "Lượt đọc" },
   { width: 120, editable: false, field: "vip", headerName: "Vip" },
-  // { width: 120, editable: false, field: "deleted", headerName: "Trạng thái xóa" },
   { ...columAction('', 'ebooks') }
 ]
 
 export const columnsGenres: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
-  // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
   { width: 200, editable: false, field: "name", headerName: "Tên loại" },
   { ...columAction('', 'genres') }
 ]
@@ -130,12 +124,11 @@ export const columnsAuthors: any = [
 
 export const columnsChapters: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
-  // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
   { width: 150, editable: false, field: "name", headerName: "Tên" },
   { width: 200, editable: true, field: "ebooks", headerName: "Truyện", renderCell: (params: any) => params.row.ebooks?.title },
-  { width: 150, editable: false, field: "numViews", headerName: "Lượt đọc" },
+  { width: 150, editable: false, field: "views", headerName: "Lượt đọc" },
   { width: 150, editable: false, field: "status", headerName: "Trạng thái" },
-  { width: 150, editable: false, field: "numLikes", headerName: "Lượt thích", renderCell: (params: any) => params.row?.numLikes?.map((item: any) => item?.displayName).join(", ") },
+  { width: 150, editable: false, field: "likes", headerName: "Lượt thích", renderCell: (params: any) => params.row?.likes?.map((item: any) => item?.displayName).join(", ") },
 
   { ...columAction('', 'chapters') }
 ]
@@ -144,38 +137,31 @@ export const columnsChapters: any = [
 
 export const columnsReviews: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
-  // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
   { width: 150, editable: false, field: "users", headerName: "Người dùng", renderCell: (params: any) => params.row.users?.displayName },
   { width: 250, editable: true, field: "ebooks", headerName: "Truyện", renderCell: (params: any) => params.row.ebooks?.title },
-  { width: 200, editable: false, field: "rating", headerName: "Đánh giá", renderCell: (params: any) => params.row.rating === '' ? 0 : <Rating name="read-only" value={params.row.rating} readOnly /> },
+  { width: 200, editable: false, field: "rating", headerName: "Đánh giá", renderCell: (params: any) => params.row.rating === '' ? 0 : <Rating name="read-only" value={params.row.rating} readOnly precision={0.5}/> },
   { width: 400, editable: false, field: "content", headerName: "Nội dung" },
 
-  { ...columAction('', 'reviews') }
+  { ...columAction('null', 'reviews') }
 ]
 
 export const columnsComments: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
-  // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
   { width: 200, editable: false, field: "userId", headerName: "Người dùng", renderCell: (params: any) => params?.row?.userId?.username },
-  // { width: 200, editable: true, field: "bookId", headerName: "Truyện", renderCell: (params: any) => params.row.bookId?.map((item: any) => item.title).join(", ") },
   { width: 250, editable: false, field: "content", headerName: "Nội dung" },
-  // { width: 150, editable: false, field: "reviewId", headerName: "Review", renderCell: (params: any) => params?.row?.reviewId?.content},
-  // { width: 150, editable: false, field: "chapterId", headerName: "Chapter", renderCell: (params: any) => params?.row?.chapterId?.name },
 
-  { ...columAction('', 'comments') }
+  { ...columAction('null', 'comments') }
 ]
 
 // ========================== Info other ====================================>>>
 export const columnsCategories: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
-  // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
   { width: 200, editable: false, field: "name", headerName: "Tên" },
   { ...columAction }
 ]
 
 export const columnsStatus: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
-  // { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params.row.images.wallPaper === '' ? <IconPhoto/> : <Avatar src={'https://nhadat24h.com/uploads/bds/201904/14/926145_083922_4.jpg'} alt='images user'/>},
   { width: 200, editable: false, field: "name", headerName: "Tên" },
   { ...columAction }
 ]

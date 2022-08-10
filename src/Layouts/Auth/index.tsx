@@ -45,37 +45,19 @@ const AuthDiaLog: React.FC = props => {
             ?
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
-                <Tab label="Login" value="1" />
-                <Tab label="Register" value="2" />
-                <Tab label="Forgot Password" value="3" />
-                <Tab label="Change Password" onClick={() => toast.warning('Vui lòng đăng nhập!', toastConfig)} />
+                <Tab label="Đăng nhập" value="1" />
+                <Tab label="Đăng ký" value="2" />
+                <Tab label="Quên mật khẩu" value="3" />
+                <Tab label="Đổi mật khẩu" onClick={() => toast.warning('Vui lòng đăng nhập!', toastConfig)} />
               </TabList>
             </Box>
             :
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <TabList onChange={handleChange} aria-label="lab API tabs example">
-                {/* <Tab label="Login" value="1" />
-                <Tab label="Register" value="2" />
-                <Tab label="Forgot Password" value="3" /> */}
-                <Tab label="Change Password" value="1" />
+                <Tab label="Đổi mật khẩu" value="1" />
               </TabList>
             </Box>
         }
-        {/* <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Login" value="1" />
-            <Tab label="Register" value="2" />
-            <Tab label="Forgot Password" value="3" />
-            {
-              (Object.entries(userLoggin).length === 0)
-                ? <Tab label="Change Password" onClick={() => toast.warning('Vui lòng đăng nhập!', toastConfig)} />
-                : <Tab label="Change Password" value="4" />
-            }
-          </TabList>
-        </Box> */}
-        {/* <TabPanel value="1" sx={styleTabPanel}><AuthWrapper Component={FormLogin} /></TabPanel>
-        <TabPanel value="2" sx={styleTabPanel}><AuthWrapper Component={FormRegister} hidden={true} /></TabPanel>
-        <TabPanel value="3" sx={styleTabPanel}><AuthWrapper Component={FormFogotPass} hidden={true} /></TabPanel> */}
         {
           (Object.entries(userLoggin).length === 0)
             ?

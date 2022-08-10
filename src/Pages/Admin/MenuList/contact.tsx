@@ -1,24 +1,24 @@
-import { IconDatabase, IconMessageCircle, IconListCheck } from '@tabler/icons';
+import { IconMessageCircle, IconMessage2 } from '@tabler/icons';
 
 const types = { item: 'item', group: 'group', collapse: 'collapse' }
 
 const contact = {
   id: 'id-contact',
-  title: 'Contacts',
+  title: 'Liên Hệ',
   // caption: 'Liên hệ',
   type: types.group,
   children: [
     {
       id: 'id-chat',
-      title: 'Chat',
+      title: 'Tin Nhắn',
       type: types.item, 
       icon: IconMessageCircle,
     },
     {
       id: 'id-feedback',
-      title: 'Feedback',
+      title: 'Nhận Xét',
       type: types.item, 
-      icon: IconListCheck,
+      icon: IconMessage2,
     },
   ],
 };

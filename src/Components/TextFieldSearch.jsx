@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Action from '../Store/Actions';
 
-
-const countries= [
+const countries = [
   { code: 'AI', label: 'Anguilla', phone: '1-264' },
   { code: 'AL', label: 'Albania', phone: '355' },
   { code: 'AM', label: 'Armenia', phone: '374' },
@@ -33,67 +33,77 @@ const countries= [
   { code: 'BW', label: 'Botswana', phone: '267' },
   { code: 'BY', label: 'Belarus', phone: '375' },
   { code: 'BZ', label: 'Belize', phone: '501' },
-
 ];
 
 export default function TextFieldSearch(props) {
+  const dispatch = useDispatch();
 
   const { field, label, placeholder, options, register, setValue, className } = props;
   const [selectedCaste, setSelectedCaste] = useState([]);
 
-  const infoRowTable = useSelector((state) => state.AppReducer.infoRowTable)
-  const typeDialog = useSelector((state) => state.AppReducer.typeDialog)
+  const infoRowTable = useSelector((state) => state.AppReducer.infoRowTable);
+  const typeDialog = useSelector((state) => state.AppReducer.typeDialog);
+  const arrayRole = useSelector((state) => state.AuthReducer.arrayRole);
+  const roleUser = arrayRole?.filter((item) => {
+    return item.name === 'User';
+  });
 
   useEffect(() => {
+    dispatch(Action.auth.FindManyRole());
     register(field);
   }, [register]);
 
   useEffect(() => {
     if (typeDialog !== 'FORM_CREATE') {
-      if (field === 'users'){
-        setSelectedCaste([infoRowTable.users])
+      if (field === 'users') {
+        setSelectedCaste([infoRowTable?.users]);
       }
-      if (field === 'ebooks'){
-        setSelectedCaste([infoRowTable.ebooks])
+      if (field === 'ebooks') {
+        setSelectedCaste([infoRowTable?.ebooks]);
       }
-      if (field === 'userId'){
-        setSelectedCaste([infoRowTable.userId])
+      if (field === 'userId') {
+        setSelectedCaste([infoRowTable?.userId]);
       }
-      if (field === 'authors'){
-        setSelectedCaste(infoRowTable.authors)
+      if (field === 'authors') {
+        setSelectedCaste(infoRowTable?.authors);
       }
-      if (field === 'genres'){
-        setSelectedCaste(infoRowTable.genres)
+      if (field === 'genres') {
+        setSelectedCaste(infoRowTable?.genres);
       }
-      if (field === 'license'){
-        setSelectedCaste([infoRowTable.license])
+      if (field === 'license') {
+        setSelectedCaste([infoRowTable?.license]);
       }
-      if (field === 'search' || 'allowedAge' || 'chapter' || 'status'){
-        setSelectedCaste([])
+      if (field === 'roles') {
+        setSelectedCaste(infoRowTable?.roles);
+      }
+    }
+    if (typeDialog === 'FORM_CREATE') {
+      if (field === 'roles') {
+        setSelectedCaste(roleUser);
       }
     }
   }, [field]);
-  
-  const RenderInput = (params) => {  
+
+  const RenderInput = (params) => {
     return (
-      <TextField 
+      <TextField
         {...params}
-        id={field} 
-        label={label} 
+        id={field}
+        label={label}
         placeholder={placeholder}
         inputProps={{
-          ...params.inputProps, 
-          autoComplete: 'new-password'
+          ...params.inputProps,
+          autoComplete: 'new-password',
         }}
       />
-    )
-  }
+    );
+  };
 
   return (
     <Autocomplete
       className={className}
       id={field}
-      sx={{width:'100%'}}
+      sx={{ width: '100%' }}
       options={options}
       multiple
       autoHighlight
@@ -109,7 +119,7 @@ export default function TextFieldSearch(props) {
           {option?.name || option?.title || option?.displayName}
         </Box>
       )}
-      renderInput={RenderInput}  
+      renderInput={RenderInput}
     />
   );
 }

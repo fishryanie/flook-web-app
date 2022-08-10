@@ -8,13 +8,13 @@ const types = { item: 'item', group: 'group', collapse: 'collapse' }
 
 const dashboard = {
   id: 'id-dashboard',
-  title: 'Dashboard',
+  title: 'Thống kê',
   // caption: 'Thống kê',
 	type: types.group,
   children: [
     {
       id: 'default',
-      title: 'Dashboard',
+      title: 'Thống kê',
       type: types.item,
       url: '/dashboard',
       icon: IconDashboard,

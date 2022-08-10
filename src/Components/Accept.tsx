@@ -32,8 +32,8 @@ const Accept: React.FC = () => {
         </div>
         <div className="panel__flaps">
           <div className="flap outer flap--left" />
-          <a className="flap flap__btn" href="#" onClick={handleYes}>YES</a>
-          <a className="flap flap__btn" href="#" onClick={handleClose}>NO</a>
+          <a className="flap flap__btn" href="#" onClick={handleYes}>Đồng ý</a>
+          <a className="flap flap__btn" href="#" onClick={handleClose}>Thoát</a>
           <div className="flap outer flap--right" />
         </div>
       </div>

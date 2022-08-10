@@ -437,7 +437,7 @@ function* FindOneChapter(action: any){
     const response: responseGenerator = yield Services.app.findOneChapter(id);
     if (response?.statusCode === 200 || response?.statusCode === 201) {
       yield toast.success(response.message, toastConfig )
-      yield put(Action.app.findOneChapterSuccess(response))
+      yield put(Action.app.findOneChapterSuccess(response.data))
     }else{
       yield toast.error(response.message, toastConfig )
       yield put(Action.app.findOneChapterFailure(response))

@@ -9,7 +9,7 @@ import authorization from './authorization';
 
 
 const menuItems = { 
-    items: [dashboard, dataManagement, authorization, contacts, approve, apiKey]
+    items: [dashboard, dataManagement]//, authorization, contacts, approve, apiKey
 };
 
 export default menuItems;
