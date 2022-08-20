@@ -9,6 +9,7 @@ import Breadcrumbs from '../../Components/extended/Breadcrumbs';
 import Header from './Header';
 import Sidebar from './Sidebar';
 import navigation from './MenuList';
+import Action from '../../Store/Actions';
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
@@ -26,35 +27,51 @@ const AdminPage = () => {
     dispatch({ type: '@customization/SET_MENU', opened: !matchDownMd });
   }, [matchDownMd]);
 
+  const userLoggin = useSelector((state) => state.AuthReducer.userLoggin)
+
+  useEffect(() => {
+    dispatch(Action.auth.FindOneUser())
+  }, [dispatch]);
+
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      {/* header */}
-      <AppBar
-        enableColorOnDark
-        position="fixed"
-        color="inherit"
-        elevation={0}
-        sx={{
-          bgcolor: theme.palette.background.default,
-          transition: leftDrawerOpened ? theme.transitions.create('width') : 'none',
-        }}
-      >
-        <Toolbar>
-          <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
-        </Toolbar>
-      </AppBar>
-      {/* drawer */}
-      <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
-      {/* main content */}
-      <Main theme={theme} open={leftDrawerOpened}>
-        {/* breadcrumb */}
-        <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-        <Outlet />
-      </Main>
-      
-      {/* <Customization /> */}
-    </Box>
+
+    <>
+      {
+        (userLoggin?.roles?.filter((item) => { return item.name === 'Admin' || item.name === 'Moderator' }).length === 0 && (window.location.pathname.includes('/admin') === true))
+          ? window.location.replace('/')
+          : (
+            <Box sx={{ display: 'flex' }}>
+              <CssBaseline />
+              {/* header */}
+              <AppBar
+                enableColorOnDark
+                position="fixed"
+                color="inherit"
+                elevation={0}
+                sx={{
+                  bgcolor: theme.palette.background.default,
+                  transition: leftDrawerOpened ? theme.transitions.create('width') : 'none',
+                }}
+              >
+                <Toolbar>
+                  <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
+                </Toolbar>
+              </AppBar>
+              {/* drawer */}
+              <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
+              {/* main content */}
+              <Main theme={theme} open={leftDrawerOpened}>
+                {/* breadcrumb */}
+                <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
+                <Outlet />
+              </Main>
+
+              {/* <Customization /> */}
+            </Box>
+          )
+      }
+    </>
+
   );
 };
 

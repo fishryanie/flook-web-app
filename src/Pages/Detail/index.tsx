@@ -25,7 +25,7 @@ const DetailPage: React.FC = () => {
   const [data, setData] = useState({
     id: id,
     page: 1,
-    orderby: 1,
+    orderby: -1,
   })
   const [page, setPage] = useState(1)
 
@@ -33,7 +33,7 @@ const DetailPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(Action.app.searchChapter(data))
-  }, [dispatch, data]);
+  }, [dispatch, data, dataEbook]);
 
   const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)

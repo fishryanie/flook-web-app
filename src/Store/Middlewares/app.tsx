@@ -56,10 +56,8 @@ function* FindManyGenre(){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyGenre(readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyGenreSuccess(response.data))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findManyGenreFailure(response.message))
     }
   } catch (error) {
@@ -155,10 +153,8 @@ function* FindManyAuthor(){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyAuthor(readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyAuthorSuccess(response.data))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findManyAuthorFailure(response.message))
     }
   } catch (error) {
@@ -254,10 +250,8 @@ function* SearchEbook(action: any){
   try {
     const response: responseGenerator = yield Services.app.searchEbook(action.payload);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.searchEbookSuccess(response))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.searchEbookFailure(response))
     }
   } catch (error) {
@@ -271,10 +265,8 @@ function* SearchNewEbook(action: any){
   try {
     const response: responseGenerator = yield Services.app.searchEbook(action.payload);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.searchNewEbookSuccess(response))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.searchNewEbookFailure(response))
     }
   } catch (error) {
@@ -289,10 +281,8 @@ function* SearchEbookSubscribers(action: any){
   try {
     const response: responseGenerator = yield Services.app.findEbookSubscribers(readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findEbookSubscribersSuccess(response))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findEbookSubscribersFailure(response))
     }
   } catch (error) {
@@ -307,10 +297,8 @@ function* SearchEbookHistory(action: any){
   try {
     const response: responseGenerator = yield Services.app.findEbookHistory(readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findEbookHistorySuccess(response))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findEbookHistoryFailure(response))
     }
   } catch (error) {
@@ -325,10 +313,8 @@ function* FindOneEbook(action: any){
   try {
     const response: responseGenerator = yield Services.app.findOneEbook(id);
     if (response?.statusCode === 200 || response?.statusCode === 201) {
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findOneEbookSuccess(response.data))
     }else{
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findOneEbookFailure(response))
     }
   } catch (error) {
@@ -343,10 +329,8 @@ function* FindManyEbook(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyEbook(readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyEbookSuccess(response))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findManyEbookFailure(response))
     }
   } catch (error) {
@@ -400,10 +384,8 @@ function* FindManyChapter(){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyChapter(readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyChapterSuccess(response.data))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findManyChapterFailure(response.message))
     }
   } catch (error) {
@@ -418,10 +400,8 @@ function* SearchChapter(action: any){
   try {
     const response: responseGenerator = yield Services.app.searchChapter(action.payload);
     if (response?.statusCode === 200 || response?.statusCode === 201) {
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.searchChapterSuccess(response))
     }else{
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.searchChapterFailure(response))
     }
   } catch (error) {
@@ -436,10 +416,8 @@ function* FindOneChapter(action: any){
   try {
     const response: responseGenerator = yield Services.app.findOneChapter(id);
     if (response?.statusCode === 200 || response?.statusCode === 201) {
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findOneChapterSuccess(response.data))
     }else{
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findOneChapterFailure(response))
     }
   } catch (error) {
@@ -536,10 +514,8 @@ function* FindManyReview(){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyReview(readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyReviewSuccess(response.data))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findManyReviewFailure(response.message))
     }
   } catch (error) {
@@ -635,10 +611,8 @@ function* FindManyComment(){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.app.findManyComment(readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
       yield put(Action.app.findManyCommentSuccess(response.data))
     }else {
-      yield toast.error(response.message, toastConfig )
       yield put(Action.app.findManyCommentFailure(response.message))
     }
   } catch (error) {

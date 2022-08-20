@@ -45,10 +45,10 @@ const Dashboard = () => {
             <TotalGrowthBarChart isLoading={isLoading} />
           </Grid>
           <Grid item xs={12} md={4}>
-            <PopularCard isLoading={isLoading} />
+            <PopularCard />
           </Grid>
           <Grid item xs={12} md={4}>
-            <PieCard/>
+            <PieCard />
           </Grid>
         </Grid>
       </Grid>

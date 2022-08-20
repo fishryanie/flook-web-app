@@ -211,12 +211,21 @@ const FindOneUser = async (data: any, token: any) => {
   return response
 }
 
+const NewMember = async (time: any) => {
+  const request = {
+    method: 'GET',
+    api: domain + apiString.newmember + `?time=${time}`,
+  }
+  const response = await requestAPI(request)
+  return response
+}
+
 
 
 export default {
   Login, Register, ForgotPass, ChangePass,
 
-  FindOneUser,
+  FindOneUser, NewMember,
 
   FindManyUser, RemoveOneUser, RemoveManyUser, InsertOneUser, UpdateOneUser,
   

@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { columnsAuthors } from '../../../../Components/TypeColums';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
@@ -25,6 +25,7 @@ import TableCustom from '../../../../Components/TableCustom';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
 import SendIcon from '@mui/icons-material/Send';
+import UpLoadImage from '../../../../Components/UpLoadImage';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -80,6 +81,7 @@ function BpRadio(props: RadioProps) {
 
 const RenderForm: React.FC = () => {
   const dispatch = useDispatch();
+  const formData = new FormData()
 
   const {
     control,
@@ -102,6 +104,7 @@ const RenderForm: React.FC = () => {
 
   const arrayUser = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayUser);
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable);
+  const typeImage = useSelector((state: RootStateOrAny) => state.AppReducer.typeImage)
   const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog);
 
   const [open, setOpen] = useState();
@@ -122,17 +125,35 @@ const RenderForm: React.FC = () => {
   }, []);
 
   const onSubmit = (data: any) => {
+    let updateData: any;
     if (typeDialog !== 'FORM_CREATE') {
-      const updateData = {
-        name: data.name,
-        license: Array.isArray(data.license) ? data.license.map((item: any) => item._id.toString()) : data.license._id
+      if (typeImage === 'IMAGE') {
+        for (const key in data) {
+          if (key === 'images') {
+            formData.append(key, data[key][0])
+          }
+          if (key === 'license') {
+            Array.isArray(data[key])
+              ? data[key].forEach((row: any) => {
+                formData.append(key, row._id.toString());
+              })
+              :
+              formData.append(key, data[key]._id.toString());
+          }
+          formData.append(key, data[key])
+        }
+      } else {
+        updateData = {
+          name: data.name,
+          license: Array.isArray(data.license) ? data.license.map((item: any) => item._id.toString()) : data.license._id
+        }
       }
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
           content: `Grant ${data?.name} rights to ${infoRowTable?.name}`,
           description: `Are you sure you want to edit ${infoRowTable?.name}'s permissions?`,
-          handleYes: () => dispatch(Action.app.updateOneAuthor(infoRowTable?._id, updateData))
+          handleYes: () => dispatch(Action.app.updateOneAuthor(infoRowTable?._id, updateData === undefined ? formData : updateData))
         }
       })
     }
@@ -178,11 +199,38 @@ const RenderForm: React.FC = () => {
             </Grid>
           </StepContent>
         </Step>
-        {activeStep === 2 &&
-          <Paper square elevation={0} sx={{ p: 3 }}>
-            <Typography>All steps completed - you&apos;re finished</Typography>
-            <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Gửi</Button>
-          </Paper>
+
+        {
+          (typeDialog !== 'FORM_CREATE')
+            ?
+            <Step>
+              <StepLabel>Chọn ảnh</StepLabel>
+              <StepContent>
+                <UpLoadImage register={register} setValue={setValue} field='images' />
+                <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
+                  <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
+                  <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Trở về</Button>
+                </Grid>
+              </StepContent>
+            </Step>
+            :
+            <React.Fragment />
+        }
+
+        {
+          (typeDialog !== 'FORM_CREATE')
+            ?
+            activeStep === 3 &&
+            <Paper square elevation={0} sx={{ p: 3 }}>
+              <Typography>All steps completed - you&apos;re finished</Typography>
+              <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Gửi</Button>
+            </Paper>
+            :
+            activeStep === 2 &&
+            <Paper square elevation={0} sx={{ p: 3 }}>
+              <Typography>All steps completed - you&apos;re finished</Typography>
+              <Button color="secondary" variant="contained" endIcon={<SendIcon />} onClick={handleSubmit(onSubmit)} sx={{ mt: 1, mr: 1 }}>Gửi</Button>
+            </Paper>
         }
       </Stepper>
     </form>

@@ -3,7 +3,9 @@ import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography }
 import PropTypes from 'prop-types';
 import MainCard from '../../../../Components/cards/MainCard';
 import TotalIncomeCard from '../../../../Components/cards/Skeleton/TotalIncomeCard';
-import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import Action from '../../../../Store/Actions';
 
 // styles
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -38,6 +40,13 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const TotalIncomeDarkCard = ({ isLoading }) => {
   const theme = useTheme();
 
+  const dataUser = useSelector((state) => state.AuthReducer.arrayUser)
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(Action.auth.FindManyUser(''));
+  }, [dispatch]);
+
   return (
     <>
       {isLoading ? (
@@ -57,7 +66,13 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                       color: '#fff',
                     }}
                   >
-                    <TableChartOutlinedIcon fontSize="inherit" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <circle cx="9" cy="7" r="4"></circle>
+                      <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                      <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                      <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+                    </svg>
                   </Avatar>
                 </ListItemAvatar>
                 <ListItemText
@@ -68,12 +83,12 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                   }}
                   primary={
                     <Typography variant="h4" sx={{ color: '#fff' }}>
-                      $203k
+                      Tổng Người Dùng:
                     </Typography>
                   }
                   secondary={
                     <Typography variant="subtitle2" sx={{ color: 'primary.light', mt: 0.25 }}>
-                      Total Income
+                      {dataUser.length}
                     </Typography>
                   }
                 />

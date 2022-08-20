@@ -135,7 +135,7 @@ const RenderForm: React.FC = () => {
               formData.append(key, row._id.toString());
             })
             :
-            formData.append(key, data[key])
+            formData.append(key, data[key]._id.toString())
         }
         formData.append(key, data[key])
       }
@@ -159,7 +159,7 @@ const RenderForm: React.FC = () => {
               formData.append(key, row._id.toString());
             })
             :
-            formData.append(key, data[key])
+            formData.append(key, data[key]._id.toString())
         }
         formData.append(key, data[key])
       }

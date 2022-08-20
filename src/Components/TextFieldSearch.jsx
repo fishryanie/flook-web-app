@@ -77,12 +77,16 @@ export default function TextFieldSearch(props) {
         setSelectedCaste(infoRowTable?.roles);
       }
     }
+  }, [field]);
+
+  useEffect(() => {
     if (typeDialog === 'FORM_CREATE') {
       if (field === 'roles') {
         setSelectedCaste(roleUser);
+        setValue(field, roleUser)
       }
     }
-  }, [field]);
+  }, [field,roleUser]);
 
   const RenderInput = (params) => {
     return (

@@ -37,7 +37,7 @@ function* Logout(action: any) {
       yield toast.success('Logout Successfully!!!', toastConfig )
       yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
-      yield window.location.reload();
+      yield window.location.replace('/home');
   } catch (error) {
     console.log('Error LoginSagas', error)
   } finally {
@@ -107,10 +107,8 @@ function* FindManyUser(action: any){
   try {
     const response: responseGenerator = yield Services.auth.FindManyUser(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.FindManyUserSuccess(response.data))
     }else{
-      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.FindManyUserFailure(response.message))
     }
   } catch (error) {
@@ -148,8 +146,8 @@ function* UpdateOneUser(action: any) {
     if (response.statusCode === 200) {
       yield toast.success(response.message, toastConfig )
       yield put(Action.auth.UpdateOneUserSuccess(response))
-      yield delay(2000)
       yield put(Action.auth.FindManyUser(readCookie))
+      yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
     } else {
       yield toast.error(response.message, toastConfig )
@@ -205,10 +203,8 @@ function* FindManyRole(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.FindManyRole(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.FindManyRoleSuccess(response.data))
     }else{
-      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.FindManyRoleFailure(response.message))
     }
   } catch (error) {
@@ -303,10 +299,8 @@ function* FindManyFeature(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.FindManyFeature(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.FindManyFeatureSuccess(response.data))
     }else{
-      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.FindManyFeatureFailure(response.message))
     }
   } catch (error) {
@@ -340,10 +334,8 @@ function* FindOneFeatureGroup(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.FindOneFeatureGroup(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.FindOneFeatureGroupSuccess(response.data))
     }else{
-      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.FindOneFeatureGroupFailure(response.message))
     }
   } catch (error) {
@@ -358,11 +350,24 @@ function* FindOneUser(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.FindOneUser(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
       yield put(Action.auth.FindOneUserSuccess(response.data))
     }else{
-      yield toast.error(response.message, toastConfig )
       yield put(Action.auth.FindOneUserFailure(response.message))
+    }
+  } catch (error) {
+    console.log('Error', error)
+  } finally {
+    console.log('ChangePass')
+  }
+}
+
+function* NewMember(action: any){
+  try {
+    const response: responseGenerator = yield Services.auth.NewMember(action.payload)
+    if (response.statusCode === 200) {
+      yield put(Action.auth.NewMemberSuccess(response.data))
+    }else{
+      yield put(Action.auth.NewMemberFailure(response.message))
     }
   } catch (error) {
     console.log('Error', error)
@@ -381,6 +386,8 @@ export default function* authSaga() {
     takeLatest(actionTypes.changePass, ChangePass),
 
     takeLatest(actionTypes.findOneUser, FindOneUser),
+
+    takeLatest(actionTypes.newMember, NewMember),
 
     takeLatest(actionTypes.findManyUser, FindManyUser),
     takeLatest(actionTypes.insertOneUser, InsertOneUser),

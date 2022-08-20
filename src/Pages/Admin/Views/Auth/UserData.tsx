@@ -88,6 +88,7 @@ const RenderForm: React.FC = () => {
 
   const arrayRole = useSelector((state: RootStateOrAny) => state.AuthReducer.arrayRole)
   const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog)
+  const typeImage = useSelector((state: RootStateOrAny) => state.AppReducer.typeImage)
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable)
 
   const [open, setOpen] = useState();
@@ -117,7 +118,7 @@ const RenderForm: React.FC = () => {
     if (typeDialog !== 'FORM_CREATE') {
       for (const key in infoRowTable) {
         if (key === 'images') {
-          setValue(key, infoRowTable[key]?.background?.url)
+          setValue(key, infoRowTable[key][0]?.background?.url)
         }
         setValue(key, infoRowTable[key])
       }
@@ -125,30 +126,40 @@ const RenderForm: React.FC = () => {
   }, []);
 
   const onSubmit = (data: any) => {
+    let updateData: any;
     if (typeDialog !== 'FORM_CREATE') {
-      for (const key in data) {
-        if (key === 'images') {
-          formData.append(key, data[key][0])
+      if (typeImage === 'IMAGE') {
+        for (const key in data) {
+          if (key === 'images') {
+            formData.append(key, data[key][0])
+          }
+          if (key === 'roles') {
+            Array.isArray(data[key])
+              ? data[key].forEach((row: any) => {
+                formData.append(key, row._id.toString());
+              })
+              :
+              formData.append(key, data[key]._id.toString())
+          }
+          if (key === 'isActive') {
+            formData.append(key, data[key]);
+          }
+          formData.append(key, data[key])
         }
-        if (key === 'roles') {
-          Array.isArray(data[key])
-            ? data[key].forEach((row: any) => {
-              formData.append(key, row._id.toString());
-            })
-            :
-            formData.append(key, data[key])
+      } else {
+        updateData = {
+          phoneNumber: data.phoneNumber,
+          displayName: data.displayName,
+          isActive: (data.isActive === "true") ? true : false,
+          roles: Array.isArray(data.roles) ? data.roles.map((item: any) => item._id.toString()) : data.license._id,
         }
-        if (key === 'isActive') {
-          formData.append(key, data[key]);
-        }
-        formData.append(key, data[key])
       }
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
           content: `Grant ${data?.username} rights to ${infoRowTable?.username}`,
           description: `Are you sure you want to edit ${infoRowTable?.username}'s permissions?`,
-          handleYes: () => dispatch(Action.auth.UpdateOneUser(infoRowTable._id, formData))
+          handleYes: () => dispatch(Action.auth.UpdateOneUser(infoRowTable._id, updateData === undefined ? formData : updateData))
         }
       })
     } else {
@@ -162,7 +173,7 @@ const RenderForm: React.FC = () => {
               formData.append(key, row._id.toString());
             })
             :
-            formData.append(key, data[key])
+            formData.append(key, data[key]._id.toString())
         }
         if (key === 'isActive') {
           formData.append(key, data[key]);
@@ -186,18 +197,20 @@ const RenderForm: React.FC = () => {
               <Grid item xs={12} sm={12}>
                 <InputCustom control={control} errors={errors.phoneNumber} field="phoneNumber" label="Số điện thoại" />
               </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.username} field="username" label="Tên đăng nhập" />
-              </Grid>
-              <Grid item xs={12} sm={12}>
-                <InputCustom control={control} errors={errors.email} field="email" label="Email" />
-              </Grid>
               {
                 (typeDialog !== 'FORM_CREATE') ? <React.Fragment />
                   :
-                  <Grid item xs={12} sm={12}>
-                    <InputCustom control={control} errors={errors.password} field="password" label="Mật khẩu" />
-                  </Grid>
+                  <>
+                    <Grid item xs={12} sm={12}>
+                      <InputCustom control={control} errors={errors.username} field="username" label="Tên đăng nhập" />
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                      <InputCustom control={control} errors={errors.password} field="password" label="Mật khẩu" />
+                    </Grid>
+                    <Grid item xs={12} sm={12}>
+                      <InputCustom control={control} errors={errors.email} field="email" label="Email" />
+                    </Grid>
+                  </>
               }
               <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
                 <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
@@ -217,8 +230,8 @@ const RenderForm: React.FC = () => {
                   control={control}
                   name="isActive"
                   render={({ field }) => (
-                    <RadioGroup {...field}
-                      row
+                    <RadioGroup
+                      row {...field}
                       aria-labelledby="isActive-label"
                       name="controlled-radio-buttons-group"
                     >
@@ -302,7 +315,7 @@ const UserData: React.FC = () => {
   useEffect(() => {
     dispatch(Action.auth.FindManyUser(''));
     dispatch(Action.auth.FindManyRole());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box sx={{ width: '100%', height: '100%' }}>

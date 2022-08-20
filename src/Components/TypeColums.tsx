@@ -61,7 +61,7 @@ const columAction = (type: string, table: string) => ({
       ? <VisibilityIcon  onClick={showInfoRow(params.row)}/>
       : type === 'isActive'
         ? <Stack direction="row" spacing={1} alignItems="center">
-          <AntSwitch defaultChecked={params.row.isActive ? true : false} disabled inputProps={{ 'aria-label': 'ant design' }} />
+          <AntSwitch checked={(params.row.isActive === true) ? true : false} disabled inputProps={{ 'aria-label': 'ant design' }} />
         </Stack>
         : <React.Fragment/>
     } />,

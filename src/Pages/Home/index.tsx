@@ -42,7 +42,7 @@ const HomePage: React.FC = () => {
       }
       <Subscribe />
       {
-        newBook.length > 3
+        newBook.length > 3 
         &&
         <SliderItem data={newBook} title='truyện mới' />
       }

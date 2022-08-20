@@ -55,6 +55,10 @@ const actionTypes = {
   putLikeMovieFail: "PUT_LIKE_MOVIE_FAIL",
   putLikeMovieSuccess: "PUT_LIKE_MOVIE_SUCCESS",
 
+  newMember: 'NEW_MEMBER',
+  newMemberFailure: 'NEW_MEMBER_FAILURE',
+  newMemberSuccess: 'NEW_MEMBER_SUCCESS',
+
   findOneUser: "FIND_ONE_USER",
   findOneUserFailure: "FIND_ONE_USER_FAILURE",
   findOneUserSuccess: "FIND_ONE_USER_SUCCESS",

@@ -17,6 +17,7 @@ const initialState = {
   infoRowTable: {},
   dataEbook: {},
   typeDialog: '{}',
+  typeImage: '{}',
 };
 
 export const AppReducer = (state = initialState, action: any) => {
@@ -54,6 +55,9 @@ export const AppReducer = (state = initialState, action: any) => {
     }
     case 'dataEbook': {
       return {...state, dataEbook: action.payload}
+    }
+    case 'uploadImage': {
+      return {...state, typeImage: action.payload?.typeImage}
     }
     default: return {...state}
   }

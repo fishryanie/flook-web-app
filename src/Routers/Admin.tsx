@@ -1,7 +1,7 @@
-import { lazy } from 'react';
+import { lazy, useEffect } from 'react';
 import namePage from '../Constants/NamePage';
 import AdminPage from '../Pages/Admin';
-import Loadable from '../Components/Loadable'
+import Loadable from '../Components/Loadable';
 
 const Dashboard = Loadable(lazy(() => import('../Pages/Admin/Views/Dashboard')));
 const UserData = Loadable(lazy(() => import('../Pages/Admin/Views/Auth/UserData')));
@@ -15,7 +15,7 @@ const StatusData = Loadable(lazy(() => import('../Pages/Admin/Views/Books/Chapte
 const CommentData = Loadable(lazy(() => import('../Pages/Admin/Views/Reviews/CommentData')));
 const ReviewData = Loadable(lazy(() => import('../Pages/Admin/Views/Reviews/ReviewData')));
 
-interface AdminRouter {
+interface AdminRouterModel {
   path: string;
   element: JSX.Element,
   children: {
@@ -24,7 +24,7 @@ interface AdminRouter {
   }[]
 } 
 
-const AdminRouter: AdminRouter = { 
+const AdminRouter: AdminRouterModel = { 
   path: namePage.admin, 
   element: <AdminPage/>,
   children: [

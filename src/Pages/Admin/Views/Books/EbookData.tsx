@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import { Fragment, useEffect, useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { columnsEbooks } from '../../../../Components/TypeColums';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
@@ -14,17 +14,11 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Stepper from '@mui/material/Stepper';
 import TabContext from '@mui/lab/TabContext';
-import FormLabel from '@mui/material/FormLabel';
 import StepLabel from '@mui/material/StepLabel';
 import Typography from '@mui/material/Typography';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
 import StepContent from '@mui/material/StepContent';
-import DialogContent from '@mui/material/DialogContent';
-import DialogActions from '@mui/material/DialogActions';
-import LinearProgress from '@mui/material/LinearProgress';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import CircularProgress from '@mui/material/CircularProgress';
 
 import TextFieldSearch from '../../../../Components/TextFieldSearch';
 import WrapperDiaLog from '../../../../Components/WrapperDiaLog';
@@ -116,6 +110,7 @@ const RenderForm: React.FC = () => {
 
   const infoRowTable = useSelector((state: RootStateOrAny) => state.AppReducer.infoRowTable);
   const typeDialog = useSelector((state: RootStateOrAny) => state.AppReducer.typeDialog);
+  const typeImage = useSelector((state: RootStateOrAny) => state.AppReducer.typeImage)
 
   useEffect(() => {
     dispatch(Action.app.findManyAuthor());
@@ -134,35 +129,46 @@ const RenderForm: React.FC = () => {
   }, []);
 
   const onSubmit = (data: any) => {
+    let updateData: any;
     if (typeDialog !== 'FORM_CREATE') {
-      for (const key in data) {
-        if (key === 'images') {
-          formData.append(key, data[key][0])
+      if(typeImage === 'IMAGE'){
+        for (const key in data) {
+          if (key === 'images') {
+            formData.append(key, data[key][0])
+          }
+          if (key === 'authors') {
+            Array.isArray(data[key])
+              ? data[key].forEach((row: any) => {
+                formData.append(key, row._id.toString());
+              })
+              :
+              formData.append(key, data[key]._id.toString())
+          }
+          if (key === 'genres') {
+            Array.isArray(data[key])
+              ? data[key].forEach((row: any) => {
+                formData.append(key, row._id.toString());
+              })
+              :
+              formData.append(key, data[key]._id.toString())
+          }
+          formData.append(key, data[key])
         }
-        if (key === 'authors') {
-          Array.isArray(data[key])
-            ? data[key].forEach((row: any) => {
-              formData.append(key, row._id.toString());
-            })
-            :
-            formData.append(key, data[key])
+      }else {
+        updateData = {
+          title: data.title,
+          status: data.status,
+          description: data.description,
+          authors: Array.isArray(data.authors) ? data.authors.map((item: any) => item._id.toString()) : data.authors._id,
+          genres: Array.isArray(data.genres) ? data.genres.map((item: any) => item._id.toString()) : data.genres._id,
         }
-        if (key === 'genres') {
-          Array.isArray(data[key])
-            ? data[key].forEach((row: any) => {
-              formData.append(key, row._id.toString());
-            })
-            :
-            formData.append(key, data[key])
-        }
-        formData.append(key, data[key])
       }
       dispatch({
         type: actionTypes.openAccetp, payload: {
           title: 'Just Checking...',
           content: `Grant ${data?.title} rights to ${infoRowTable?.title}`,
           description: `Are you sure you want to edit ${infoRowTable?.title}'s permissions?`,
-          handleYes: () => dispatch(Action.app.updateOneEbook(infoRowTable?._id, formData))
+          handleYes: () => dispatch(Action.app.updateOneEbook(infoRowTable?._id, updateData === undefined ? formData : updateData))
         }
       })
     }
@@ -285,7 +291,6 @@ const DialogEbook: React.FC = () => {
 
 const EbookData: React.FC = () => {
   const arrayEbook = useSelector((state: RootStateOrAny) => state.BookReducer.listAllBook);
-  console.log("🚀 ~ file: EbookData.tsx ~ line 405 ~ arrayEbook", arrayEbook)
 
   const dispatch = useDispatch();
   useEffect(() => {

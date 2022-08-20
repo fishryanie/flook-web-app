@@ -24,6 +24,10 @@ const ChangePassFailure = (data: any) => ({type: actionTypes.changePassFailure, 
 
 //=============================// USER //====================================//
 
+const NewMember = (time: any) => ({type: actionTypes.newMember, payload: time})
+const NewMemberFailure = (data: any) => ({type: actionTypes.newMemberFailure, payload: data})
+const NewMemberSuccess = (data: any) => ({type: actionTypes.newMemberSuccess, payload: data})
+
 const FindOneUser = () => ({type: actionTypes.findOneUser})
 const FindOneUserFailure = (data: any) => ({type: actionTypes.findOneUserFailure, payload: data})
 const FindOneUserSuccess = (data: any) => ({type: actionTypes.findOneUserSuccess, payload: data})
@@ -110,6 +114,8 @@ export default {
   UpdateOneUser, UpdateOneUserSuccess, UpdateOneUserFailure,
   RemoveOneUser, RemoveOneUserSuccess, RemoveOneUserFailure,
   RemoveManyUser, RemoveManyUserSuccess, RemoveManyUserFailure,
+
+  NewMember, NewMemberFailure, NewMemberSuccess,
 
   FindManyRole, FindManyRoleFailure, FindManyRoleSuccess,
   DeleteOneRole, DeleteOneRoleSuccess, DeleteOneRoleFailure,
