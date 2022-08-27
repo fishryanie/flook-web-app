@@ -11,6 +11,9 @@ import InputCustom from '../../Components/TextFieldCustom';
 import { useForm } from 'react-hook-form';
 import Action from '../../Store/Actions';
 
+import { LoginSchema } from '../../Functions/Validator';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 const FormLogin: React.FC = () => {
   const [checked, setChecked] = useState(true);
 
@@ -25,7 +28,7 @@ const FormLogin: React.FC = () => {
     setError,
     formState: { errors },
   } = useForm({
-    // resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(LoginSchema),
     mode: 'all',
     criteriaMode: 'all',
     shouldFocusError: true,
@@ -35,15 +38,6 @@ const FormLogin: React.FC = () => {
     dispatch(Action.auth.Login(data))
     console.log('values', data);
   };
-
-  useEffect(() => {
-    setError("username", {
-      types: {
-        required: "This is required",
-        minLength: "This is minLength"
-      }
-    });
-  }, [setError])
 
   return (
 

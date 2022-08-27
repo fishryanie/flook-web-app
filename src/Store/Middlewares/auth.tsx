@@ -6,6 +6,7 @@ import Cookie from '../../hooks/Cookie';
 import Services from '../../Services'
 import Action from '../Actions'
 import { toast } from "react-toastify";
+import toastMessage from "../../Constants/ToastMessage";
 
 
 function* Login(action: any) {
@@ -15,13 +16,13 @@ function* Login(action: any) {
       yield Cookie.removeCookie('token');
       // set cookie
       yield Cookie.setCookie('token', response.data.accessToken);
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.loginSuccess, toastConfig )
       yield put(Action.auth.LoginSuccess(response))
       yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
       yield window.location.reload();
     } else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.loginFailure, toastConfig )
       yield put(Action.auth.LoginFailure(response))
     }
   } catch (error) {
@@ -34,7 +35,7 @@ function* Login(action: any) {
 function* Logout(action: any) {
   try {
       yield Cookie.removeCookie('token');
-      yield toast.success('Logout Successfully!!!', toastConfig )
+      yield toast.success(toastMessage.logoutSuccess, toastConfig )
       yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
       yield window.location.replace('/home');
@@ -49,12 +50,12 @@ function* Register(action: any) {
   try {
     const response: responseGenerator = yield Services.auth.Register(action.payload)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.registerSuccess, toastConfig )
       yield put(Action.auth.RegisterSuccess(response))
       yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
     } else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.registerFailure, toastConfig )
       yield put(Action.auth.RegisterFailure(response))
     }
   } catch (error) {
@@ -68,10 +69,10 @@ function* ForgotPass(action: any) {
   try {
     const response: responseGenerator = yield Services.auth.ForgotPass(action.payload.id, action.payload.data)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.fogotPassSuccess, toastConfig )
       yield put(Action.auth.ForgotPassSuccess(response))
     } else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.fotgotPassFailure, toastConfig )
       yield put(Action.auth.ForgotPassFailure(response))
     }
   } catch (error) {
@@ -87,12 +88,12 @@ function* ChangePass(action: any) {
 
     const response: responseGenerator = yield Services.auth.ChangePass(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.changePassSuccess, toastConfig )
       yield put(Action.auth.ChangePassSuccess(response))
       yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
     } else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.changePassFailure, toastConfig )
       yield put(Action.auth.ChangePassFailure(response))
     }
   } catch (error) {
@@ -123,13 +124,13 @@ function* InsertOneUser(action: any) {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.InsertOneUser(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.insertSuccess, toastConfig )
       yield put(Action.auth.InsertOneUserSuccess(response))
       yield delay(2000)
       yield put(Action.auth.FindManyUser(readCookie))
       yield put({ type: actionTypes.closeDialog })
     } else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.insertFailure, toastConfig )
       yield put(Action.auth.InsertOneUserFailure(response))
     }
   } catch (error) {
@@ -144,13 +145,13 @@ function* UpdateOneUser(action: any) {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.UpdateOneUser(action.payload.id, action.payload.data, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.updateSuccess, toastConfig )
       yield put(Action.auth.UpdateOneUserSuccess(response))
       yield put(Action.auth.FindManyUser(readCookie))
       yield delay(2000)
       yield put({ type: actionTypes.closeDialog })
     } else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.updateFailure, toastConfig )
       yield put(Action.auth.UpdateOneUserFailure(response))
     }
   } catch (error) {
@@ -165,11 +166,11 @@ function* RemoveOneUser(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.RemoveOneUser(action.payload, readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.removeSuccess, toastConfig )
       yield put(Action.auth.RemoveOneUserSuccess(response))
       yield put(Action.auth.FindManyUser(''))
     }else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.removeFailure, toastConfig )
       yield put(Action.auth.RemoveOneUserFailure(response))
     }
   } catch (error) {
@@ -184,11 +185,11 @@ function* RemoveManyUser(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.RemoveManyUser(action.payload, readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.removeSuccess, toastConfig )
       yield put(Action.auth.RemoveManyUserSuccess(response))
       yield put(Action.auth.FindManyUser(''))
     }else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.removeFailure, toastConfig )
       yield put(Action.auth.RemoveManyUserFailure(response))
     }
   } catch (error) {
@@ -219,13 +220,13 @@ function* InsertOneRole(action: any) {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.InsertOneRole(action.payload, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.insertSuccess, toastConfig )
       yield put(Action.auth.InsertOneRoleSuccess(response))
       yield delay(2000)
       yield put(Action.auth.FindManyRole())
       yield put({ type: actionTypes.closeDialog })
     } else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.insertFailure, toastConfig )
       yield put(Action.auth.InsertOneRoleFailure(response))
     }
   } catch (error) {
@@ -240,13 +241,13 @@ function* UpdateOneRole(action: any) {
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.UpdateOneRole(action.payload.id, action.payload.data, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.updateSuccess, toastConfig )
       yield put(Action.auth.UpdateOneRoleSuccess(response))
       yield delay(2000)
       yield put(Action.auth.FindManyRole())
       yield put({ type: actionTypes.closeDialog })
     } else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.updateFailure, toastConfig )
       yield put(Action.auth.UpdateOneRoleFailure(response))
     }
   } catch (error) {
@@ -261,11 +262,11 @@ function* RemoveOneRole(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.RemoveOneRole(action.payload, readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.removeSuccess, toastConfig )
       yield put(Action.auth.RemoveOneRoleSuccess(response))
       yield put(Action.auth.FindManyRole())
     }else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.removeFailure, toastConfig )
       yield put(Action.auth.RemoveOneRoleFailure(response))
     }
   } catch (error) {
@@ -280,11 +281,11 @@ function* RemoveManyRole(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.RemoveManyRole(action.payload, readCookie);
     if(response.statusCode === 200){
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.removeSuccess, toastConfig )
       yield put(Action.auth.RemoveManyRoleSuccess(response))
       yield put(Action.auth.FindManyRole())
     }else {
-      yield toast.error(response.message, toastConfig )
+      yield toast.error(toastMessage.removeFailure, toastConfig )
       yield put(Action.auth.RemoveManyRoleFailure(response))
     }
   } catch (error) {
@@ -315,12 +316,12 @@ function* DecentralizationFeature(action: any){
     const readCookie = Cookie.getCookie('token')
     const response: responseGenerator = yield Services.auth.DecentralizationFeature(action.payload.setFeature, action.payload.data, action.payload.id, readCookie)
     if (response.statusCode === 200) {
-      yield toast.success(response.message, toastConfig )
+      yield toast.success(toastMessage.pqSuccess, toastConfig )
       yield put(Action.auth.DecentralizationFeatureSuccess(response.data))
       yield put(Action.auth.FindOneFeatureGroup())
     }else{
-      yield toast.error(response.message, toastConfig )
-      yield put(Action.auth.DecentralizationFeatureFailure(response.message))
+      yield toast.error(toastMessage.pqFailure, toastConfig )
+      yield put(Action.auth.DecentralizationFeatureFailure(response.data))
     }
   } catch (error) {
     console.log('Error', error)
@@ -355,9 +356,9 @@ function* FindOneUser(action: any){
       yield put(Action.auth.FindOneUserFailure(response.message))
     }
   } catch (error) {
-    console.log('Error', error)
+
   } finally {
-    console.log('ChangePass')
+
   }
 }
 
@@ -375,7 +376,6 @@ function* NewMember(action: any){
     console.log('ChangePass')
   }
 }
-
 
 export default function* authSaga() {
   yield all([

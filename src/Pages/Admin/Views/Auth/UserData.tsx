@@ -29,6 +29,8 @@ import TableCustom from '../../../../Components/TableCustom';
 import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
 import UpLoadImage from '../../../../Components/UpLoadImage';
+import { FormUseData, FormUseUpDateData } from '../../../../Functions/Validator';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -102,7 +104,7 @@ const RenderForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(typeDialog !== 'FORM_CREATE' ? FormUseUpDateData : FormUseData),
     mode: 'all',
     criteriaMode: 'all',
     shouldFocusError: true,
@@ -110,7 +112,7 @@ const RenderForm: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const handleNext = () => setActiveStep(activeStep + 1);
+  const handleNext = () => setActiveStep(activeStep + 1)
   const handleBack = () => setActiveStep(activeStep - 1);
   const handleReset = () => setActiveStep(0);
 
@@ -151,7 +153,7 @@ const RenderForm: React.FC = () => {
           phoneNumber: data.phoneNumber,
           displayName: data.displayName,
           isActive: (data.isActive === "true") ? true : false,
-          roles: Array.isArray(data.roles) ? data.roles.map((item: any) => item._id.toString()) : data.license._id,
+          roles: Array.isArray(data.roles) ? data.roles.map((item: any) => item._id.toString()) : data.roles._id.toString(),
         }
       }
       dispatch({
@@ -213,7 +215,7 @@ const RenderForm: React.FC = () => {
                   </>
               }
               <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
-                <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
+                <Button color="secondary" variant="outlined" onClick={typeDialog !== 'FORM_CREATE' ? handleNext : handleSubmit(handleNext)}>Tiếp tục</Button>
                 <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Trở về</Button>
               </Grid>
             </Grid>

@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector, RootStateOrAny } from 'react-redux';
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { columnsEbooks } from '../../../../Components/TypeColums';
 import { styled } from '@mui/material/styles';
 import Radio, { RadioProps } from '@mui/material/Radio';
@@ -28,6 +28,8 @@ import Action from '../../../../Store/Actions';
 import actionTypes from '../../../../Store/Actions/constants';
 import UpLoadImage from '../../../../Components/UpLoadImage'
 import SendIcon from '@mui/icons-material/Send';
+import { FormEbookData } from '../../../../Functions/Validator';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -94,7 +96,7 @@ const RenderForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(FormEbookData),
     mode: 'all',
     criteriaMode: 'all',
     shouldFocusError: true,
@@ -131,7 +133,7 @@ const RenderForm: React.FC = () => {
   const onSubmit = (data: any) => {
     let updateData: any;
     if (typeDialog !== 'FORM_CREATE') {
-      if(typeImage === 'IMAGE'){
+      if (typeImage === 'IMAGE') {
         for (const key in data) {
           if (key === 'images') {
             formData.append(key, data[key][0])
@@ -154,7 +156,7 @@ const RenderForm: React.FC = () => {
           }
           formData.append(key, data[key])
         }
-      }else {
+      } else {
         updateData = {
           title: data.title,
           status: data.status,
@@ -217,7 +219,7 @@ const RenderForm: React.FC = () => {
               </Grid>
               <Grid className="box-button-form" item xs={12} sm={12}>
                 <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
-                  <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
+                  <Button color="secondary" variant="outlined" onClick={typeDialog === 'FORM_CREATE' ? handleSubmit(handleNext) : handleNext}>Tiếp tục</Button>
                   <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Trở về</Button>
                 </Grid>
               </Grid>

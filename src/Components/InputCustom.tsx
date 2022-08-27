@@ -41,7 +41,7 @@ const InputCustom: React.FC<InputCustomProps> = (props) => {
   }
 
   return (
-    <FormControl sx={{width: '100%'}} error={Boolean(touched && errors)} >
+    <FormControl sx={{width: '100%'}} error={Boolean(errors)} >
       <InputLabel> <label>{label}<span style={{color: 'red'}}>*</span></label></InputLabel>
       <OutlinedInput
         type={typeInput()}
@@ -59,7 +59,7 @@ const InputCustom: React.FC<InputCustomProps> = (props) => {
         label={label + ' ab '}
         inputProps={{}}
       />
-      {touched && errors && <FormHelperText error >{errors}</FormHelperText>}
+      {errors && <FormHelperText error >{errors?.message}</FormHelperText>}
     </FormControl>
   );
 };

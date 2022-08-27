@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Action from '../../Store/Actions';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const FormChangePass: React.FC = () => {
   const scriptedRef = useScriptRef();
@@ -28,7 +29,7 @@ const FormChangePass: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(ChangePasswordSchema),
     mode: 'all',
     criteriaMode: 'all',
     shouldFocusError: true,

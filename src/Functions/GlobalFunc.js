@@ -16,7 +16,7 @@ export const SubmitForm = (dispatch, scriptedRef, type) => {
         setStatus({ success: true });
       }
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       if(scriptedRef.current) {
         setSubmitting(false);
         setStatus({ success: false });
@@ -73,6 +73,6 @@ export const requestAPI = async (request, header = {}) => {
       statusCode: codeNumber,
     };
   }catch (error){
-    console.log(error)
+    // console.log(error)
   }
 };

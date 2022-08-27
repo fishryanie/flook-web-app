@@ -35,6 +35,8 @@ import StarBorder from '@mui/icons-material/StarBorder';
 import Divider from '@mui/material/Divider';
 import Switch from '@mui/material/Switch';
 import { columnRole } from '../../../../Components/TypeColums';
+import { FormRoleData } from '../../../../Functions/Validator';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const BpIcon = styled('span')(({ theme }) => ({
   borderRadius: '50%',
@@ -100,7 +102,7 @@ const RenderForm: React.FC = () => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(FormRoleData),
     mode: 'all',
     criteriaMode: 'all',
     shouldFocusError: true,
@@ -153,7 +155,7 @@ const RenderForm: React.FC = () => {
                 <InputCustom control={control} errors={errors.description} field="description" label="Mô tả" />
               </Grid>
               <Grid item sx={{ mt: 4 }} xs={12} sm={12}>
-                <Button color="secondary" variant="outlined" onClick={handleNext}>Tiếp tục</Button>
+                <Button color="secondary" variant="outlined" onClick={typeDialog === 'FORM_CREATE' ? handleSubmit(handleNext) : handleNext}>Tiếp tục</Button>
                 <Button color="secondary" disabled={activeStep === 0} onClick={handleBack} sx={{ ml: 2 }}>Trở về</Button>
               </Grid>
             </Grid>

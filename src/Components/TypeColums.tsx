@@ -79,7 +79,7 @@ export const columnsUsers: any = [
   { width: 100, editable: true, hide: true, field: "id", headerName: "Stt" },
   { width: 120, editable: true, field: "images", headerName: "Avatar", renderCell: (params: any) => params?.row?.images?.avatar?.url === '' ? <IconPhoto /> : <Avatar src={params?.row?.images?.avatar?.url} alt='images user' /> },
   { width: 200, editable: false, field: "email", headerName: "Email" },
-  { width: 170, editable: true, field: "displayName", headerName: "Tên hiện thị" },
+  { width: 170, editable: true, field: "displayName", headerName: "Tên hiển thị" },
   { width: 150, editable: false, field: "username", headerName: "Tên đăng nhập" },
   { width: 150, editable: false, hide: true, field: "password", headerName: "Mật khẩu" },
   { width: 170, editable: false, field: "phoneNumber", headerName: "Số điện thoại" },

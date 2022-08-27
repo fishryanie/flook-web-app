@@ -1,8 +1,5 @@
-import { useState } from 'react'
-import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { RegisterSchema } from '../../Functions/Validator';
-import useScriptRef from '../../hooks/useScriptRef';
 import Action from '../../Store/Actions'
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
@@ -10,6 +7,7 @@ import Button from '@mui/material/Button';
 
 import InputCustom from '../../Components/TextFieldCustom';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const FormRegister: React.FC = props => {
   const dispatch = useDispatch()
@@ -22,7 +20,7 @@ const FormRegister: React.FC = props => {
     handleSubmit,
     formState: { errors },
   } = useForm({
-    // resolver: yupResolver(LoginSchema),
+    resolver: yupResolver(RegisterSchema),
     mode: 'all',
     criteriaMode: 'all',
     shouldFocusError: true,
